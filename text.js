@@ -36,17 +36,25 @@ const score = {
     draw : function(){
         ctx.fillStyle = "#FFF";
         ctx.strokeStyle = "#000";
+		
+		ctx.lineWidth = 2;
+		ctx.font = "35px Teko";
         
-        if(state.current == state.game){
-            ctx.lineWidth = 2;
-            ctx.font = "35px Teko";
+        if(state.current == state.getReady){
+			this.scoreTxt='Press Fire To Begin';
+			this.textWidth=ctx.measureText(this.scoreTxt).width;
+			
+            ctx.fillText(this.scoreTxt, (canvas.width-this.textWidth)/2, 30);
+            ctx.strokeText(this.scoreTxt, (canvas.width-this.textWidth)/2, 30);			
+		}else if(state.current == state.game){
+            //ctx.lineWidth = 2;
+            //ctx.font = "35px Teko";
 			
 			this.scoreTxt='Score: '+this.value;
 			this.textWidth=ctx.measureText(this.scoreTxt).width;
 			
             ctx.fillText(this.scoreTxt, (canvas.width-this.textWidth)/2, 30);
-            ctx.strokeText(this.scoreTxt, (canvas.width-this.textWidth)/2, 30);
-            
+            ctx.strokeText(this.scoreTxt, (canvas.width-this.textWidth)/2, 30);            
         }else if(state.current == state.over){
             // Score
             ctx.font = "25px Teko";
@@ -91,11 +99,11 @@ const antibodyTxt={
 		
 		this.textWidth=ctx.measureText(this.abText).width;
 		
-        if(state.current == state.game){
+        //if(state.current == state.game){
             ctx.lineWidth = 2;
             ctx.font = "35px Teko";
             ctx.fillText(this.abText, (canvas.width/2)-(this.textWidth/2), 590);
             ctx.strokeText(this.abText, (canvas.width/2)-(this.textWidth/2), 590);
-		}				
+		//}				
 	}
 }
