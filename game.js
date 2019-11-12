@@ -1,7 +1,3 @@
-// Canvas
-const canvas = document.getElementById("antibody");
-const ctx = canvas.getContext("2d");
-
 // Vars & Consts
 let frames = 0;
 const SCREEN_HEIGHT=600;

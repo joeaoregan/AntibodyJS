@@ -25,6 +25,8 @@ setInterval(function(){
 const score = {
     high : parseInt(localStorage.getItem("highscore")) || 0,
     value : 0,
+	scoreTxt: '',
+	textWidth: 0,
     
     draw : function(){
         ctx.fillStyle = "#FFF";
@@ -33,8 +35,12 @@ const score = {
         if(state.current == state.game){
             ctx.lineWidth = 2;
             ctx.font = "35px Teko";
-            ctx.fillText('Score: '+this.value, canvas.width/2, 30);
-            ctx.strokeText('Score: '+this.value, canvas.width/2, 30);
+			
+			this.scoreTxt='Score: '+this.value;
+			this.textWidth=ctx.measureText(this.scoreTxt).width;
+			
+            ctx.fillText(this.scoreTxt, (canvas.width-this.textWidth)/2, 30);
+            ctx.strokeText(this.scoreTxt, (canvas.width-this.textWidth)/2, 30);
             
         }else if(state.current == state.over){
             // Score
@@ -69,17 +75,31 @@ const levelTxt={
 	}
 }
 
+
+//var abText = 'Antibody JS by Joe O Regan',
+//textWidth = ctx.measureText(this.abText).width;
+	
 // Antibody text
 const antibodyTxt={
+	abText: 'Antibody JS by Joe O Regan',
+	textWidth: 0,
+	
 	draw : function(){
         ctx.fillStyle = "#FFF";
         ctx.strokeStyle = "#000";
 		
+		//textWidth=ctx.measureText(abText).width;
+		this.textWidth=ctx.measureText(this.abText).width;
+		
+		//console.log('canvas '+canvas.width+' text width '+this.textWidth);
+		
         if(state.current == state.game){
             ctx.lineWidth = 2;
             ctx.font = "35px Teko";
-            ctx.fillText('Antibody', canvas.width/2, 590);
-            ctx.strokeText('Antibody', canvas.width/2, 590);
+            ctx.fillText(this.abText, (canvas.width/2)-(this.textWidth/2), 590);
+            ctx.strokeText(this.abText, (canvas.width/2)-(this.textWidth/2), 590);
+            //ctx.fillText(abText, (canvas.width/2)-(textWidth/2), 590);
+            //ctx.strokeText(abText, (canvas.width/2)-(textWidth/2), 590);
 		}				
 	}
 }
