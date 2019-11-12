@@ -2,16 +2,21 @@
 const time ={
 	timer: 0,
 	update: 0,
+	timeTxt: '',
+	textWidth: 0,
 
 	draw : function(){
         ctx.fillStyle = "#FFF";
         ctx.strokeStyle = "#000";
 		
+		this.timeTxt='Time: '+this.timer;
+		this.textWidth=ctx.measureText(this.timeTxt).width;
+
         if(state.current == state.game){
             ctx.lineWidth = 2;
             ctx.font = "35px Teko";
-            ctx.fillText('Time: '+this.timer, 1150, 30);
-            ctx.strokeText('Time: '+this.timer, 1150, 30);
+            ctx.fillText(this.timeTxt, canvas.width-this.textWidth-30, 30);
+            ctx.strokeText(this.timeTxt, canvas.width-this.textWidth-30, 30);
 		}				
 	}
 }
@@ -74,10 +79,6 @@ const levelTxt={
 		}				
 	}
 }
-
-
-//var abText = 'Antibody JS by Joe O Regan',
-//textWidth = ctx.measureText(this.abText).width;
 	
 // Antibody text
 const antibodyTxt={
@@ -88,18 +89,13 @@ const antibodyTxt={
         ctx.fillStyle = "#FFF";
         ctx.strokeStyle = "#000";
 		
-		//textWidth=ctx.measureText(abText).width;
 		this.textWidth=ctx.measureText(this.abText).width;
-		
-		//console.log('canvas '+canvas.width+' text width '+this.textWidth);
 		
         if(state.current == state.game){
             ctx.lineWidth = 2;
             ctx.font = "35px Teko";
             ctx.fillText(this.abText, (canvas.width/2)-(this.textWidth/2), 590);
             ctx.strokeText(this.abText, (canvas.width/2)-(this.textWidth/2), 590);
-            //ctx.fillText(abText, (canvas.width/2)-(textWidth/2), 590);
-            //ctx.strokeText(abText, (canvas.width/2)-(textWidth/2), 590);
 		}				
 	}
 }
