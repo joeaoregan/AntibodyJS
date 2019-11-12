@@ -1,12 +1,10 @@
-const explosionSprite = new Image();
-//explosionSprite.src="art/Explosion.png";
-
 const explosionFX = new Audio();
 explosionFX.src = "audio/explosion.wav";
 
 class explosion {
 	constructor(x,y,dimension,numFrames,name){
-		explosionSprite.src="art/"+name+".png";
+		this.explosionSprite=new Image();		
+		this.explosionSprite.src="art/"+name+".png";
 		this.x=x;
 		this.y=y;
 		//this.w=96;
@@ -24,7 +22,7 @@ class explosion {
 	
     draw(){
         let explosion = this.animation[this.frame];        
-		ctx.drawImage(explosionSprite, explosion.sX, explosion.sY, this.w, this.h, this.x, this.y, this.w, this.h);
+		ctx.drawImage(this.explosionSprite, explosion.sX, explosion.sY, this.w, this.h, this.x, this.y, this.w, this.h);
     }
     
     update(){              

@@ -23,10 +23,11 @@ function collision(o1, o2) {
 window.onload = function() {
 	//when the document is finished loading, replace everything
 	//between the <a ...> </a> tags with the value of splitText
+	updateScore();
 } 
 
 function updateScore(){	
-   document.getElementById("scoreID").innerHTML=score.high;
+	document.getElementById("scoreID").innerHTML=parseInt(localStorage.getItem("highscore")) || 0;
 }
 
 function init(){
