@@ -43,6 +43,7 @@ class laser {
 					lasers.splice(i,1);
 					var ex = new explosion(this.x+this.w,this.y-bloodcells[j].h,128,16,'ExplosionBlood'); // create explosion
 					explosions.push(ex);
+					splashFX.play();
 					bloodcells[j].reset();
 				}				
 			}

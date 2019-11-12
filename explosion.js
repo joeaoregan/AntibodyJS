@@ -1,6 +1,9 @@
 const explosionFX = new Audio();
 explosionFX.src = "audio/explosion.wav";
 
+const splashFX = new Audio();
+splashFX.src = "audio/splash.wav";
+
 class explosion {
 	constructor(x,y,dimension,numFrames,name){
 		this.explosionSprite=new Image();		
