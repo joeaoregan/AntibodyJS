@@ -1,3 +1,6 @@
+const laserSprite = new Image();
+laserSprite.src="art/LaserGreen.png";
+
 class laser {	
 	constructor(x,y,speed){
 		this.sX=0;
@@ -18,7 +21,7 @@ class laser {
 		
 		for (var i = 0; i < lasers.length; i++) {
 			
-			if(lasers[i] === this && this.x > SCREEN_WIDTH+this.w){
+			if(lasers[i] === this && this.x > canvas.width+this.w){
 				lasers.splice(i,1);				
 			}
 			if(lasers[i] === this && (collision(lasers[i], enemyShip))){
@@ -29,10 +32,19 @@ class laser {
                 localStorage.setItem("highscore", score.high);
 				//console.log('lasers'+lasers.length);
 				
-				var ex = new explosion(this.x+this.w,this.y-enemyShip.h/2); // create explosion
+				var ex = new explosion(this.x+this.w,this.y-enemyShip.h/2,96,12,'Explosion'); // create explosion
 				explosions.push(ex);
 				explosionFX.play();
 				enemyShip.reset();
+			}
+			
+			for(var j=0; j<bloodcells.length;j++){
+				if(lasers[i] === this && (collision(lasers[i], bloodcells[j]))){
+					lasers.splice(i,1);
+					var ex = new explosion(this.x+this.w,this.y-bloodcells[j].h,128,16,'ExplosionBlood'); // create explosion
+					explosions.push(ex);
+					bloodcells[j].reset();
+				}				
 			}
 		}
 		

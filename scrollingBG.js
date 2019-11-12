@@ -1,4 +1,7 @@
 // Background
+const background = new Image();
+background.src="art/background720.png";
+
 const scrollingBG = {
     sX: 0,
     sY: 0,

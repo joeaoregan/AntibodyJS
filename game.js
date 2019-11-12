@@ -1,29 +1,11 @@
-// CVS
-const cvs = document.getElementById("antibody");
-const ctx = cvs.getContext("2d");
+// Canvas
+const canvas = document.getElementById("antibody");
+const ctx = canvas.getContext("2d");
 
 // Vars & Consts
 let frames = 0;
-const SCREEN_WIDTH = 1280, SCREEN_HEIGHT=600;
-var lasers=[], explosions=[];
-
-// Sprites
-const background = new Image();
-background.src="art/background720.png";
-const player1 = new Image();
-player1.src="art/Player1Ship.png";
-const enemySprite = new Image();
-enemySprite.src="art/EnemySpriteSheet.png";
-const explosionSprite = new Image();
-explosionSprite.src="art/Explosion.png";
-const laserSprite = new Image();
-laserSprite.src="art/LaserGreen.png";
-
-// FX
-const fireFX = new Audio();
-fireFX.src = "audio/laser1.wav";
-const explosionFX = new Audio();
-explosionFX.src = "audio/explosion.wav";
+const SCREEN_HEIGHT=600;
+var lasers=[], explosions=[], bloodcells=[];
 
 // GAME STATE
 const state = {
@@ -41,106 +23,35 @@ function collision(o1, o2) {
            o2.y+o2.h > o1.y);
 }
 
-// Time text
-const time ={
-	timer: 0,
-	update: 0,
-
-	draw : function(){
-        ctx.fillStyle = "#FFF";
-        ctx.strokeStyle = "#000";
-		
-        if(state.current == state.game){
-            ctx.lineWidth = 2;
-            ctx.font = "35px Teko";
-            ctx.fillText('Time: '+this.timer, 1150, 30);
-            ctx.strokeText('Time: '+this.timer, 1150, 30);
-		}				
-	}
-}
-
-setInterval(function(){
-	time.timer++;
-	//console.log('time: '+time.timer);
-},1000);
 		
 window.onload = function() {
-       //when the document is finished loading, replace everything
-       //between the <a ...> </a> tags with the value of splitText
+	//when the document is finished loading, replace everything
+	//between the <a ...> </a> tags with the value of splitText
 } 
 
 function updateScore(){	
    document.getElementById("scoreID").innerHTML=score.high;
-   //document.getElementById("scoreID").innerHTML=0;
 }
 
-// Score text
-const score = {
-    high : parseInt(localStorage.getItem("highscore")) || 0,
-    value : 0,
-    
-    draw : function(){
-        ctx.fillStyle = "#FFF";
-        ctx.strokeStyle = "#000";
-        
-        if(state.current == state.game){
-            ctx.lineWidth = 2;
-            ctx.font = "35px Teko";
-            ctx.fillText('Score: '+this.value, cvs.width/2, 30);
-            ctx.strokeText('Score: '+this.value, cvs.width/2, 30);
-            
-        }else if(state.current == state.over){
-            // Score
-            ctx.font = "25px Teko";
-            ctx.fillText('Score: '+this.value, 225, 186);
-            ctx.strokeText('Score: '+this.value, 225, 186);
-            // High Score
-            ctx.fillText(this.high, 225, 228);
-            ctx.strokeText(this.high, 225, 228);
-        }
-    },
-    
-    reset : function(){
-        this.value = 0;
-    }
+function init(){
+	var b1 = new bloodcell();
+	var b2 = new bloodcell();
+	var b3 = new bloodcell();
+	var b4 = new bloodcell();
+	var b5 = new bloodcell();
+	bloodcells.push(b1);
+	bloodcells.push(b2);
+	bloodcells.push(b3);
+	bloodcells.push(b4);
+	bloodcells.push(b5);
 }
 
-// Level text
-const levelTxt={
-	value: 1,
-
-	draw : function(){
-        ctx.fillStyle = "#FFF";
-        ctx.strokeStyle = "#000";
-		
-        if(state.current == state.game){
-            ctx.lineWidth = 2;
-            ctx.font = "35px Teko";
-            ctx.fillText('Level: '+this.value, 30, 30);
-            ctx.strokeText('Level: '+this.value, 30, 30);
-		}				
-	}
-}
-
-// Antibody text
-const antibodyTxt={
-	draw : function(){
-        ctx.fillStyle = "#FFF";
-        ctx.strokeStyle = "#000";
-		
-        if(state.current == state.game){
-            ctx.lineWidth = 2;
-            ctx.font = "35px Teko";
-            ctx.fillText('Antibody', SCREEN_WIDTH/2, 590);
-            ctx.strokeText('Antibody', SCREEN_WIDTH/2, 590);
-		}				
-	}
-}
+init();
 
 // Draw objects
 function draw(){
     ctx.fillStyle = "#70c5ce";
-    ctx.fillRect(0, 0, cvs.width, cvs.height);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     
     scrollingBG.draw();
 	enemyShip.draw();
@@ -156,6 +67,11 @@ function draw(){
     score.draw();
 	time.draw();
 	antibodyTxt.draw();
+	
+	//bloodcell.draw();
+	for (var i = 0; i < bloodcells.length; i++) {
+		bloodcells[i].draw();
+	}
 }
 
 // Update objects
@@ -173,7 +89,11 @@ function update(){
 			explosions.splice(i,1);
 		}
 	}
-		
+
+	//bloodcell.update();
+	for (var i = 0; i < bloodcells.length; i++) {
+		bloodcells[i].update();
+	}
 }
 
 // Game loop
@@ -187,7 +107,7 @@ function loop(){
 loop();
 
 // Mouse
-cvs.addEventListener("click", function(evt){
+canvas.addEventListener("click", function(evt){
 	//console.log('click');
     switch(state.current){
         case state.getReady:

@@ -1,3 +1,6 @@
+const enemySprite = new Image();
+enemySprite.src="art/EnemySpriteSheet.png";
+
 const enemyShip = {
     animation : [
         {sX: 0, sY : 0},
@@ -31,14 +34,15 @@ const enemyShip = {
 			if(this.x<-this.w){	// When the enemy moves off screen (left)
 				this.reset();
 			}
-        }
-        
+        }        
     },
+	
     speedReset : function(){
         this.speed = 0;
     },
+	
 	reset(){
-		this.x=SCREEN_WIDTH;
-		this.y=this.y=Math.round(Math.random()*(SCREEN_HEIGHT-this.h-40)+40);
+		this.x=canvas.width;
+		this.y=Math.round(Math.random()*(SCREEN_HEIGHT-this.h-70)+35);
 	}
 }

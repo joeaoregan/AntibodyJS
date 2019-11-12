@@ -1,24 +1,25 @@
+const explosionSprite = new Image();
+//explosionSprite.src="art/Explosion.png";
+
+const explosionFX = new Audio();
+explosionFX.src = "audio/explosion.wav";
+
 class explosion {
-	constructor(x,y){
+	constructor(x,y,dimension,numFrames,name){
+		explosionSprite.src="art/"+name+".png";
 		this.x=x;
 		this.y=y;
-		this.w=96;
-		this.h=96;
+		//this.w=96;
+		//this.h=96;
+		this.w=dimension;
+		this.h=dimension;
 		this.frame=0;
 		this.speed=5;
-		this.animation=[
-        {sX: 0, sY : 0},
-        {sX: 96, sY : 0},
-        {sX: 192, sY : 0},
-        {sX: 288, sY : 0},
-        {sX: 384, sY : 0},
-        {sX: 480, sY : 0},
-        {sX: 576, sY : 0},
-        {sX: 672, sY : 0},
-        {sX: 768, sY : 0},
-        {sX: 864, sY : 0},
-        {sX: 960, sY : 0},
-        {sX: 1056, sY : 0}];
+		this.animation=[];
+		
+		for (var i = 0; i < numFrames; i++) {
+			this.animation[i] = {sX: i*dimension, sY : 0};
+		}	
 	}
 	
     draw(){
