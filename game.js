@@ -2,6 +2,7 @@
 let frames = 0;
 const SCREEN_HEIGHT=600;
 var lasers=[], explosions=[], bloodcells=[];
+var hud1;
 
 // GAME STATE
 const state = {
@@ -38,6 +39,8 @@ function init(){
 	bloodcells.push(b3);
 	bloodcells.push(b4);
 	bloodcells.push(b5);
+	
+	hud1=new hud();
 }
 
 init();
@@ -65,6 +68,8 @@ function draw(){
 	for (var i = 0; i < bloodcells.length; i++) {
 		bloodcells[i].draw();
 	}
+	
+	hud1.draw();
 }
 
 // Update objects
