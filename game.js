@@ -109,6 +109,7 @@ canvas.addEventListener("click", function(evt){
             ship.fire();
             break;
         case state.over:
+			time.reset();
 			score.reset();
 			state.current = state.getReady;
             break;
@@ -126,6 +127,7 @@ window.addEventListener('keydown',function(e){
 				ship.fire();
 				break;
 			case state.over:
+				time.reset();
 				score.reset();
 				state.current = state.getReady;
 				break;

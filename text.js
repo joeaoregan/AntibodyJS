@@ -18,6 +18,10 @@ const time ={
             ctx.fillText(this.timeTxt, canvas.width-this.textWidth-30, 30);
             ctx.strokeText(this.timeTxt, canvas.width-this.textWidth-30, 30);
 		}				
+	},
+	
+	reset: function(){
+		this.timer=0;
 	}
 }
 
