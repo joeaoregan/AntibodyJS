@@ -3,6 +3,7 @@ let frames = 0;
 const SCREEN_HEIGHT=600;
 var lasers=[], explosions=[], bloodcells=[];
 var hud1;
+var powerup1;
 
 // GAME STATE
 const state = {
@@ -41,9 +42,14 @@ function init(){
 	bloodcells.push(b5);
 	
 	hud1=new hud();
+	powerupNewLife=new powerup('PowerUpLife');	
 }
 
 init();
+
+function spawnLife(){
+	powerupNewLife.active=true;
+}
 
 // Draw objects
 function draw(){
@@ -70,6 +76,7 @@ function draw(){
 	}
 	
 	hud1.draw();
+	powerupNewLife.draw();
 }
 
 // Update objects
@@ -79,6 +86,7 @@ function update(){
 	for (var i = 0; i < lasers.length; i++) {
 		lasers[i].update();
 	}
+	
 	enemyShip.update();
 	
 	for (var i = 0; i < explosions.length; i++) {
@@ -91,6 +99,8 @@ function update(){
 	for (var i = 0; i < bloodcells.length; i++) {
 		bloodcells[i].update();
 	}
+	
+	powerupNewLife.update();
 }
 
 // Game loop

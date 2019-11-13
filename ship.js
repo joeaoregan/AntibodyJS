@@ -148,6 +148,10 @@ const ship ={
 			state.current=state.over;
 			this.reset();
 		}
+		
+		if(this.lives==1){
+			spawnLife();
+		}
 		//console.log('SHIP HIT - Health: ', ship.health);
 	},
 	
