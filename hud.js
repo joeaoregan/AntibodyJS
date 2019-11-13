@@ -36,6 +36,8 @@ class hud {
 		ctx.stroke();
 		
 		this.p1Lives();
+		
+		bcCounter.bar();
 	}
 	
 	p1Lives(){
@@ -65,5 +67,42 @@ class hud {
 		
 		ctx.fillText(P1Box.lifeTxt, P1Box.x+(P1Box.w/2)-(P1Box.lifeTxtWidth/2), P1Box.y+18);
 		ctx.strokeText(P1Box.lifeTxt, P1Box.x+(P1Box.w/2)-(P1Box.lifeTxtWidth/2), P1Box.y+18);
+	}
+}
+
+const bcCounter= {
+	w: 400,
+	h: 50,
+	x: (canvas.width/2)-200,
+	y: 625,
+	barText: 'Bloodcell Count',
+	textWidth: 0,
+	
+	bar: function(){
+		//ctx.fillStyle = "#70c5ce";
+		ctx.beginPath();
+		ctx.lineWidth = "3";
+		ctx.strokeStyle = "black";//Outline
+		ctx.rect(this.x,this.y,this.w,this.h);
+		ctx.stroke();
+		
+		//ctx.beginPath();
+		ctx.fillStyle = "#666";//Black
+		//ctx.rect(this.x-10,this.y,100,10);
+		ctx.fillRect(this.x,this.y,this.w,this.h);
+		
+		ctx.fillStyle = "#F12";//Red
+		//ctx.rect(this.x-10,this.y,100,10);
+		ctx.fillRect(this.x,this.y,this.w*(MAX_BLOODCELLS-bloodcellsDestroyed)/MAX_BLOODCELLS,this.h);
+		//ctx.fillRect(this.x+HEALTHBAR_X,this.y+HEALTHBAR_Y,HEALTHBAR_W*this.health/MAX_HEALTH,HEALTHBAR_H);
+		
+		ctx.lineWidth = 2;
+		ctx.font = "35px Teko";
+        ctx.fillStyle = "#FFF";
+		
+		this.textWidth=ctx.measureText(this.barText).width;
+		
+		ctx.fillText(this.barText, this.x+((this.w-this.textWidth)/2), this.y+35);
+		ctx.strokeText(this.barText, this.x+((this.w-this.textWidth)/2), this.y+35);
 	}
 }

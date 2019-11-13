@@ -4,6 +4,8 @@ const SCREEN_HEIGHT=600;
 var lasers=[], explosions=[], bloodcells=[];
 var hud1;
 var powerup1;
+const MAX_BLOODCELLS=50;
+var bloodcellsDestroyed=0;
 
 // GAME STATE
 const state = {
@@ -101,6 +103,10 @@ function update(){
 	}
 	
 	powerupNewLife.update();
+	
+	if(bloodcellsDestroyed>=MAX_BLOODCELLS){
+		state.current=state.over;
+	}
 }
 
 // Game loop
@@ -124,12 +130,18 @@ canvas.addEventListener("click", function(evt){
             ship.fire();
             break;
         case state.over:
-			time.reset();
-			score.reset();
-			state.current = state.getReady;
+			reset();
             break;
     }
 });
+
+function reset(){
+	powerupNewLife.reset();
+	bloodcellsDestroyed=0;
+	time.reset();
+	score.reset();
+	state.current = state.getReady;	
+}
 
 // Keyboard
 window.addEventListener('keydown',function(e){
@@ -142,9 +154,7 @@ window.addEventListener('keydown',function(e){
 				ship.fire();
 				break;
 			case state.over:
-				time.reset();
-				score.reset();
-				state.current = state.getReady;
+				reset();
 				break;
 		}
 	}	

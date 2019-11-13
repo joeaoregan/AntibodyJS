@@ -54,6 +54,10 @@ class powerup{
 				}
 			}
 		}
+				
+		if(state.current===state.over){
+			this.active=false;//If the game is over, remove from screen
+		}
 	}
 	
 	reset(){

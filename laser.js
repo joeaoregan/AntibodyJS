@@ -49,6 +49,9 @@ class laser {
 					explosions.push(ex);
 					splashFX.play();
 					bloodcells[j].reset();
+					
+					bloodcellsDestroyed++;
+					console.log('Blood Cells Destroyed: ',bloodcellsDestroyed);
 				}				
 			}
 			
