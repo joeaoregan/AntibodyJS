@@ -10,8 +10,6 @@ class explosion {
 		this.explosionSprite.src="art/"+name+".png";
 		this.x=x;
 		this.y=y;
-		//this.w=96;
-		//this.h=96;
 		this.w=dimension;
 		this.h=dimension;
 		this.frame=0;

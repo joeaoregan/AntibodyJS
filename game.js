@@ -19,10 +19,7 @@ function collision(o1, o2) {
            o2.y+o2.h > o1.y);
 }
 
-		
 window.onload = function() {
-	//when the document is finished loading, replace everything
-	//between the <a ...> </a> tags with the value of splitText
 	updateScore();
 } 
 
@@ -65,7 +62,6 @@ function draw(){
 	time.draw();
 	antibodyTxt.draw();
 	
-	//bloodcell.draw();
 	for (var i = 0; i < bloodcells.length; i++) {
 		bloodcells[i].draw();
 	}
@@ -87,7 +83,6 @@ function update(){
 		}
 	}
 
-	//bloodcell.update();
 	for (var i = 0; i < bloodcells.length; i++) {
 		bloodcells[i].update();
 	}

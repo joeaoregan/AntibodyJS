@@ -1,31 +1,35 @@
-const laserSprite = new Image();
-laserSprite.src="art/LaserGreen.png";
-
 class laser {	
-	constructor(x,y,speed){
+	constructor(x,y,speed,direction,img){
+		this.sprite=new Image();
+		this.img=img;
+		this.sprite.src="art/"+this.img+".png";
+		
 		this.sX=0;
 		this.sY=0;
 		this.w=50;
 		this.h=5;
 		this.x=x;
 		this.y=y;
+		
 		this.speed=speed;
+		this.direction=direction;
 	}
 	
 	draw(){
-		ctx.drawImage(laserSprite, this.sX, this.sY, this.w, this.h, this.x, this.y, this.w, this.h);
+		ctx.drawImage(this.sprite, this.sX, this.sY, this.w, this.h, this.x, this.y, this.w, this.h);
 	}
 
 	update(){
-		this.x += this.speed;
+		this.x += (this.speed*this.direction);
 		
 		for (var i = 0; i < lasers.length; i++) {
 			
-			if(lasers[i] === this && this.x > canvas.width+this.w){
+			if(lasers[i] === this && (this.x > canvas.width+this.w || this.x<-this.w)){
 				lasers.splice(i,1);				
 			}
-			if(lasers[i] === this && (collision(lasers[i], enemyShip))){
-				//console.log('COLLISION!');
+			
+			if(lasers[i] === this && (collision(lasers[i], enemyShip)) && lasers[i].img=="LaserGreen"){
+				console.log('COLLISION!');
 				lasers.splice(i,1);
 				score.value++;
                 score.high = Math.max(score.value, score.high);
@@ -46,6 +50,11 @@ class laser {
 					splashFX.play();
 					bloodcells[j].reset();
 				}				
+			}
+			
+			if(lasers[i] === this && collision(lasers[i], ship) && lasers[i].img=="LaserBlue"){
+				ship.updateHealth();
+				lasers.splice(i,1);
 			}
 		}
 		

@@ -56,13 +56,26 @@ const score = {
             ctx.fillText(this.scoreTxt, (canvas.width-this.textWidth)/2, 30);
             ctx.strokeText(this.scoreTxt, (canvas.width-this.textWidth)/2, 30);            
         }else if(state.current == state.over){
+			ctx.lineWidth = 2;
+            ctx.font = "35px Teko";
+			
+			// Game Over
+			this.scoreTxt='Game Over!!!';
+			this.textWidth=ctx.measureText(this.scoreTxt).width;			
+            ctx.fillText(this.scoreTxt, (canvas.width-this.textWidth)/2, 30);
+            ctx.strokeText(this.scoreTxt, (canvas.width-this.textWidth)/2, 30);        
+			
             // Score
-            ctx.font = "25px Teko";
-            ctx.fillText('Score: '+this.value, 225, 186);
-            ctx.strokeText('Score: '+this.value, 225, 186);
+			this.scoreTxt='Score: '+this.value;		
+			this.textWidth=ctx.measureText(this.scoreTxt).width;
+            ctx.fillText(this.scoreTxt, (canvas.width/2)-(this.textWidth/2), 186);
+            ctx.strokeText(this.scoreTxt, (canvas.width/2)-(this.textWidth/2), 186);
+			
             // High Score
-            ctx.fillText(this.high, 225, 228);
-            ctx.strokeText(this.high, 225, 228);
+			this.scoreTxt='High Score: '+this.high;
+			this.textWidt=ctx.measureText(this.scoreTxt).width;
+            ctx.fillText(this.scoreTxt, (canvas.width/2)-(this.textWidt/2), 228);
+            ctx.strokeText(this.scoreTxt, (canvas.width/2)-(this.textWidt/2), 228);
         }
     },
     
