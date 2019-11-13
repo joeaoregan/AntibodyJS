@@ -18,10 +18,11 @@ const ship ={
     sY: 0,
     w: 100,
     h: 47,
-    x: 0,
 	
-    y: 275,    
-	speed: 5,	
+    x: 0,
+    y: 275,
+
+	speed: 5,
     dx: 0,
 	dy: 0,
 	fireRate: 0,
@@ -29,10 +30,53 @@ const ship ={
 	fireDelay: 10,
 	lives: MAX_LIVES,
 	health: MAX_HEALTH,
+	flashDown: true,
+	flashCount: 0,
+	flashTimes: 0,
+	flashing: false,
+	
+	alpha: 1.0,
 	
     draw : function(){
-		ctx.drawImage(player1, this.sX, this.sY, this.w, this.h, this.x, this.y, this.w, this.h);		
+		ctx.globalAlpha = this.alpha;
+		ctx.drawImage(player1, this.sX, this.sY, this.w, this.h, this.x, this.y, this.w, this.h);
+		ctx.globalAlpha = 1.0;
+		
+		ctx.globalAlpha = 0.5;
 		this.healthbar();
+		ctx.globalAlpha = 1.0;
+		
+		this.flash();
+	},
+	
+	flash: function(){
+		if(this.flashCount<this.flashTimes){
+			if(this.alpha>=0.0 && this.flashDown){
+				this.alpha-=0.05;
+				if(this.alpha<=0.0){
+					//this.flashUp=true;
+					this.flashDown=false;
+				}
+			}
+			//if(this.alpha<=1.0 && this.flashUp){
+			if(this.alpha<=1.0 && !this.flashDown){
+				this.alpha+=0.05;
+				if(this.alpha>=1.0){
+					//this.flashUp=false;
+					this.flashDown=true;
+					
+					this.flashCount++;
+				}
+			}
+		}else{
+			this.flashing=false;
+		}
+	},
+	
+	flashThisMany(time){
+		this.flashCount=0;
+		this.flashTimes=time;
+		this.flashing=true;
 	},
 	
 	healthbar: function(){
@@ -86,13 +130,17 @@ const ship ={
 	},
 	
 	updateHealth: function(){
-		if(this.health>1){
-			this.health--;
-		} else {
-			this.lives--;
-			console.log('Player Life Lost - Lives: ',this.lives);
-			if (this.lives>0){
-				this.health=MAX_HEALTH;
+		if(!this.flashing){
+			if(this.health>1){
+				this.health--;
+				this.flashThisMany(2);
+			} else {
+				this.lives--;
+				console.log('Player Life Lost - Lives: ',this.lives);
+				if (this.lives>0){
+					this.flashThisMany(5);
+					this.health=MAX_HEALTH;
+				}
 			}
 		}
 		
@@ -112,5 +160,9 @@ const ship ={
 		this.lastFire=0;
 		this.lives=MAX_LIVES;
 		this.health=MAX_HEALTH;
+		this.alpha=1.0;
+		this.flashCount=0;
+		this.flashTimes=0;
+		this.flashing=false;
 	}
 }
