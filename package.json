@@ -1,0 +1,24 @@
+{
+  "name": "antibodyjs",
+  "version": "1.0.0",
+  "description": "Antibody JavaScript Port. Original game created in C++ using the SDL framework.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "\u0016https://github.com/joeaoregan/AntibodyJS.git"
+  },
+  "keywords": [
+    "JavaScript",
+    "Game"
+  ],
+  "author": "Joe O'Regan",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1",
+    "socket.io": "^4.5.0"
+  }
+}
