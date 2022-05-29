@@ -26,7 +26,9 @@ const time ={
 }
 
 setInterval(function(){
-	time.timer++;
+	if(state.current == state.game){
+		time.timer++;
+	}
 	//console.log('time: '+time.timer);
 },1000);
 
@@ -107,7 +109,7 @@ const levelTxt={
 	
 // Antibody text
 const antibodyTxt={
-	abText: 'Antibody JS by Joe O Regan',
+	abText: "Antibody JS by Joe O'Regan",
 	textWidth: 0,
 	
 	draw : function(){

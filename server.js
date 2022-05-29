@@ -22,6 +22,25 @@ let addr=dns.lookup(os.hostname(), function(err,add,fam){
 
 console.log("Platform: " + os.platform() + " Architecture: " + os.arch() + " Hostname: " + os.hostname());
 
+
+// scores json
+// sychronous
+// const fs = require('fs');
+// let rawdata = fs.readFileSync('static/scores.json');
+// let scores = JSON.parse(rawdata);
+// console.log(scores);
+
+// promise-based / asynchronous
+// const fs = require('fs/promises');
+// fs.readFile('static/scores.json')
+// .then((data) => {
+// 	console.log(JSON.parse(data));
+// })
+// .catch((error) => {
+// 	console.log(error);
+// });
+
+
 app.use(express.static('static'));
 
 server.listen(port);

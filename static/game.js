@@ -1,209 +1,148 @@
 // Vars & Consts
 let frames = 0;
-const SCREEN_HEIGHT=600;
-var lasers=[], explosions=[], bloodcells=[];
 var hud1;
-var powerup1;
-const MAX_BLOODCELLS=50;
-var bloodcellsDestroyed=0;
+var bloodcellsDestroyed = 0;
+
+var player1;
+var enemyShip;
+var powerupNewLife;
 
 // GAME STATE
 const state = {
-    current : 0,
-    getReady : 0,
-    game : 1,
-    over : 2
+	current: 0,
+	getReady: 0,
+	game: 1,
+	over: 2
 }
 
-// AABB Collisions
-function collision(o1, o2) {
-	return (o2.x < o1.x+o1.w &&
-           o2.x+o2.w > o1.x &&
-           o2.y < o1.y+o1.h &&
-           o2.y+o2.h > o1.y);
-}
-
-window.onload = function() {
-	updateScore();
-} 
-
-function updateScore(){	
-	document.getElementById("scoreID").innerHTML=parseInt(localStorage.getItem("highscore")) || 0;
-}
-
-function init(){
-	var b1 = new bloodcell();
-	var b2 = new bloodcell();
-	var b3 = new bloodcell();
-	var b4 = new bloodcell();
-	var b5 = new bloodcell();
-	bloodcells.push(b1);
-	bloodcells.push(b2);
-	bloodcells.push(b3);
-	bloodcells.push(b4);
-	bloodcells.push(b5);
-	
-	hud1=new hud();
-	powerupNewLife=new powerup('PowerUpLife');	
-}
-
-init();
-
-function spawnLife(){
-	powerupNewLife.active=true;
-}
-
-// Draw objects
-function draw(){
-    ctx.fillStyle = "#70c5ce";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    scrollingBG.draw();
-	enemyShip.draw();
-
-	for (var i = 0; i < explosions.length; i++) {
-		explosions[i].draw();
+class Game {
+	constructor() {
+		this.objects = [];
+		this.paused;
+		this.mute = false;
 	}
-	ship.draw();
-	for (var i = 0; i < lasers.length; i++) {
-		lasers[i].draw();
-	}
-	levelTxt.draw();
-    score.draw();
-	time.draw();
-	antibodyTxt.draw();
-	
-	for (var i = 0; i < bloodcells.length; i++) {
-		bloodcells[i].draw();
-	}
-	
-	hud1.draw();
-	powerupNewLife.draw();
-}
 
-// Update objects
-function update(){
-	ship.update();
-    scrollingBG.update();
-	for (var i = 0; i < lasers.length; i++) {
-		lasers[i].update();
+	init() {
+		var bg = new Background();
+		player1 = new Player("Player1", canvas.width / 2, canvas.height / 2);
+		enemyShip = new Enemy("EnemyShip");
+		this.objects.push(bg);
+		this.objects.push(player1);
+		this.objects.push(enemyShip);
+
+		for (var i = 0; i < NUM_BLOODCELLS; i++) {
+			var bc = new Bloodcell("BloodCell");
+			this.objects.push(bc);
+		}
+
+		hud1 = new hud();
+		powerupNewLife = new PowerUp('PowerUpLife');
 	}
-	
-	enemyShip.update();
-	
-	for (var i = 0; i < explosions.length; i++) {
-		explosions[i].update();
-		if(explosions[i].frame>=11){	// remove explosion after animation finished
-			explosions.splice(i,1);
+
+	update() {
+		if (!this.paused) {
+			this.objects.forEach(obj => obj.update());
+			this.collisions();
+
+			powerupNewLife.update();
+
+			if (bloodcellsDestroyed >= MAX_BLOODCELLS) {
+				state.current = state.over; // Game over
+			}
 		}
 	}
 
-	for (var i = 0; i < bloodcells.length; i++) {
-		bloodcells[i].update();
+	draw() {
+		ctx.fillStyle = "#70c5ce";
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+		this.objects.forEach(obj => obj.draw());
+
+		hud1.draw();
+		powerupNewLife.draw();
 	}
-	
-	powerupNewLife.update();
-	
-	if(bloodcellsDestroyed>=MAX_BLOODCELLS){
-		state.current=state.over;
+
+	spawnLife() {
+		powerupNewLife.active = true;
+	}
+
+	collisions() {
+		for (var i = 0; i < this.objects.length; i++) {
+			for (var j = 0; j < game.objects.length; j++) {
+				if (typeof game.objects[i] != "undefined") {
+					if (game.objects[i].type == "LaserGreen") {
+						if (game.objects[j].type == "EnemyShip" && collision(game.objects[i], game.objects[j])) {
+							console.log('COLLISION! Enemy');
+							score.value++;
+							score.high = Math.max(score.value, score.high);
+							localStorage.setItem("highscore", score.high);
+
+							var ex = new Explosion("Explosion", game.objects[j].x, game.objects[j].y - game.objects[j].h / 2, 96, 12); // create explosion at Enemy Ship location
+							game.objects.push(ex);
+							// console.log("explosion created")
+							navigator.vibrate([500]);//vibrate mobile device if explosion
+							if (!game.mute) explosionFX.play();
+							game.objects[j].reset();
+							game.objects.splice(i, 1);
+						} else if (game.objects[j].type == "BloodCell" && collision(game.objects[i], game.objects[j])) {
+							var ex = new Explosion("ExplosionBlood", game.objects[j].x, game.objects[j].y - game.objects[j].h, 128, 16); // create explosion
+							game.objects.push(ex);
+							if (!game.mute) splashFX.play();
+
+							bloodcellsDestroyed++;
+							console.log('Blood Cells Destroyed: ', bloodcellsDestroyed);
+							navigator.vibrate([400, 100, 400]);//vibrate mobile device if bloodcell destroyed
+							game.objects[j].reset();
+							game.objects.splice(i, 1);
+						}
+					} else if (game.objects[i].type == "LaserBlue") {
+						// console.log("laser blue check")
+						if (game.objects[j].type == "Player1" && collision(game.objects[i], game.objects[j])) {
+							game.objects[j].updateHealth(); // update player health
+							console.log("before splice" + game.objects.length)
+							game.objects.splice(i, 1); // delete laser
+							console.log("after splice" + game.objects.length)
+						}
+					}
+				} else {
+					console.log("undefined");
+					game.objects.splice(i, 1);
+				}
+			}
+		}
 	}
 }
 
+// AABB Collisions between 2 objects
+function collision(o1, o2) {
+	return (o2.x < o1.x + o1.w &&
+		o2.x + o2.w > o1.x &&
+		o2.y < o1.y + o1.h &&
+		o2.y + o2.h > o1.y);
+}
+
+window.onload = function () {
+	updateScore();
+	if ("vibrate" in navigator) {
+		console.log('can vibrate');
+	} else {
+		console.log('can not vibrate');
+	}
+}
+
+function updateScore() {
+	document.getElementById("scoreID").innerHTML = parseInt(localStorage.getItem("highscore")) || 0;
+}
+
+var game = new Game();
+game.init();
+
 // Game loop
-function loop(){
-    update();
-    draw();
-    frames++;    
-    requestAnimationFrame(loop);
+function loop() {
+	game.update(); // Update objects
+	game.draw(); // Draw objects
+	frames++;
+	requestAnimationFrame(loop);
 }
 
 loop();
-
-// Mouse
-canvas.addEventListener("click", function(evt){
-	//console.log('click');
-    switch(state.current){
-        case state.getReady:
-            state.current = state.game;
-            break;
-        case state.game:
-            ship.fire();
-            break;
-        case state.over:
-			reset();
-            break;
-    }
-});
-
-function reset(){
-	powerupNewLife.reset();
-	bloodcellsDestroyed=0;
-	time.reset();
-	score.reset();
-	state.current = state.getReady;	
-}
-
-// Keyboard
-window.addEventListener('keydown',function(e){
-	if(e.keyCode==32){
-		switch(state.current){
-			case state.getReady:
-				state.current = state.game;
-				break;
-			case state.game:
-				ship.fire();
-				break;
-			case state.over:
-				reset();
-				break;
-		}
-	}	
-	
-	switch (e.keyCode) {
-		case 65: // A
-		case 37: // Left
-		case 100: // 4
-			ship.dx=-ship.speed;
-			//console.log('Left');
-			break;
-		case 87: // W
-		case 38: // Up
-		case 104: // 8
-			ship.dy=-ship.speed;
-			//console.log('Up');
-			break;
-		case 68: // D
-		case 39: // Right
-		case 102: // 6
-			ship.dx=ship.speed;
-			//console.log('Right');
-			break;
-		case 83: // S
-		case 40: // Down
-		case 98: // 2
-			ship.dy=ship.speed;
-			//console.log('Down ' + ship.dy);
-			break;
-	}
-},false);
-
-document.addEventListener('keyup', function(event) {
-	switch (event.keyCode) {
-		case 65: // A
-		case 37: // Left
-		case 100: // 4
-		case 68: // D
-		case 39: // Right
-		case 102: // 6
-			ship.dx=0;
-			break;
-		case 87: // W
-		case 38: // Up
-		case 104: // 8
-		case 83: // S
-		case 40: // Down
-		case 98: // 2
-			ship.dy=0;
-			break;
-	}	
-});
