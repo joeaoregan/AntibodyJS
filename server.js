@@ -5,7 +5,7 @@
 	Antibody - Server
 */
 const express = require('express');
-socketio = require('socket.io');
+// socketio = require('socket.io');
 
 const port = process.env.PORT || 3000;
 const app = express();
