@@ -137,12 +137,33 @@ function updateScore() {
 var game = new Game();
 game.init();
 
+let msPrev = window.performance.now();
+const fps = 60; // Frames per second
+const msPerFrame = 1000 / fps; // Milliseconds per frame
+
 // Game loop
 function loop() {
+	requestAnimationFrame(loop);
+
+	const msNow = window.performance.now();
+	const msPassed = msNow - msPrev;
+
+	if (msPassed < msPerFrame) return; // Skip frame if not enough time has passed
+
+	const excessTime = msPassed % msPerFrame;
+	msPrev = msNow - excessTime; // Adjust previous time to maintain consistent frame rate
+
+	// Should run at 60 FPS
 	game.update(); // Update objects
 	game.draw(); // Draw objects
+
+	// msPrev = msNow;
+
 	frames++;
-	requestAnimationFrame(loop);
 }
+
+setInterval(() => {
+	console.log("Total Elapsed Frames: ", frames)
+}, 1000); // Log frames per second every second
 
 loop();
