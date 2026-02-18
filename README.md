@@ -2,6 +2,10 @@
 
 Antibody game ported to JavaScript from C++ third-year project
 
+## Play locally
+
+`npm start`
+
 ## Play The Game Online
 
 ~~[Play the game on Heroku website](https://antibody-js.herokuapp.com/ "Antibody JS: Heroku")~~ **Broken Link**

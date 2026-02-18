@@ -18,7 +18,7 @@
   "author": "Joe O'Regan",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.19.2",
-    "socket.io": "^4.6.2"
+    "express": "^5.2.1",
+    "socket.io": "^4.8.3"
   }
 }
