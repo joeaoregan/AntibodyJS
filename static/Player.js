@@ -28,16 +28,15 @@ class Player extends GameObject {
 
     draw() {
         // console.log("Player draw")ctx.globalAlpha = this.alpha;
+        ctx.save(); // Save the clean state
+        ctx.globalAlpha = this.alpha;
 
         super.draw();
 
-        ctx.globalAlpha = 1.0;
-
         ctx.globalAlpha = 0.5;
         this.healthbar();
-        ctx.globalAlpha = 1.0;
-
         this.flash();
+        ctx.restore(); // Restore to clean state
     }
 
     move() {

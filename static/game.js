@@ -65,6 +65,7 @@ class Game {
 
 	update() {
 		if (!this.paused) {
+
 			this.objects.forEach(obj => obj.update());
 			this.collisions();
 
@@ -74,6 +75,8 @@ class Game {
 				state.current = state.over; // Game over
 				console.log("Game Over! You destroyed all the blood cells!");
 			}
+						
+			frames++;
 		}
 	}
 
@@ -185,8 +188,6 @@ function loop() {
 	// Should run at 60 FPS
 	game.update(); // Update objects
 	game.draw(); // Draw objects
-
-	frames++;
 }
 
 setInterval(() => {
