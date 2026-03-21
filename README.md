@@ -18,6 +18,7 @@
 ![GitHub top language](https://img.shields.io/github/languages/top/joeaoregan/AntibodyJS-WebApp)
 ![GitHub last commit](https://img.shields.io/github/last-commit/joeaoregan/AntibodyJS-WebApp)
 ![License](https://img.shields.io/badge/license-ISC-blue)
+![Stars](https://img.shields.io/github/stars/joeaoregan/AntibodyJS-WebApp?style=social)
 
 </div>
 
