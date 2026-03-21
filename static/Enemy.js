@@ -3,8 +3,7 @@ enemyFireFX.src = "audio/LaserEnemy.wav";
 
 class Enemy extends GameObject {
     constructor(src) {
-        super(src, 1200, 300, 120, 50);
-        // this.animation = [{ sX: 0, sY: 0 }, { sX: 120, sY: 0 }, { sX: 240, sY: 0 }, { sX: 360, sY: 0 }];        
+        super(src, 1200, 300);   
         this.speed = -5;
         this.fireDelay = 60;
         this.reset();
@@ -12,7 +11,7 @@ class Enemy extends GameObject {
 
     update() {
         if (state.current === state.game) {
-            this.animate(); // <--- Call the base class animation
+            this.animate();
             this.x += this.speed;
             
             if (this.x < -this.w) this.reset();

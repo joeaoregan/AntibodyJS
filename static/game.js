@@ -22,22 +22,45 @@ class Game {
 		this.mute = false;
 	}
 
-	init() {
-		let bg = new Background();
-		player1 = new Player("Player1", canvas.width / 2, canvas.height / 2);
-		enemyShip = new Enemy("EnemyShip");
-		this.objects.push(bg);
-		this.objects.push(player1);
-		this.objects.push(enemyShip);
+	async init() {
+		console.log("Fetching sprite manifest...");
+		try {
+			// 1. Fetch the JSON file first!
+			const response = await fetch('art/sprites.json');
+			window.SPRITE_DATA = await response.json(); // Global access for GameObjects
+			console.log("Manifest loaded:", window.SPRITE_DATA);
 
-		for (let i = 0; i < NUM_BLOODCELLS; i++) {
-			let bc = new Bloodcell("BloodCell");
-			this.objects.push(bc);
-			console.log("Blood Cell Created: ", i + 1);
+			// 2. Automatically "Warm up" every image in the JSON
+			// This replaces your manual laserBlue/explosion warm-up list
+			const warmUpPromises = Object.keys(window.SPRITE_DATA).map(key => {
+				return new GameObject(key, 0, 0).load();
+			});
+			await Promise.all(warmUpPromises);
+
+			// 3. Create actual game instances now that data is ready
+			let bg = new Background();
+			player1 = new Player("Player1", canvas.width / 2, canvas.height / 2);
+			enemyShip = new Enemy("EnemyShip");
+
+			this.objects.push(bg, player1, enemyShip);
+
+			for (let i = 0; i < NUM_BLOODCELLS; i++) {
+				this.objects.push(new Bloodcell("BloodCell"));
+			}
+
+			// Load the instances into memory
+			await Promise.all(this.objects.map(obj => obj.load()));
+
+			// 4. Initialize UI and start loop
+			hud1 = new hud();
+			powerupNewLife = new PowerUp('PowerUpLife');
+			await powerupNewLife.load();
+
+			console.log("All systems green. Starting game loop.");
+			loop(); // Start the animation loop here
+		} catch (err) {
+			console.error("CRITICAL BOOT ERROR:", err);
 		}
-
-		hud1 = new hud();
-		powerupNewLife = new PowerUp('PowerUpLife');
 	}
 
 	update() {
@@ -71,44 +94,48 @@ class Game {
 	collisions() {
 		for (let i = 0; i < this.objects.length; i++) {
 			for (let j = 0; j < game.objects.length; j++) {
-				if (typeof game.objects[i] != "undefined") {
+				// Check if both objects exist before checking types
+				if (game.objects[i] && game.objects[j]) {
+
+					// 1. PLAYER LASER HITS...
 					if (game.objects[i].type == "LaserGreen") {
+
+						// ...AN ENEMY SHIP
 						if (game.objects[j].type == "EnemyShip" && collision(game.objects[i], game.objects[j])) {
-							console.log('COLLISION! Enemy');
+							updateScore();
 							score.value++;
 							score.high = Math.max(score.value, score.high);
 							localStorage.setItem("highscore", score.high);
 
-							let ex = new Explosion("Explosion", game.objects[j].x, game.objects[j].y - game.objects[j].h / 2, 96, 12); // create explosion at Enemy Ship location
+							// Use game.objects[j] (the enemy) for the explosion position
+							let ex = new Explosion("Explosion", game.objects[j].x, game.objects[j].y);
 							game.objects.push(ex);
-							// console.log("explosion created")
-							navigator.vibrate([500]);//vibrate mobile device if explosion
-							if (!game.mute) explosionFX.play();
-							game.objects[j].reset();
-							game.objects.splice(i, 1);
-						} else if (game.objects[j].type == "BloodCell" && collision(game.objects[i], game.objects[j])) {
-							let ex = new Explosion("ExplosionBlood", game.objects[j].x, game.objects[j].y - game.objects[j].h, 128, 16); // create explosion
-							game.objects.push(ex);
-							if (!game.mute) splashFX.play();
 
-							bloodcellsDestroyed++;
-							console.log('Blood Cells Destroyed: ', bloodcellsDestroyed);
-							navigator.vibrate([400, 100, 400]);//vibrate mobile device if bloodcell destroyed
-							game.objects[j].reset();
-							game.objects.splice(i, 1);
+							if (!game.mute) explosionFX.play();
+							game.objects[j].reset(); // Reset enemy position
+							game.objects.splice(i, 1); // Remove laser
 						}
-					} else if (game.objects[i].type == "LaserBlue") {
-						// console.log("laser blue check")
-						if (game.objects[j].type == "Player1" && collision(game.objects[i], game.objects[j])) {
-							game.objects[j].updateHealth(); // update player health
-							console.log("before splice" + game.objects.length)
-							game.objects.splice(i, 1); // delete laser
-							console.log("after splice" + game.objects.length)
+
+						// ...A BLOOD CELL
+						else if (game.objects[j].type == "BloodCell" && collision(game.objects[i], game.objects[j])) {
+							// Use game.objects[j] (the blood cell) for the explosion position
+							let ex = new Explosion("ExplosionBlood", game.objects[j].x, game.objects[j].y);
+							game.objects.push(ex);
+
+							if (!game.mute) splashFX.play();
+							bloodcellsDestroyed++;
+							game.objects[j].reset(); // Reset blood cell
+							game.objects.splice(i, 1); // Remove laser
 						}
 					}
-				} else {
-					console.log("undefined");
-					game.objects.splice(i, 1);
+
+					// 2. ENEMY LASER HITS PLAYER
+					else if (game.objects[i].type == "LaserBlue") {
+						if (game.objects[j].type == "Player1" && collision(game.objects[i], game.objects[j])) {
+							game.objects[j].updateHealth();
+							game.objects.splice(i, 1); // Remove laser
+						}
+					}
 				}
 			}
 		}

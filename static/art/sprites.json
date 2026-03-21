@@ -1,0 +1,12 @@
+{
+    "background720":    { "frames": 1, "w": 1280, "h": 600 },
+    "BloodCell":        { "frames": 1, "w": 100, "h": 55 },
+    "EnemyShip":        { "frames": 4, "w": 480, "h": 50 },
+    "Explosion":        { "frames": 12, "w": 1152,  "h": 96 },
+    "ExplosionBlood":   { "frames": 16, "w": 2048, "h": 128 },
+    "LaserBlue":        { "frames": 1, "w": 50,  "h": 5 },
+    "LaserGreen":       { "frames": 1, "w": 50, "h": 5 },
+    "Player1":          { "frames": 1, "w": 100, "h": 47 },
+    "Player1ShipSmall": { "frames": 1, "w": 50, "h": 25 },
+    "PowerUpLife":      { "frames": 1, "w": 60, "h": 29 }
+}

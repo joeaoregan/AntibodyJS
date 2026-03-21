@@ -27,9 +27,10 @@ class Player extends GameObject {
     }
 
     draw() {
-        // console.log("Player draw")
-        ctx.globalAlpha = this.alpha;
-        ctx.drawImage(this.img, this.x, this.y, this.w, this.h);
+        // console.log("Player draw")ctx.globalAlpha = this.alpha;
+
+        super.draw();
+
         ctx.globalAlpha = 1.0;
 
         ctx.globalAlpha = 0.5;
