@@ -1,4 +1,15 @@
-const DEBUG_MODE = true;
+let DEBUG_MODE = false; 
+
+function toggleDebug() {
+    DEBUG_MODE = !DEBUG_MODE;
+    console.log("Debug Mode:", DEBUG_MODE ? "ON" : "OFF");
+    
+    // Optional: Change button text to show current state
+    const btn = document.getElementById("debugBtn");
+    if (btn) {
+        btn.innerText = DEBUG_MODE ? "Debug: ON" : "Debug: OFF";
+    }
+}
 
 class GameObject {
     constructor(src, x, y) {
