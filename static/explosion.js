@@ -6,33 +6,17 @@ splashFX.src = "audio/splash.wav";
 
 class Explosion extends GameObject {
 	constructor(src, x, y, dimension, numFrames) {
-		super(src, x, y);
-		this.w = this.h = dimension;
-		this.frame = 0;
-		this.speed = 5;
-		this.animation = [];
-
-		for (var i = 0; i < numFrames; i++) {
-			this.animation[i] = { sX: i * dimension, sY: 0 };
-		}
-	}
-
-	draw() {
-		let explosion = this.animation[this.frame];
-		ctx.drawImage(this.img, explosion.sX, explosion.sY, this.w, this.h, this.x, this.y, this.w, this.h);
+		super(src, x, y, dimension, dimension, numFrames);
+		this.animationSpeed = 3;
 	}
 
 	update() {
-		if (this.frame >= 11) {
-			for (var i = 0; i < game.objects.length; i++) {
-				if (this == game.objects[i]) {
-					game.objects.splice(i, 1);
-					break; // no need to check the rest
-				}
-			}
-		}
+		this.animate();
 
-		this.frame += frames % this.speed == 0 ? 1 : 0; 	// Increment every 5 frames PUT HERE TO SHOW ALL ANIMATION FRAMES
-		this.frame = this.frame % this.animation.length; 	// Frame loops 0 to 11
+		// If we reached the last frame, remove from game
+		if (this.currentFrame === this.totalFrames - 1) {
+			const index = game.objects.indexOf(this);
+			if (index > -1) game.objects.splice(index, 1);
+		}
 	}
 }
