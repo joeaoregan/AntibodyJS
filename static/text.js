@@ -21,7 +21,6 @@ const time = {
     },
 
     reset: function () {
-        this.timer = 0;
     }
 }
 
@@ -80,6 +79,7 @@ const score = {
 
     reset: function () {
         frames = 0;
+        this.value = 0; // This resets the score
     }
 }
 

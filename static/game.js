@@ -69,13 +69,15 @@ class Game {
 			this.objects.forEach(obj => obj.update());
 			this.collisions();
 
-			powerupNewLife.update();
+			if (powerupNewLife) {
+				powerupNewLife.update();
+			}
 
 			if (bloodcellsDestroyed >= MAX_BLOODCELLS) {
 				state.current = state.over; // Game over
 				console.log("Game Over! You destroyed all the blood cells!");
 			}
-						
+
 			frames++;
 		}
 	}
@@ -87,7 +89,10 @@ class Game {
 		this.objects.forEach(obj => obj.draw());
 
 		hud1.draw();
-		powerupNewLife.draw();
+		
+		if (powerupNewLife) {
+			powerupNewLife.draw();
+		}
 	}
 
 	spawnLife() {
@@ -190,8 +195,8 @@ function loop() {
 	game.draw(); // Draw objects
 }
 
-setInterval(() => {
-	console.log("Total Elapsed Frames: ", frames)
-}, 1000); // Log frames per second every second
+// setInterval(() => {
+// 	console.log("Total Elapsed Frames: ", frames)
+// }, 1000); // Log frames per second every second
 
-loop();
+// loop();
