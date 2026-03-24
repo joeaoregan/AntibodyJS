@@ -20,8 +20,8 @@ Antibody game ported to JavaScript from C++ third-year project
 
 ## Play The Game Online
 
-* [Render](https://antibody-js.onrender.com/)
-
+* [GitHub Pages](https://joeaoregan.github.io/AntibodyJS/)
+* [Render](https://antibody-js.onrender.com/) [(AntibodyJS-WebApp)](https://github.com/joeaoregan/AntibodyJS-WebApp)
 ### Other Versions:
 
 1. [Antibody: Original Version (Journey to the Center of My Headache)](https://github.com/joeaoregan/LIT-Yr3-Project-Antibody/tree/master/AntibodyV1-JourneyToTheCenterOfMyHeadache "Antibody: Original Title")
