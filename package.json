@@ -1,8 +1,37 @@
 {
-  "name": "antibody-nodejs",
+  "name": "antibodyjs-webapp",
   "version": "1.0.0",
-  "description": "antibody js",
+  "author": "Joe O'Regan",
+  "description": "JavaScript version of Antibody third-year C++ game project",
+  "homepage": "https://antibody-js.onrender.com/",
   "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "npx nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joeaoregan/AntibodyJS-WebApp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/joeaoregan/AntibodyJS-WebApp/issues"
+  },
+  "keywords": [
+    "JavaScript",
+    "Game",
+    "2d",
+    "side-scroller",
+    "action",
+    "arcade",
+    "indie-game",
+    "browser-game",
+    "canvas",
+    "shooter",
+    "retro",
+    "port"
+  ],
+  "license": "ISC",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -12,12 +41,5 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.14"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "dev": "npx nodemon server.js"
-  },
-  "author": "Joe O'Regan",
-  "license": "ISC"
+  }
 }
