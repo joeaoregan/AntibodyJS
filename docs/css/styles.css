@@ -1,0 +1,279 @@
+:root,
+html[data-theme="dark"] {
+	--bg: #1f252d;
+	--panel: #27303a;
+	--menu: #2b3541;
+	--menu-2: #222b35;
+	--text: #e8edf3;
+	--muted: #b7c1cc;
+	--border: #3a4654;
+	--hover: #344152;
+	--active: #3f5166;
+	--link: #c5ced8;
+	--link-hover: #f1f5f9;
+	--canvas-border: #0f141a;
+	--controller-bg: #39495d;
+	--button-box-bg: #2a3544;
+}
+
+html[data-theme="light"] {
+	--bg: #f2f5f9;
+	--panel: #ffffff;
+	--menu: #e8edf3;
+	--menu-2: #dde5ee;
+	--text: #1b2530;
+	--muted: #4b5a6b;
+	--border: #c8d3df;
+	--hover: #dce6f2;
+	--active: #cedced;
+	--link: #3b526e;
+	--link-hover: #1f2e40;
+	--canvas-border: #aebdcd;
+	--controller-bg: #dbe4ef;
+	--button-box-bg: #c8d3df;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	background: var(--bg);
+	color: var(--text);
+	font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+}
+
+.container {
+	width: min(1320px, 95%);
+	margin: 0 auto;
+}
+
+.topbar {
+	background: linear-gradient(90deg, var(--menu), var(--menu-2));
+	border-top: 1px solid #44526433;
+	border-bottom: 1px solid #12171d33;
+}
+
+.topbar-row {
+	min-height: 56px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
+.topnav {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+.nav-link {
+	color: var(--text);
+	text-decoration: none;
+	padding: 1rem 1.1rem;
+	border-left: 1px solid rgba(255, 255, 255, .08);
+	border-right: 1px solid rgba(0, 0, 0, .25);
+	font-weight: 600;
+}
+
+.nav-link:hover {
+	background: var(--hover);
+}
+
+.nav-link.active {
+	background: var(--active);
+	color: #fff;
+}
+
+.theme-toggle {
+	border: 1px solid var(--border);
+	background: var(--panel);
+	color: var(--text);
+	border-radius: 8px;
+	padding: .45rem .8rem;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.theme-toggle:hover {
+	background: var(--hover);
+}
+
+.page-content {
+	padding: 1.25rem 0 2rem;
+}
+
+.panel {
+	background: var(--panel);
+	border: 1px solid var(--border);
+	border-radius: 10px;
+	padding: 1.25rem;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+h1,
+h2 {
+	text-align: center;
+	margin-top: 0;
+	color: var(--text);
+}
+
+h2 {
+	color: var(--muted);
+}
+
+canvas {
+	border: 1px solid var(--canvas-border);
+	display: block;
+	margin: 0 auto;
+	max-width: 100%;
+	height: auto;
+	background: #000;
+	border-radius: 6px;
+}
+
+.controller-border {
+	padding: 24px;
+	touch-action: manipulation;
+	text-align: center;
+	font-size: 1rem;
+}
+
+.controller {
+	background-color: var(--controller-bg);
+	border: 1px solid var(--border);
+	width: min(1150px, 100%);
+	text-align: center;
+	border-radius: 200px;
+	padding: 25px;
+	margin: 0 auto;
+}
+
+.button-box {
+	display: inline-block;
+	border: 1px solid var(--border);
+	text-align: center;
+	width: 360px;
+	max-width: 100%;
+	border-radius: 200px;
+	padding: 10px;
+	background-color: var(--button-box-bg);
+}
+
+.button {
+	border: 2px solid #111;
+	border-radius: 60px;
+	font-size: 40px;
+	padding: 25px;
+}
+
+.button-start {
+	background-color: #999;
+}
+
+.button-round {
+	background-color: #f14;
+	color: white;
+	display: inline-block;
+	margin: 4px 2px;
+	user-select: none;
+}
+
+.buttonA {
+	background-color: #f14;
+}
+
+.buttonB {
+	background-color: #ff0;
+	color: #111;
+}
+
+.buttonX {
+	background-color: #00f;
+}
+
+.buttonY {
+	background-color: #0f0;
+	color: #111;
+}
+
+.button-divider {
+	width: 75px;
+	display: inline-block;
+}
+
+.body-border h2,
+.body-border p {
+	text-align: center;
+}
+
+.accordion {
+	background: var(--menu);
+	color: var(--text);
+	cursor: pointer;
+	padding: 18px;
+	width: 100%;
+	border: 1px solid var(--border);
+	text-align: center;
+	font-size: 1.2rem;
+	transition: 0.2s;
+	font-weight: 700;
+	border-radius: 8px;
+	margin-bottom: 0.5rem;
+}
+
+.active,
+.accordion:hover {
+	background: var(--hover);
+}
+
+.panel-inner {
+	padding: 0.75rem 1rem;
+	display: none;
+	background: rgba(255, 255, 255, 0.03);
+	border: 1px solid var(--border);
+	border-radius: 8px;
+	overflow: hidden;
+	font-size: 1rem;
+	margin-bottom: 0.75rem;
+	color: var(--muted);
+}
+
+.panel-inner ul {
+	margin: 0;
+	padding-left: 1.2rem;
+}
+
+a,
+a:visited {
+	color: var(--link);
+}
+
+a:hover {
+	color: var(--link-hover);
+}
+
+@media (max-width: 760px) {
+	.topbar-row {
+		flex-direction: column;
+		align-items: stretch;
+		padding: .35rem 0;
+	}
+
+	.topnav {
+		justify-content: center;
+	}
+
+	.theme-toggle {
+		align-self: center;
+		margin-bottom: .35rem;
+	}
+
+	.button {
+		font-size: 28px;
+		padding: 16px;
+	}
+}
