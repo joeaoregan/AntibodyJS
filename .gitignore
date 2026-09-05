@@ -9,7 +9,6 @@ yarn-error.log*
 
 # Dependencies
 node_modules/
-package-lock.json
 
 # Environment variables
 .env
@@ -34,3 +33,7 @@ build/
 # MkDocs
 site/
 venv/
+
+# AntibodyJS WebApp
+*.bak
+static/
