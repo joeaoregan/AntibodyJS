@@ -13,7 +13,7 @@ const app = express();
 console.log("Antibody JS by Joe O'Regan");
 console.log(`Platform: ${os.platform()} | Architecture: ${os.arch()} | Hostname: ${os.hostname()}`);
 
-app.use(express.static('docs'));
+app.use(express.static('web'));
 
 const server = require('http').createServer(app);
 

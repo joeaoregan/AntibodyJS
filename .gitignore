@@ -30,3 +30,7 @@ Thumbs.db
 # Build/Dist (if you add a build process later)
 dist/
 build/
+
+# MkDocs
+site/
+venv/

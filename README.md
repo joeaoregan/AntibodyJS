@@ -5,7 +5,7 @@ Antibody game ported to JavaScript from C++ third-year project
 [![Node.js Version](https://img.shields.io/badge/node.js-≥14.0.0-brightgreen?style=flat-square)](https://nodejs.org/)
 [![License](https://img.shields.io/badge/license-ISC-blue?style=flat-square)](LICENSE)
 [![Dependencies Status](https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen?style=flat-square)](package.json)
-[![Game](https://img.shields.io/badge/type-game-FF6B6B?style=flat-square)](https://joeaoregan.github.io/AntibodyJS/)
+[![Game](https://img.shields.io/badge/type-game-FF6B6B?style=flat-square)](https://joeoregan.github.io/JS-Antibody/game/)
 [![Deployed on GitHub Pages](https://img.shields.io/badge/deployed%20on-GitHub%20Pages-222?style=flat-square)](https://joeoregan.github.io/JS-Antibody/)
 
 [![Repository Size](https://img.shields.io/github/repo-size/joeoregan/JS-Antibody?style=flat-square)](https://github.com/joeoregan/JS-Antibody)

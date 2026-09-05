@@ -1,0 +1,55 @@
+site_name: Antibody JavaScript
+docs_dir: docs
+site_dir: site
+site_url: https://joeoregan.github.io/JS-Antibody/
+
+repo_url: https://github.com/JoeORegan/JS-Antibody
+repo_name: GitHub
+
+
+theme:
+  logo: images/logo.png
+  favicon: images/favicon.png
+  palette: 
+
+    # Palette toggle for dark mode
+    - scheme: slate
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+    # Palette toggle for light mode
+    - scheme: default
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - toc.follow
+    - navigation.footer
+    - navigation.instant.preview
+    - navigation.tracking
+    - navigation.path
+    - navigation.top
+
+nav:
+  - Home: 
+    - Overview: index.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - def_list
+  
+  - material.extensions.preview:
+      configurations:
+        - targets:
+            include:
+              - index.md

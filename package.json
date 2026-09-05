@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "author": "Joe O'Regan",
   "description": "Antibody JavaScript. Port of original game created in C++ using the SDL framework.",
-  "homepage": "https://joeaoregan.github.io/AntibodyJS/",
+  "homepage": "https://joeoregan.github.io/JS-Antibody/",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/joeaoregan/AntibodyJS.git"
+    "url": "https://github.com/joeoregan/JS-Antibody.git"
   },
   "keywords": [
     "JavaScript",
