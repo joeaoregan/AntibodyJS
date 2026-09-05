@@ -14,6 +14,8 @@ Antibody game ported to JavaScript from C++ third-year project
 ![Stars](https://img.shields.io/github/stars/joeoregan/JS-Antibody?style=social)
 
 
+![Antibody JavaScript](docs/images/logo.png)
+
 ## Play locally
 
 `npm start`
