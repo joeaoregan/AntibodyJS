@@ -39,6 +39,8 @@ theme:
 nav:
   - Home: 
     - Overview: index.md
+  - Play: https://joeoregan.github.io/JS-Antibody/game/
+
 
 markdown_extensions:
   - admonition
