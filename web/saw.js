@@ -19,6 +19,7 @@ class Saw extends GameObject {
 		this.player = player;       // the ship it follows
 		this.active = false;        // hidden until toggled on
 		this.energy = SAW_MAX_ENERGY;
+		this.burnedOut = false;     // true after running dry; needs a full recharge to reuse
 		this.degrees = 0;
 		this.spin = 5;              // degrees per frame (matches C++)
 		this.load();
@@ -27,7 +28,13 @@ class Saw extends GameObject {
 	toggle() {
 		if (this.active) {
 			this.deactivate();
-		} else if (this.energy > SAW_MAX_ENERGY * 0.2) { // need a minimum charge to switch on
+			return;
+		}
+		if (this.burnedOut) {
+			if (this.energy >= SAW_MAX_ENERGY) this.burnedOut = false; // fully recharged, usable again
+			else return; // still locked out
+		}
+		if (this.energy > SAW_MAX_ENERGY * 0.2) { // need a minimum charge to switch on
 			this.active = true;
 			if (!game.mute) sawFX.play();
 		}
@@ -51,10 +58,14 @@ class Saw extends GameObject {
 			this.energy -= SAW_DRAIN;
 			if (this.energy <= 0) {
 				this.energy = 0;
+				this.burnedOut = true; // must fully recharge before it can be used again
 				this.deactivate(); // burnt out
 			}
-		} else if (this.energy < SAW_MAX_ENERGY) {
-			this.energy = Math.min(SAW_MAX_ENERGY, this.energy + SAW_RECHARGE);
+		} else {
+			if (this.energy < SAW_MAX_ENERGY) {
+				this.energy = Math.min(SAW_MAX_ENERGY, this.energy + SAW_RECHARGE);
+			}
+			if (this.burnedOut && this.energy >= SAW_MAX_ENERGY) this.burnedOut = false;
 		}
 
 		if (!this.active) return;
@@ -71,26 +82,11 @@ class Saw extends GameObject {
 	// Called when the player collects a health power-up: top up the saw
 	recharge() {
 		this.energy = SAW_MAX_ENERGY;
+		this.burnedOut = false;
 	}
 
 	draw() {
 		if (!this.active) return;
-		this.drawRotate();
-		this.drawEnergyBar();
-	}
-
-	// Small energy meter above the saw while it's running
-	drawEnergyBar() {
-		const w = 40, h = 5;
-		const x = this.x, y = this.y - 12;
-		ctx.save();
-		ctx.strokeStyle = "#000";
-		ctx.lineWidth = 1;
-		ctx.strokeRect(x, y, w, h);
-		ctx.fillStyle = "#400";
-		ctx.fillRect(x, y, w, h);
-		ctx.fillStyle = this.energy > SAW_MAX_ENERGY * 0.25 ? "#0c0" : "#f80"; // orange when low
-		ctx.fillRect(x, y, w * (this.energy / SAW_MAX_ENERGY), h);
-		ctx.restore();
+		this.drawRotate(); // status/energy bar now lives in the HUD
 	}
 }

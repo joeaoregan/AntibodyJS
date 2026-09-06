@@ -16,7 +16,7 @@ const life = {
 	h: 25
 }
 
-// Laser grade indicator: icon changes as the player upgrades (PowerUpLaser -> LaserGunV2 -> LaserGunV3)
+// Weapon status boxes: fill the gap between Lives and Bloodcell Count
 const LASER_ICONS = ['PowerUpLaser', 'LaserGunV2', 'LaserGunV3'];
 const laserIconImgs = {};
 LASER_ICONS.forEach(name => {
@@ -25,17 +25,54 @@ LASER_ICONS.forEach(name => {
 	laserIconImgs[name] = img;
 });
 
+const sawIconImg = new Image();
+sawIconImg.src = 'art/SawBlue.png';
+
+const rocketIconImg = new Image();
+rocketIconImg.src = 'art/PowerUpRocket.png';
+
+const WEAPON_BOX_GAP_START = P1Box.x + P1Box.w;
+const WEAPON_BOX_GAP_END = (canvas.width / 2) - 200;
+const WEAPON_BOX_MARGIN = 8;
+const WEAPON_BOX_SPACING = 6;
+const WEAPON_BOX_W = Math.floor(
+	(WEAPON_BOX_GAP_END - WEAPON_BOX_GAP_START - WEAPON_BOX_MARGIN * 2 - WEAPON_BOX_SPACING * 2) / 3
+);
+const WEAPON_BOX_H = 50;
+const WEAPON_BOX_Y = 625;
+
 const LaserBox = {
-	h: 50,
-	y: 625,
-	x: P1Box.x + P1Box.w + 15
+	x: WEAPON_BOX_GAP_START + WEAPON_BOX_MARGIN,
+	y: WEAPON_BOX_Y,
+	w: WEAPON_BOX_W,
+	h: WEAPON_BOX_H
 }
-LaserBox.w = ((canvas.width / 2) - 200) - LaserBox.x - 15; // fills the gap up to the Bloodcell Count box
+
+const SawBox = {
+	x: LaserBox.x + WEAPON_BOX_W + WEAPON_BOX_SPACING,
+	y: WEAPON_BOX_Y,
+	w: WEAPON_BOX_W,
+	h: WEAPON_BOX_H
+}
+
+const RocketBox = {
+	x: SawBox.x + WEAPON_BOX_W + WEAPON_BOX_SPACING,
+	y: WEAPON_BOX_Y,
+	w: WEAPON_BOX_W,
+	h: WEAPON_BOX_H
+}
 
 const LaserProgress = {
 	x: LaserBox.x,
 	y: LaserBox.y + LaserBox.h + 6,
 	w: LaserBox.w,
+	h: 10
+}
+
+const SawProgress = {
+	x: SawBox.x,
+	y: SawBox.y + SawBox.h + 6,
+	w: SawBox.w,
 	h: 10
 }
 
@@ -63,6 +100,8 @@ class hud {
 		this.p1Lives();
 		bcCounter.bar();
 		this.laserIndicator();
+		this.sawIndicator();
+		this.rocketIndicator();
 
 		// 2. Remove the textAlign and textBaseline lines from here.
 		// This allows levelTxt, score, etc., to use their own internal alignment.
@@ -115,8 +154,9 @@ class hud {
 
 		const iconName = LASER_ICONS[Math.min(player1.laserGrade, LASER_ICONS.length - 1)];
 		const img = laserIconImgs[iconName];
+		const iconW = LaserBox.w - 8, iconH = Math.round(iconW * (48 / 60));
 		if (img.complete) {
-			ctx.drawImage(img, LaserBox.x + (LaserBox.w - 60) / 2, LaserBox.y + 1, 60, 48);
+			ctx.drawImage(img, LaserBox.x + (LaserBox.w - iconW) / 2, LaserBox.y + (LaserBox.h - iconH) / 2, iconW, iconH);
 		}
 
 		// Progress toward the next laser upgrade (enemy ship kills)
@@ -135,6 +175,56 @@ class hud {
 
 		ctx.fillStyle = "#0c0";
 		ctx.fillRect(LaserProgress.x, LaserProgress.y, LaserProgress.w * percent, LaserProgress.h);
+	}
+
+	sawIndicator() {
+		ctx.fillStyle = "#223";
+		ctx.fillRect(SawBox.x, SawBox.y, SawBox.w, SawBox.h);
+
+		ctx.beginPath();
+		ctx.lineWidth = "1";
+		ctx.strokeStyle = "grey";
+		ctx.rect(SawBox.x, SawBox.y, SawBox.w, SawBox.h);
+		ctx.stroke();
+
+		const iconSize = SawBox.w - 12;
+		if (sawIconImg.complete) {
+			ctx.save();
+			if (saw && saw.burnedOut) ctx.filter = "grayscale(1) brightness(0.6)"; // unusable until fully recharged
+			ctx.drawImage(sawIconImg, SawBox.x + (SawBox.w - iconSize) / 2, SawBox.y + (SawBox.h - iconSize) / 2, iconSize, iconSize);
+			ctx.restore();
+		}
+
+		const percent = saw ? saw.energy / SAW_MAX_ENERGY : 0;
+
+		ctx.beginPath();
+		ctx.lineWidth = "1";
+		ctx.strokeStyle = "black";
+		ctx.rect(SawProgress.x, SawProgress.y, SawProgress.w, SawProgress.h);
+		ctx.stroke();
+
+		ctx.fillStyle = "#400";
+		ctx.fillRect(SawProgress.x, SawProgress.y, SawProgress.w, SawProgress.h);
+
+		ctx.fillStyle = (saw && saw.burnedOut) ? "#888" : "#0c0";
+		ctx.fillRect(SawProgress.x, SawProgress.y, SawProgress.w * percent, SawProgress.h);
+	}
+
+	rocketIndicator() {
+		// Placeholder box until rockets are implemented
+		ctx.fillStyle = "#223";
+		ctx.fillRect(RocketBox.x, RocketBox.y, RocketBox.w, RocketBox.h);
+
+		ctx.beginPath();
+		ctx.lineWidth = "1";
+		ctx.strokeStyle = "grey";
+		ctx.rect(RocketBox.x, RocketBox.y, RocketBox.w, RocketBox.h);
+		ctx.stroke();
+
+		const iconH = RocketBox.h - 8, iconW = Math.round(iconH * (30 / 60));
+		if (rocketIconImg.complete) {
+			ctx.drawImage(rocketIconImg, RocketBox.x + (RocketBox.w - iconW) / 2, RocketBox.y + (RocketBox.h - iconH) / 2, iconW, iconH);
+		}
 	}
 }
 
