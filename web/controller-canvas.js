@@ -43,16 +43,21 @@ const CTRL_BUTTONS = [
 	{ id: 'start', x: CTRL_W / 2, y: CLUSTER_CY, r: 62, label: '≡', colour: '#999', action: 'start', dark: true }
 ];
 
-// Rocket-steer thumbstick: vertical-only, centred below START. Dragging it
-// up/down sets the same controller.rocketUp/rocketDown flags as the R/F keys.
-const STICK_CX = CTRL_W / 2;
-const STICK_CY = CLUSTER_CY + CLUSTER_R + 70;
-const STICK_BASE_R = 55;
-const STICK_KNOB_R = 24;
-const STICK_DEADZONE = 12; // logical units of vertical travel before it registers
+// Rocket-steer thumbsticks: two, vertical-only, side by side below START.
+// Both control the same rocket (redundant for now) — dragging either up/down
+// sets the same controller.rocketUp/rocketDown flags as the R/F keys.
+// Positioned close together and just inside the D-pad/ABXY ring outlines
+// (overlapping the thin ring border, never the buttons themselves) and
+// drawn after the rings/buttons so they sit visibly on top.
+const STICK_R = 62;
+const STICK_KNOB_R = 28;
+const STICK_DEADZONE = 14; // logical units of vertical travel before it registers
+const STICK_CY = 330;
 
-let stickPointerId = null; // which pointer (if any) is dragging the stick
-let stickKnobY = STICK_CY;  // current knob position (Y only; X stays centred)
+const ROCKET_STICKS = [
+	{ cx: CTRL_W / 2 - 85, cy: STICK_CY, pointerId: null, knobY: STICK_CY },
+	{ cx: CTRL_W / 2 + 85, cy: STICK_CY, pointerId: null, knobY: STICK_CY }
+];
 
 let ctrlCanvas = null;
 let ctrlCtx = null;
@@ -127,10 +132,11 @@ function ctrlPointerDown(e) {
 	e.preventDefault();
 	const p = ctrlPointerPos(e);
 
-	// Rocket-steer stick takes priority if the touch lands on it
-	if (stickPointerId === null && Math.hypot(p.x - STICK_CX, p.y - STICK_CY) <= STICK_BASE_R) {
-		stickPointerId = e.pointerId;
-		stickSetFromPoint(p.y);
+	// Rocket-steer sticks take priority if the touch lands on one of them
+	const stick = ROCKET_STICKS.find(s => s.pointerId === null && Math.hypot(p.x - s.cx, p.y - s.cy) <= STICK_R);
+	if (stick) {
+		stick.pointerId = e.pointerId;
+		stickSetFromPoint(stick, p.y);
 		drawController();
 		return;
 	}
@@ -143,27 +149,39 @@ function ctrlPointerDown(e) {
 }
 
 function ctrlPointerMove(e) {
-	if (e.pointerId !== stickPointerId) return;
+	const stick = ROCKET_STICKS.find(s => s.pointerId === e.pointerId);
+	if (!stick) return;
 	e.preventDefault();
 	const p = ctrlPointerPos(e);
-	stickSetFromPoint(p.y);
+	stickSetFromPoint(stick, p.y);
 	drawController();
 }
 
-// Update the stick knob + rocketUp/rocketDown flags from a vertical drag position
-function stickSetFromPoint(y) {
-	const offset = Math.max(-STICK_BASE_R, Math.min(STICK_BASE_R, y - STICK_CY));
-	stickKnobY = STICK_CY + offset;
-	controller.rocketUp = offset < -STICK_DEADZONE;
-	controller.rocketDown = offset > STICK_DEADZONE;
+// Update a stick's knob + the shared rocketUp/rocketDown flags (either stick can drive them)
+function stickSetFromPoint(stick, y) {
+	const offset = Math.max(-STICK_R, Math.min(STICK_R, y - stick.cy));
+	stick.knobY = stick.cy + offset;
+	recomputeRocketSteerFlags();
+}
+
+function recomputeRocketSteerFlags() {
+	let up = false, down = false;
+	for (const s of ROCKET_STICKS) {
+		if (s.pointerId === null) continue;
+		const offset = s.knobY - s.cy;
+		if (offset < -STICK_DEADZONE) up = true;
+		else if (offset > STICK_DEADZONE) down = true;
+	}
+	controller.rocketUp = up;
+	controller.rocketDown = down;
 }
 
 function ctrlPointerUp(e) {
-	if (e.pointerId === stickPointerId) {
-		stickPointerId = null;
-		stickKnobY = STICK_CY;
-		controller.rocketUp = false;
-		controller.rocketDown = false;
+	const stick = ROCKET_STICKS.find(s => s.pointerId === e.pointerId);
+	if (stick) {
+		stick.pointerId = null;
+		stick.knobY = stick.cy;
+		recomputeRocketSteerFlags();
 		drawController();
 	}
 
@@ -207,28 +225,30 @@ function drawController() {
 		c.fillText(b.label, b.x, b.y + 4);
 	}
 
-	// Rocket-steer thumbstick
-	c.beginPath();
-	c.arc(STICK_CX, STICK_CY, STICK_BASE_R, 0, Math.PI * 2);
-	c.fillStyle = 'rgba(120,150,180,0.18)';
-	c.fill();
-	c.lineWidth = 3;
-	c.strokeStyle = 'rgba(120,150,180,0.35)';
-	c.stroke();
+	// Rocket-steer thumbsticks (drawn last so they sit on top of the rings/buttons)
+	for (const s of ROCKET_STICKS) {
+		c.beginPath();
+		c.arc(s.cx, s.cy, STICK_R, 0, Math.PI * 2);
+		c.fillStyle = 'rgba(30,35,45,0.75)';
+		c.fill();
+		c.lineWidth = 3;
+		c.strokeStyle = 'rgba(120,150,180,0.6)';
+		c.stroke();
 
-	c.beginPath();
-	c.arc(STICK_CX, stickKnobY, STICK_KNOB_R, 0, Math.PI * 2);
-	c.fillStyle = stickPointerId !== null ? '#f80' : '#999';
-	c.fill();
-	c.lineWidth = 3;
-	c.strokeStyle = '#111';
-	c.stroke();
+		c.beginPath();
+		c.arc(s.cx, s.knobY, STICK_KNOB_R, 0, Math.PI * 2);
+		c.fillStyle = s.pointerId !== null ? '#f80' : '#999';
+		c.fill();
+		c.lineWidth = 3;
+		c.strokeStyle = '#111';
+		c.stroke();
+	}
 
 	c.fillStyle = '#ccc';
 	c.font = `bold 20px Teko, Arial, sans-serif`;
 	c.textAlign = 'center';
 	c.textBaseline = 'middle';
-	c.fillText('ROCKET STEER', STICK_CX, STICK_CY + STICK_BASE_R + 22);
+	c.fillText('ROCKET STEER', CTRL_W / 2, STICK_CY + STICK_R + 22);
 }
 
 // Darken a hex colour slightly for the pressed state

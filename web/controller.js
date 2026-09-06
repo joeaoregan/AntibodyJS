@@ -57,6 +57,11 @@ function startGame() {
 }
 function reset() {
 	powerupNewLife.reset();
+	if (typeof powerupHealth !== 'undefined' && powerupHealth) powerupHealth.reset();
+	if (typeof powerupLaser !== 'undefined' && powerupLaser) powerupLaser.reset();
+	if (typeof powerupRocket !== 'undefined' && powerupRocket) powerupRocket.reset();
+	if (typeof saw !== 'undefined' && saw) { saw.deactivate(); saw.energy = SAW_MAX_ENERGY; saw.burnedOut = false; }
+	player1.reset(); // clears health/lives/laser grade & progress/rockets for the new game
 	bloodcellsDestroyed = 0;
 	time.reset();
 	score.reset();

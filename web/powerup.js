@@ -37,6 +37,9 @@ class PowerUp extends GameObject {
 			if (player1.health < MAX_HEALTH) {
 				player1.health = Math.min(player1.health + 50, MAX_HEALTH);
 				if (!game.mute) powerupFX.play();
+				game.scoreTexts.push(
+					new ScoreText(player1.x, player1.y - 20, "+50 HP!", "#0F0")
+				);
 			}
 			if (typeof saw !== 'undefined' && saw) saw.recharge();
 		} else if (this.effect === 'laser') {
