@@ -22,5 +22,6 @@
     "SawBlue": {"frames": 1, "w": 40, "h": 40 },
     "PowerUpLaser": {"frames": 1, "w": 60, "h": 48 },
     "LaserGunV2": {"frames": 1, "w": 60, "h": 48 },
-    "LaserGunV3": {"frames": 1, "w": 60, "h": 48 }
+    "LaserGunV3": {"frames": 1, "w": 60, "h": 48 },
+    "Rocket": {"frames": 1, "w": 75, "h": 20 }
 }

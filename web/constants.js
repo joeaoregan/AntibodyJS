@@ -31,3 +31,8 @@ const LASER_KILLS_GRADE1 = 10; // enemy ships to kill at grade 1 before the grad
 const SAW_MAX_ENERGY = 100;
 const SAW_DRAIN = 0.3;    // energy per frame while active (lasts ~2x longer)
 const SAW_RECHARGE = 0.25; // energy per frame while inactive
+
+// Rockets: limited ammo, only one in flight at a time, bigger reward per kill
+const MAX_ROCKETS = 3;
+const SCORE_ROCKET_SHIP = 75;
+const ROCKET_SPEED = 15;

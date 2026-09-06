@@ -100,7 +100,7 @@ function ctrlPress(b) {
 	if (b.action === 'fire') fireStart();
 	if (b.action === 'ninja') { controller.ninjaStar = true; }
 	if (b.action === 'saw') { if (typeof saw !== 'undefined' && saw) saw.toggle(); }
-	if (b.action === 'rocket') { console.log('Rocket weapon not implemented yet'); }
+	if (b.action === 'rocket') { if (typeof player1 !== 'undefined' && player1) player1.fireRocket(); }
 	if (b.action === 'start') startGame();
 }
 

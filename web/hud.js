@@ -211,7 +211,6 @@ class hud {
 	}
 
 	rocketIndicator() {
-		// Placeholder box until rockets are implemented
 		ctx.fillStyle = "#223";
 		ctx.fillRect(RocketBox.x, RocketBox.y, RocketBox.w, RocketBox.h);
 
@@ -223,8 +222,18 @@ class hud {
 
 		const iconH = RocketBox.h - 8, iconW = Math.round(iconH * (30 / 60));
 		if (rocketIconImg.complete) {
-			ctx.drawImage(rocketIconImg, RocketBox.x + (RocketBox.w - iconW) / 2, RocketBox.y + (RocketBox.h - iconH) / 2, iconW, iconH);
+			ctx.save();
+			if (player1.rockets <= 0) ctx.filter = "grayscale(1) brightness(0.6)"; // out of rockets
+			ctx.drawImage(rocketIconImg, RocketBox.x + 6, RocketBox.y + (RocketBox.h - iconH) / 2, iconW, iconH);
+			ctx.restore();
 		}
+
+		ctx.lineWidth = 1;
+		ctx.font = "22px Teko";
+		ctx.fillStyle = "#FFF";
+		const label = "x" + player1.rockets;
+		ctx.fillText(label, RocketBox.x + 6 + iconW + 6, RocketBox.y + RocketBox.h / 2 + 8);
+		ctx.strokeText(label, RocketBox.x + 6 + iconW + 6, RocketBox.y + RocketBox.h / 2 + 8);
 	}
 }
 

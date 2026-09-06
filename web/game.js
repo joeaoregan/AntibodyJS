@@ -246,6 +246,33 @@ class Game {
 					break;
 				}
 
+				// Rocket destroys enemy ships (biggest single bonus, limited ammo)
+				if (
+					projectile.type === "Rocket" &&
+					target.type === "EnemyShip" &&
+					collision(projectile, target)
+				) {
+					score.value += SCORE_ROCKET_SHIP;
+					score.high = Math.max(score.value, score.high);
+					localStorage.setItem("highscore", score.high);
+					updateScore();
+
+					this.scoreTexts.push(
+						new ScoreText(target.x + target.w / 2, target.y, "+" + SCORE_ROCKET_SHIP)
+					);
+
+					this.objects.push(
+						new Explosion("Explosion", target.x, target.y)
+					);
+
+					if (!this.mute) explosionFX.play();
+
+					target.reset();
+					player1.laserKillCount++;
+					projectile.remove();
+					break;
+				}
+
 				// Ninja star splits blood cells (destroys them, blood splatter)
 				if (
 					projectile.type === "NinjaStarBlue" &&

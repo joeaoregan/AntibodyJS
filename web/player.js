@@ -90,6 +90,17 @@ class Player extends GameObject {
         }
     }
 
+    fireRocket() {
+        if (state.current !== state.game) return;
+        if (this.rockets > 0 && !this.rocketActive) {
+            const r = new Rocket("Rocket", this.x + this.w, this.y + this.h / 2 - 10, ROCKET_SPEED, 1);
+            game.objects.push(r);
+            this.rockets--;
+            this.rocketActive = true;
+            if (!game.mute) fireFX.play();
+        }
+    }
+
     updateHealth(damage = DAMAGE_ENEMY_LASER) {
         // Saw deflects damage while it's active
         if (typeof saw !== 'undefined' && saw && saw.active) return;
@@ -179,5 +190,7 @@ class Player extends GameObject {
         this.particles = [];
         this.laserGrade = 0; // 0 = single, upgraded by laser power-up
         this.laserKillCount = 0; // enemy ship kills toward the next laser upgrade
+        this.rockets = MAX_ROCKETS;
+        this.rocketActive = false; // only one rocket in flight at a time
     }
 }

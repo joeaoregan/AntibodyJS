@@ -141,6 +141,9 @@ window.addEventListener('keydown', function (e) {
 		case 69: // E — toggle saw
 			if (typeof saw !== 'undefined' && saw) saw.toggle();
 			break;
+		case 67: // C — fire rocket
+			if (typeof player1 !== 'undefined' && player1) player1.fireRocket();
+			break;
 		case 77: // m
 			toggleAudio(); // Mute / Unmute music + FX
 			break;
