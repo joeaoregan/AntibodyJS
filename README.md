@@ -14,7 +14,7 @@
 
 [![Repository Size](https://img.shields.io/github/repo-size/joeoregan/JS-Antibody?style=flat-square)](https://github.com/joeoregan/JS-Antibody)
 [![Last Commit](https://img.shields.io/github/last-commit/joeoregan/JS-Antibody?style=flat-square)](https://github.com/joeoregan/JS-Antibody/commits)
-![GitHub language count](https://img.shields.io/github/languages/count/joeaoregan/JS-Antibody)
+![GitHub language count](https://img.shields.io/github/languages/count/joeoregan/JS-Antibody)
 ![GitHub top language](https://img.shields.io/github/languages/top/joeoregan/JS-Antibody)
 ![Stars](https://img.shields.io/github/stars/joeoregan/JS-Antibody?style=social)
 
