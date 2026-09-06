@@ -40,3 +40,12 @@ const ROCKET_SPEED = 15;
 const ROCKET_CHARGE_MAX = 180; // frames to fully charge (3s @60fps, matches the C++ timer)
 const ROCKET_MAX_BONUS = 50;   // extra score for a fully charged hit
 const ROCKET_STEER_SPEED = 4;  // vertical steering speed while the rocket is in flight
+
+// Green virus: tracks the player's Y while approaching, splits in two when cut
+const NUM_VIRUS_GREEN = 2;      // persistent pool of large viruses on screen
+const VIRUS_SPEED = 2;          // large virus horizontal speed
+const VIRUS_SMALL_SPEED = 1.5;  // small (split) virus horizontal speed
+const VIRUS_TRACK_SPEED = 1;    // vertical tracking speed while right of the player
+const VIRUS_DAMAGE = 20;        // contact damage dealt to the player
+const SCORE_VIRUS_GREEN = 10;
+const SCORE_VIRUS_GREEN_SMALL = 5;

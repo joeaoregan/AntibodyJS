@@ -54,6 +54,10 @@ class Game {
 				this.objects.push(new Bloodcell("BloodCell"));
 			}
 
+			for (let i = 0; i < NUM_VIRUS_GREEN; i++) {
+				this.objects.push(new Virus("VirusGreen"));
+			}
+
 			// Load the instances into memory
 			await Promise.all(this.objects.map(obj => obj.load()));
 
@@ -178,6 +182,35 @@ class Game {
 
 	spawnRocketPowerUp() {
 		powerupRocket.active = true;
+	}
+
+	// Award score + explosion for a virus kill; splits large viruses when doSplit is true
+	handleVirusHit(target, scoreValue, doSplit) {
+		score.value += scoreValue;
+		score.high = Math.max(score.value, score.high);
+		localStorage.setItem("highscore", score.high);
+		updateScore();
+
+		this.scoreTexts.push(
+			new ScoreText(target.x + target.w / 2, target.y, "+" + scoreValue)
+		);
+
+		this.objects.push(
+			new Explosion("ExplosionVirusGreen", target.x, target.y)
+		);
+
+		if (!this.mute) explosionFX.play();
+
+		player1.laserKillCount++; // counts toward the laser upgrade progress too
+
+		if (doSplit && !target.small) {
+			target.split();
+			target.reset(); // large virus respawns (persistent pool)
+		} else if (target.isSplitSpawn) {
+			target.remove();
+		} else {
+			target.reset();
+		}
 	}
 
 	collisions() {
@@ -357,6 +390,62 @@ class Game {
 					bloodcellsDestroyed++;
 					target.reset();
 					saw.energy = Math.max(0, saw.energy - 5); // cutting costs energy
+				}
+
+				// Laser destroys viruses outright (no split — only ninja star/saw split them)
+				if (
+					projectile.type === "LaserGreen" &&
+					(target.type === "VirusGreen" || target.type === "VirusGreenSmall") &&
+					collision(projectile, target)
+				) {
+					this.handleVirusHit(target, target.small ? SCORE_VIRUS_GREEN_SMALL : SCORE_VIRUS_GREEN, false);
+					this.objects.splice(i, 1);
+					break;
+				}
+
+				// Ninja star splits large viruses in two; small ones are just destroyed
+				if (
+					projectile.type === "NinjaStarBlue" &&
+					(target.type === "VirusGreen" || target.type === "VirusGreenSmall") &&
+					collision(projectile, target)
+				) {
+					this.handleVirusHit(target, target.small ? SCORE_VIRUS_GREEN_SMALL : SCORE_VIRUS_GREEN, true);
+					this.objects.splice(i, 1);
+					break;
+				}
+
+				// Rocket destroys viruses outright, with the same charge bonus as ships
+				if (
+					projectile.type === "Rocket" &&
+					(target.type === "VirusGreen" || target.type === "VirusGreenSmall") &&
+					collision(projectile, target)
+				) {
+					const scoreValue = (target.small ? SCORE_VIRUS_GREEN_SMALL : SCORE_VIRUS_GREEN) + (projectile.bonus || 0);
+					this.handleVirusHit(target, scoreValue, false);
+					projectile.remove();
+					break;
+				}
+
+				// Active saw splits large viruses in two; small ones are just destroyed (costs energy)
+				if (
+					saw && saw.active &&
+					(target.type === "VirusGreen" || target.type === "VirusGreenSmall") &&
+					collision(saw, target)
+				) {
+					this.handleVirusHit(target, target.small ? SCORE_VIRUS_GREEN_SMALL : SCORE_VIRUS_GREEN, true);
+					saw.energy = Math.max(0, saw.energy - (target.small ? 5 : 10));
+				}
+
+				// Viruses damage the player on direct contact (no weapon needed)
+				if (
+					(projectile.type === "VirusGreen" || projectile.type === "VirusGreenSmall") &&
+					target.type === "Player1" &&
+					collision(projectile, target)
+				) {
+					target.updateHealth(VIRUS_DAMAGE);
+					if (projectile.isSplitSpawn) projectile.remove();
+					else projectile.reset();
+					break;
 				}
 			}
 		}

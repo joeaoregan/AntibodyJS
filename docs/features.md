@@ -31,12 +31,14 @@ Features already working in the JavaScript version.
 - [x] Enemy blue laser fire
 - [x] Saw: melee weapon hovering in front of ship (E key / on-screen Y), cuts blood cells and enemy ships, invincibility while active; energy drains with use and requires a full recharge after burning out; HUD icon + energy bar
 - [x] Rockets: 5-rocket inventory (cap 10), hold-to-charge with power bar and score bonus, steerable up/down after launch (R/F keys or two on-screen thumbsticks), particle trail, HUD icon + count
+- [x] Ninja star / saw virus splitting: splits a green virus into 2 small viruses on hit (laser and rockets destroy it outright, no split)
 
 ### Enemies & Obstacles
 
 - [x] Nano-bot enemy ship: right-to-left movement, 4-frame animation, fires back at player, respawns at random Y
 - [x] Blood cells: rotating, scroll with background, destroyable (blood splatter explosion)
 - [x] Bloodcell Count bar: game over when all blood cells are destroyed
+- [x] Green virus: tracks the player's Y while approaching from the right, then continues straight; deals contact damage; splits into 2 small viruses when hit by ninja star / saw
 
 ### Power-Ups
 
@@ -103,14 +105,12 @@ Features from the C++ original (AntibodyV3 Year 3 Project) not yet ported.
 
 ### Weapons
 
-- [ ] Ninja star virus splitting (spawn 2 small viruses) + per-player kill-rate tracking — base projectile done; needs viruses
+- [ ] Per-player ninja-star kill-rate tracking (2-player mode)
 
 ### Enemies & Obstacles
 
-- [ ] Green virus: tracks nearest player, splits into small viruses when hit by ninja star / saw
 - [ ] Orange virus: tracks player, explodes on collision, approach warning message
 - [ ] Blue virus: fires satellite projectiles, spawns orbiting satellites
-- [ ] Small virus variants spawned after splits
 - [ ] Large blood cell: stalker movement (chases small viruses)
 - [ ] Small blood cell
 - [ ] White blood cell: guardian, hunts small viruses
