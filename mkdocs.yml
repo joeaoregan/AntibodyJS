@@ -39,6 +39,7 @@ theme:
 nav:
   - Home: 
     - Overview: index.md
+  - Features: features.md
   - Play: https://joeoregan.github.io/JS-Antibody/game/
 
 

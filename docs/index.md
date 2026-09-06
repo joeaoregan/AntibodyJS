@@ -78,6 +78,8 @@ They are being consolidated here so the game, its deployment configuration, and 
 ## Related projects
 
 - [Original Antibody C++ project](https://github.com/joeaoregan/LIT-Yr3-Project-Antibody)
-- [AntibodyJS-WebApp](https://github.com/joeaoregan/AntibodyJS-WebApp)
 - [Python version](https://github.com/joeaoregan/AntibodyPy)
 
+## Features
+
+- [Feature List](features.md)
