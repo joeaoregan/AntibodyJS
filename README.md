@@ -35,6 +35,10 @@
   <img src="docs/screenshots/screenshot1.jpg" alt="Antibody Gameplay" width="600">
 </div>
 
+<div align="center">
+  <img src="docs/screenshots/screenshot2.jpg" alt="Antibody Extended Gameplay" width="600">
+</div>
+
 <details open>
   <summary>1. Play the game</summary>
 
