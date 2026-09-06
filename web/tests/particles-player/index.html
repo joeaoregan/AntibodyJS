@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<!-- Resolve all relative asset paths (art/, audio/, css/) from web/ root -->
+	<base href="../../" />
+	<title>Antibody JS: Player Particles Test</title>
+	<link href="css/styles.css" rel="stylesheet" />
+	<link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+
+	<!--[if lt IE 9]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+</head>
+
+<body>
+	<header class="topbar">
+		<div class="container topbar-row">
+			<nav class="topnav" aria-label="Main navigation">
+				<a class="nav-link" href="https://joeoregan.github.io/">Home</a>
+				<a class="nav-link" href="https://joeoregan.github.io/JS-Antibody/">Antibody</a>
+				<a class="nav-link active" href="./">Particle Test</a>
+				<a class="nav-link" href="https://joeoregan.github.io/JS-Antibody/">Docs</a>
+			</nav>
+
+			<button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark/light theme">
+				Toggle Theme
+			</button>
+		</div>
+	</header>
+
+	<main class="container page-content">
+		<section class="panel">
+			<h1>Antibody JavaScript: Player Particle Test</h1>
+			<canvas id="antibody" width="1280" height="720"></canvas>
+		</section>
+
+		<br />
+
+		<section class="panel controller-border" id="controller">
+			<h2>Double-Tapping Outside This Zone Will Lose Focus</h2>
+			<div class="controller">
+				<div class="button-box">
+					<button class="button button-round" ontouchstart="moveUp()" onmousedown="moveUp()"
+						onmouseup="moveYClear()" ontouchend="moveYClear()">&nbsp;&nbsp;&#8593;&nbsp;&nbsp;</button><br>
+					<button class="button button-round" ontouchstart="moveLeft()" onmousedown="moveLeft()"
+						onmouseup="moveXClear()" ontouchend="moveXClear()">&nbsp;&#8592;&nbsp;</button>
+					<span class="button-divider"></span>
+					<button class="button button-round" ontouchstart="moveRight()" onmousedown="moveRight()"
+						onmouseup="moveXClear()" ontouchend="moveXClear()">&nbsp;&#8594;&nbsp;</button><br>
+					<button class="button button-round" ontouchstart="moveDown()" onmousedown="moveDown()"
+						onmouseup="moveYClear()" ontouchend="moveYClear()">&nbsp;&nbsp;&#8595;&nbsp;&nbsp;</button>
+				</div>
+				<span class="button-divider"></span>
+				<button class="button button-start" onmouseup="startGame()">START</button>
+				<span class="button-divider"></span>
+				<div class="button-box">
+					<button class="button button-round buttonX" onmousedown="fire()"
+						onmouseup="fire()">&nbsp;X&nbsp;</button><br>
+					<button class="button button-round buttonY" onmousedown="fire()"
+						onmouseup="fire()">&nbsp;Y&nbsp;</button>
+					<span class="button-divider"></span>
+					<button class="button button-round buttonA" onmousedown="fire()"
+						onmouseup="fire()">&nbsp;A&nbsp;</button><br>
+					<button class="button button-round buttonB" onmousedown="fire()"
+						onmouseup="fire()">&nbsp;B&nbsp;</button>
+				</div>
+			</div>
+			<h2>The A, B, X, and Y Buttons Do The Same Thing</h2>
+		</section>
+
+		<br />
+
+		<section class="panel body-border">
+			<div>
+				<h2>Current Top Score</h2>
+				<p id="scoreID"></p>
+			</div>
+
+			<div>
+				<button class="accordion">Controls</button>
+				<div class="panel-inner">
+					<ul>
+						<li><b>A, 4, &larr;</b> = Left</li>
+						<li><b>S, 2, &darr;</b> = Down</li>
+						<li><b>D, 6, &rarr;</b> = Right</li>
+						<li><b>W, 8, &uarr;</b> = Up</li>
+						<li><b>SPACE, Right Click</b> = Fire</li>
+						<li><b>M</b> = Mute/Unmute Sound FX</li>
+						<li><b>F5</b> = Reset Game</li>
+						<li><b>F11</b> = Full Screen</li>
+						<li><b>P</b> = Pause / Play</li>
+					</ul>
+				</div>
+
+				<button class="accordion">Info</button>
+				<div class="panel-inner">
+					<ul>
+						<li><img src="art/EnemyShip.png" height="30" /> Score points by destroying enemy ships</li>
+						<li><img src="art/Player1.png" height="30" /> Player does not lose health when flashing</li>
+						<li>If the Bloodcell Count goes below zero, the game is over</li>
+						<li><img src="art/BloodCell.png" height="30" /> So, try not to destroy blood cells</li>
+						<li>The timer doesn't do anything yet</li>
+						<li><img src="art/PowerUpLife.png" /> Collect power ups for health</li>
+						<li><img src="art/LaserBlue.png" height="5" /> Don't get shot</li>
+					</ul>
+
+					<p>
+						<a href="https://github.com/JoeORegan/JS-Antibody" target="_blank" rel="noopener">Antibody JS
+							GitHub Repo</a>
+					</p>
+				</div>
+
+				<script src="accordion.js"></script>
+			</div>
+		</section>
+	</main>
+
+	<script>
+		(function () {
+			const saved = localStorage.getItem("antibody-theme");
+			if (saved === "light" || saved === "dark") {
+				document.documentElement.setAttribute("data-theme", saved);
+			} else {
+				document.documentElement.setAttribute("data-theme", "dark");
+			}
+
+			const btn = document.getElementById("themeToggle");
+			if (!btn) return;
+
+			btn.addEventListener("click", function () {
+				const current = document.documentElement.getAttribute("data-theme") || "dark";
+				const next = current === "dark" ? "light" : "dark";
+				document.documentElement.setAttribute("data-theme", next);
+				localStorage.setItem("antibody-theme", next);
+			});
+		})();
+	</script>
+
+	<script src="constants.js"></script>
+	<script src="controller.js"></script>
+	<script src="game-object.js"></script>
+	<script src="particle.js"></script>
+	<script src="player.js"></script>
+	<script src="bloodcell.js"></script>
+	<script src="background.js"></script>
+	<script src="text.js"></script>
+	<script src="hud.js"></script>
+	<script src="tests/particles-player/particles_player.js"></script>
+</body>
+
+</html>
