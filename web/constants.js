@@ -33,7 +33,8 @@ const SAW_DRAIN = 0.3;    // energy per frame while active (lasts ~2x longer)
 const SAW_RECHARGE = 0.25; // energy per frame while inactive
 
 // Rockets: limited ammo, only one in flight at a time, bigger reward per kill
-const MAX_ROCKETS = 3;
+const ROCKET_START = 5; // rockets the player begins with
+const ROCKET_MAX = 10;  // most rockets the player can carry
 const SCORE_ROCKET_SHIP = 75;
 const ROCKET_SPEED = 15;
 const ROCKET_CHARGE_MAX = 180; // frames to fully charge (3s @60fps, matches the C++ timer)

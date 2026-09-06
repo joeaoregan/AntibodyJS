@@ -8,7 +8,9 @@ var enemyShip;
 var powerupNewLife;
 var powerupHealth;
 var powerupLaser;
+var powerupRocket;
 var saw;
+let rocketSpawnTimer = 700; // frames until the next rocket power-up appears
 
 // GAME STATE
 const state = {
@@ -60,8 +62,9 @@ class Game {
 			powerupNewLife = new PowerUp('PowerUpLife', 'life');
 			powerupHealth = new PowerUp('PowerUpHealth', 'health');
 			powerupLaser = new PowerUp('PowerUpLaser', 'laser');
+			powerupRocket = new PowerUp('Rocket', 'rocket');
 			saw = new Saw('SawBlue', player1);
-			await Promise.all([powerupNewLife.load(), powerupHealth.load(), powerupLaser.load(), saw.load()]);
+			await Promise.all([powerupNewLife.load(), powerupHealth.load(), powerupLaser.load(), powerupRocket.load(), saw.load()]);
 
 			console.log("All systems green. Starting game loop.");
 			loop(); // Start the animation loop here
@@ -89,6 +92,9 @@ class Game {
 			if (powerupLaser) {
 				powerupLaser.update();
 			}
+			if (powerupRocket) {
+				powerupRocket.update();
+			}
 			if (saw) {
 				saw.update();
 			}
@@ -105,6 +111,17 @@ class Game {
 				const killsNeeded = player1.laserGrade === 0 ? LASER_KILLS_GRADE0 : LASER_KILLS_GRADE1;
 				if (powerupLaser && !powerupLaser.active && player1.laserKillCount >= killsNeeded) {
 					this.spawnLaserPowerUp();
+				}
+			}
+
+			// Offer a rocket power-up periodically, until the player is fully stocked
+			if (state.current == state.game && player1.rockets < ROCKET_MAX) {
+				if (powerupRocket && !powerupRocket.active) {
+					rocketSpawnTimer--;
+					if (rocketSpawnTimer <= 0) {
+						this.spawnRocketPowerUp();
+						rocketSpawnTimer = 700;
+					}
 				}
 			}
 
@@ -142,6 +159,9 @@ class Game {
 		if (powerupLaser) {
 			powerupLaser.draw();
 		}
+		if (powerupRocket) {
+			powerupRocket.draw();
+		}
 	}
 
 	spawnLife() {
@@ -154,6 +174,10 @@ class Game {
 
 	spawnLaserPowerUp() {
 		powerupLaser.active = true;
+	}
+
+	spawnRocketPowerUp() {
+		powerupRocket.active = true;
 	}
 
 	collisions() {

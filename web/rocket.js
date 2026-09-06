@@ -1,9 +1,10 @@
 /*
 	rocket.js
-	Player rocket weapon: limited ammo (starts with MAX_ROCKETS), only one in
-	flight at a time, straight-line flight with a particle exhaust trail.
-	Hold-to-charge before launch (bigger bonus score for a fuller charge),
-	then steerable up/down after launch using the same movement keys/D-pad.
+	Player rocket weapon: limited ammo (starts with ROCKET_START, capped at
+	ROCKET_MAX), only one in flight at a time, straight-line flight with a
+	particle exhaust trail. Hold-to-charge before launch (bigger bonus score
+	for a fuller charge), then steerable up/down after launch (R/F keys or
+	the mobile rocket-steer thumbsticks).
 */
 class Rocket extends GameObject {
 	constructor(src, x, y, speed, direction) {
