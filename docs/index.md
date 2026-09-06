@@ -4,7 +4,7 @@
 
 Antibody JavaScript is a browser-based 2D side-scrolling action game in which the player travels through the human body, destroys hostile viruses and enemy ships, avoids incoming fire, and protects healthy blood cells.
 
-[Play on GitHub Pages](https://joeoregan.github.io/JS-Antibody/game/) · [Play on Render](https://antibody-js.onrender.com/)
+[Play on GitHub Pages ⇗](https://joeoregan.github.io/JS-Antibody/game/) · [Play on Render ⇗](https://antibody-js.onrender.com/)
 
 ## About the game
 

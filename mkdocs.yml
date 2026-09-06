@@ -41,6 +41,7 @@ nav:
     - Overview: index.md
   - Features: features.md
   - Play: https://joeoregan.github.io/JS-Antibody/game/
+  - Tests: https://joeoregan.github.io/JS-Antibody/game/tests/
 
 
 markdown_extensions:
