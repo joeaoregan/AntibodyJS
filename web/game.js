@@ -74,6 +74,8 @@ class Game {
 			this.scoreTexts.forEach(t => t.update());
 			this.scoreTexts = this.scoreTexts.filter(t => !t.dead);
 
+			nowPlaying.update(); // fade the music track popup
+
 			if (powerupNewLife) {
 				powerupNewLife.update();
 			}
@@ -107,6 +109,7 @@ class Game {
 
 		hud1.draw();
 		fpsCounter.draw(); // FPS overlay (toggle F1)
+		nowPlaying.draw(); // music track popup (fades)
 		if (powerupNewLife) {
 			powerupNewLife.draw();
 		}

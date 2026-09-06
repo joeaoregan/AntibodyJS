@@ -37,3 +37,6 @@ venv/
 # AntibodyJS WebApp
 *.bak
 static/
+
+# local dev
+dev/
