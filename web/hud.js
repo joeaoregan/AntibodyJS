@@ -83,6 +83,32 @@ const RocketProgress = {
 	h: 10
 }
 
+// Player 2 is a greyed-out mirrored layout until two-player mode is enabled.
+const P2Box = {
+	x: canvas.width - P1Box.x - P1Box.w,
+	y: P1Box.y,
+	w: P1Box.w,
+	h: P1Box.h
+}
+const P2RocketBox = {
+	x: (canvas.width / 2) + 200 + WEAPON_BOX_MARGIN,
+	y: WEAPON_BOX_Y,
+	w: WEAPON_BOX_W,
+	h: WEAPON_BOX_H
+}
+const P2SawBox = {
+	x: P2RocketBox.x + WEAPON_BOX_W + WEAPON_BOX_SPACING,
+	y: WEAPON_BOX_Y,
+	w: WEAPON_BOX_W,
+	h: WEAPON_BOX_H
+}
+const P2LaserBox = {
+	x: P2SawBox.x + WEAPON_BOX_W + WEAPON_BOX_SPACING,
+	y: WEAPON_BOX_Y,
+	w: WEAPON_BOX_W,
+	h: WEAPON_BOX_H
+}
+
 class hud {
 	constructor() {
 		this.sX = 0;
@@ -97,6 +123,9 @@ class hud {
 	draw() {
 		ctx.save(); // 1. Save state (protects against player transparency/rotations)
 
+		ctx.fillStyle = "#30373d";
+		ctx.fillRect(0, 600, 1280, 120);
+
 		//HUD outline
 		ctx.beginPath();
 		ctx.lineWidth = "1";
@@ -109,6 +138,7 @@ class hud {
 		this.laserIndicator();
 		this.sawIndicator();
 		this.rocketIndicator();
+		this.p2Layout();
 
 		// 2. Remove the textAlign and textBaseline lines from here.
 		// This allows levelTxt, score, etc., to use their own internal alignment.
@@ -127,16 +157,16 @@ class hud {
 
 		ctx.beginPath();
 		ctx.lineWidth = "1";
-		ctx.strokStyle = "grey";
+		ctx.strokeStyle = 'grey';
 		ctx.rect(P1Box.x, P1Box.y, P1Box.w, P1Box.h);
 		ctx.stroke();
 
 		if (player1.lives >= 3)
-			ctx.drawImage(lifeP1, this.sX, this.sY, this.w, this.h, P1Box.x + (P1Box.w * 3 / 3) - (life.w / 2) - P1Box.w * 1 / 6, P1Box.y + life.y, life.w, life.h);
+			ctx.drawImage(lifeP1, this.sX, this.sY, this.w, this.h, P1Box.x + P1Box.w * (1 / 6) - life.w / 2, P1Box.y + life.y, life.w, life.h);
 		if (player1.lives >= 2)
-			ctx.drawImage(lifeP1, this.sX, this.sY, this.w, this.h, P1Box.x + (P1Box.w * 2 / 3) - (life.w / 2) - P1Box.w * 1 / 6, P1Box.y + life.y, life.w, life.h);
+			ctx.drawImage(lifeP1, this.sX, this.sY, this.w, this.h, P1Box.x + P1Box.w * (3 / 6) - life.w / 2, P1Box.y + life.y, life.w, life.h);
 		if (player1.lives >= 1)
-			ctx.drawImage(lifeP1, this.sX, this.sY, this.w, this.h, P1Box.x + (P1Box.w * 1 / 3) - (life.w / 2) - P1Box.w * 1 / 6, P1Box.y + life.y, life.w, life.h);
+			ctx.drawImage(lifeP1, this.sX, this.sY, this.w, this.h, P1Box.x + P1Box.w * (5 / 6) - life.w / 2, P1Box.y + life.y, life.w, life.h);
 
 		ctx.lineWidth = 1;
 		ctx.font = "25px Teko";
@@ -145,8 +175,82 @@ class hud {
 		P1Box.lifeTxt = 'Lives';
 		P1Box.lifeTxtWidth = ctx.measureText(P1Box.lifeTxt).width;
 
-		ctx.fillText(P1Box.lifeTxt, P1Box.x + (P1Box.w / 2) - (P1Box.lifeTxtWidth / 2), P1Box.y + 18);
-		ctx.strokeText(P1Box.lifeTxt, P1Box.x + (P1Box.w / 2) - (P1Box.lifeTxtWidth / 2), P1Box.y + 18);
+		ctx.fillText(P1Box.lifeTxt, P1Box.x + (P1Box.w / 2) - (P1Box.lifeTxtWidth / 2), P1Box.y + 20);
+		ctx.strokeText(P1Box.lifeTxt, P1Box.x + (P1Box.w / 2) - (P1Box.lifeTxtWidth / 2), P1Box.y + 20);
+
+		ctx.font = "22px Teko";
+		ctx.fillStyle = "#FFF";
+		ctx.textAlign = "center";
+		ctx.fillText("Player 1", P1Box.x + P1Box.w / 2, P1Box.y + P1Box.h + 30);
+		ctx.textAlign = "start";
+	}
+
+	p2Layout() {
+		const boxes = [P2RocketBox, P2SawBox, P2LaserBox, P2Box];
+		const drawFlipped = (img, x, y, w, h) => {
+			ctx.save();
+			ctx.translate(x + w, y);
+			ctx.scale(-1, 1);
+			ctx.drawImage(img, 0, 0, w, h);
+			ctx.restore();
+		};
+		ctx.save();
+		ctx.globalAlpha = 0.45;
+		ctx.filter = "grayscale(1)";
+
+		boxes.forEach(box => {
+			ctx.fillStyle = "#555";
+			ctx.fillRect(box.x, box.y, box.w, box.h);
+			ctx.strokeStyle = "#999";
+			ctx.lineWidth = 1;
+			ctx.strokeRect(box.x, box.y, box.w, box.h);
+		});
+
+		if (rocketIconImg.complete) {
+			const iconH = P2RocketBox.h - 8;
+			const iconW = Math.round(iconH * (30 / 60));
+			ctx.drawImage(rocketIconImg, P2RocketBox.x + P2RocketBox.w - iconW - 6, P2RocketBox.y + (P2RocketBox.h - iconH) / 2, iconW, iconH);
+			ctx.font = "22px Teko";
+			ctx.fillStyle = "#FFF";
+			ctx.fillText("x5", P2RocketBox.x + 6, P2RocketBox.y + P2RocketBox.h / 2 + 8);
+		}
+
+		if (sawIconImg.complete) {
+			const iconSize = P2SawBox.w - 12;
+			drawFlipped(sawIconImg, P2SawBox.x + (P2SawBox.w - iconSize) / 2, P2SawBox.y + (P2SawBox.h - iconSize) / 2, iconSize, iconSize);
+		}
+
+		const iconW = P2LaserBox.w - 8;
+		const iconH = Math.round(iconW * (48 / 60));
+		const laserImg = laserIconImgs.PowerUpLaser;
+		if (laserImg.complete) {
+			drawFlipped(laserImg, P2LaserBox.x + (P2LaserBox.w - iconW) / 2, P2LaserBox.y + (P2LaserBox.h - iconH) / 2, iconW, iconH);
+		}
+
+		for (let lifeIndex = 0; lifeIndex < 3; lifeIndex++) {
+			drawFlipped(
+				lifeP1,
+				P2Box.x + P2Box.w * (5 / 6 - lifeIndex / 3) - life.w / 2,
+				P2Box.y + life.y, life.w, life.h
+			);
+		}
+
+		[P2RocketBox, P2SawBox, P2LaserBox].forEach(box => {
+			const progressY = box.y + box.h + 6;
+			ctx.strokeStyle = "#555";
+			ctx.lineWidth = 1;
+			ctx.strokeRect(box.x, progressY, box.w, 10);
+			ctx.fillStyle = "#777";
+			ctx.fillRect(box.x, progressY, box.w, 10);
+		});
+
+		ctx.filter = "none";
+		ctx.fillStyle = "#FFF";
+		ctx.font = "22px Teko";
+		ctx.textAlign = "center";
+		ctx.fillText("Lives", P2Box.x + P2Box.w / 2, P2Box.y + 20);
+		ctx.fillText("Player 2", P2Box.x + P2Box.w / 2, P2Box.y + P2Box.h + 30);
+		ctx.restore();
 	}
 
 	laserIndicator() {
