@@ -123,7 +123,7 @@ class Player extends GameObject {
 
         const chargeFraction = Math.min(1, this.rocketCharge / ROCKET_CHARGE_MAX);
         const r = new Rocket("Rocket", this.x + this.w, this.y + this.h / 2 - 10, ROCKET_SPEED, 1);
-        r.bonus = Math.round(chargeFraction * ROCKET_MAX_BONUS);
+        r.bonus = Math.round((chargeFraction * ROCKET_MAX_BONUS) / 5) * 5;
         game.objects.push(r);
 
         this.rockets--;

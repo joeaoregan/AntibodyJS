@@ -63,9 +63,15 @@ class PowerUp extends GameObject {
 			if (player1.lives < 3) {
 				player1.lives++;
 				if (!game.mute) powerupFX.play();
+				game.scoreTexts.push(
+					new ScoreText(player1.x, player1.y - 20, "+1 Life!", "#0F0")
+				);
 			} else if (player1.health < MAX_HEALTH) {
 				player1.health = MAX_HEALTH;
 				if (!game.mute) powerupFX.play();
+				game.scoreTexts.push(
+					new ScoreText(player1.x, player1.y - 20, "+100 HP!", "#0F0")
+				);
 			}
 		}
 	}

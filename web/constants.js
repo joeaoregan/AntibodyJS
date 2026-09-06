@@ -37,7 +37,7 @@ const ROCKET_START = 5; // rockets the player begins with
 const ROCKET_MAX = 10;  // most rockets the player can carry
 const SCORE_ROCKET_SHIP = 75;
 const ROCKET_SPEED = 15;
-const ROCKET_CHARGE_MAX = 180; // frames to fully charge (3s @60fps, matches the C++ timer)
+const ROCKET_CHARGE_MAX = 120; // frames to fully charge (2s @60fps)
 const ROCKET_MAX_BONUS = 50;   // extra score for a fully charged hit
 const ROCKET_STEER_SPEED = 4;  // vertical steering speed while the rocket is in flight
 
