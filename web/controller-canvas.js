@@ -33,11 +33,11 @@ const CTRL_BUTTONS = [
 	{ id: 'right',  x: LEFT_CX + BTN_OFF,    y: CLUSTER_CY,           r: BTN_R, label: '→', colour: '#f14', flag: 'right' },
 	{ id: 'down',   x: LEFT_CX,              y: CLUSTER_CY + BTN_OFF, r: BTN_R, label: '↓', colour: '#f14', flag: 'down' },
 
-	// ABXY (right cluster): A/B = laser, X/Y = ninja star
-	{ id: 'X', x: RIGHT_CX,             y: CLUSTER_CY - BTN_OFF, r: BTN_R, label: 'X', colour: '#00f', action: 'ninja' },
-	{ id: 'Y', x: RIGHT_CX - BTN_OFF,   y: CLUSTER_CY,           r: BTN_R, label: 'Y', colour: '#0f0', action: 'ninja' },
+	// ABXY (right cluster): A = laser, B = ninja star, Y = saw, X = rocket (placeholder)
+	{ id: 'X', x: RIGHT_CX,             y: CLUSTER_CY - BTN_OFF, r: BTN_R, label: 'X', colour: '#00f', action: 'rocket' },
+	{ id: 'Y', x: RIGHT_CX - BTN_OFF,   y: CLUSTER_CY,           r: BTN_R, label: 'Y', colour: '#0f0', action: 'saw' },
 	{ id: 'A', x: RIGHT_CX + BTN_OFF,   y: CLUSTER_CY,           r: BTN_R, label: 'A', colour: '#f14', action: 'fire' },
-	{ id: 'B', x: RIGHT_CX,             y: CLUSTER_CY + BTN_OFF, r: BTN_R, label: 'B', colour: '#ff0', action: 'fire', dark: true },
+	{ id: 'B', x: RIGHT_CX,             y: CLUSTER_CY + BTN_OFF, r: BTN_R, label: 'B', colour: '#ff0', action: 'ninja', dark: true },
 
 	// START (dead centre, circular) — a second middle button can go below it later
 	{ id: 'start', x: CTRL_W / 2, y: CLUSTER_CY, r: 62, label: '≡', colour: '#999', action: 'start', dark: true }
@@ -99,6 +99,8 @@ function ctrlPress(b) {
 	if (b.flag) controller[b.flag] = true;
 	if (b.action === 'fire') fireStart();
 	if (b.action === 'ninja') { controller.ninjaStar = true; }
+	if (b.action === 'saw') { if (typeof saw !== 'undefined' && saw) saw.toggle(); }
+	if (b.action === 'rocket') { console.log('Rocket weapon not implemented yet'); }
 	if (b.action === 'start') startGame();
 }
 
