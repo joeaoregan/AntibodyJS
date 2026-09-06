@@ -69,10 +69,10 @@ class Player extends GameObject {
         }
     }
 
-    updateHealth() {
+    updateHealth(damage = DAMAGE_ENEMY_LASER) {
         if (!this.flashing) {
-            if (this.health > 1) {
-                this.health--;
+            if (this.health > damage) {
+                this.health -= damage;
                 this.flashThisMany(2);
                 navigator.vibrate?.([300, 100, 300, 100, 300]); // vibrate mobile device if hit
             } else {

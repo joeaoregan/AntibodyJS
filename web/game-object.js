@@ -39,7 +39,7 @@ class GameObject {
         this.flashTimes = 0;
         this.flashing = false;
         this.lives = 1;
-        this.health = 5;
+        this.health = 100;
 
         // Debug info
         this.type = src;
