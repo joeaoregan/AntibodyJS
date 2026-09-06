@@ -65,9 +65,9 @@ class Player extends GameObject {
         if (controller.fire) this.fire();
         if (controller.ninjaStar) this.fireNinjaStar();
 
-        // Steer the in-flight rocket with the same movement keys/D-pad
+        // Steer the in-flight rocket independently of ship movement (R/F keys, or mobile thumbstick)
         if (this.rocketActive && this.activeRocketRef) {
-            const dir = controller.up ? -1 : controller.down ? 1 : 0;
+            const dir = controller.rocketUp ? -1 : controller.rocketDown ? 1 : 0;
             this.activeRocketRef.steer(dir);
         }
     }

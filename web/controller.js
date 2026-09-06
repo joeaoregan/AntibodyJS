@@ -5,6 +5,8 @@ var controller = {
 	down: false,
 	fire: false,
 	ninjaStar: false,
+	rocketUp: false,
+	rocketDown: false,
 	menu: false
 };
 
@@ -144,6 +146,12 @@ window.addEventListener('keydown', function (e) {
 		case 67: // C — hold to charge, release to launch rocket
 			if (typeof player1 !== 'undefined' && player1) player1.startRocketCharge();
 			break;
+		case 82: // R — steer rocket up
+			controller.rocketUp = true;
+			break;
+		case 70: // F — steer rocket down
+			controller.rocketDown = true;
+			break;
 		case 77: // m
 			toggleAudio(); // Mute / Unmute music + FX
 			break;
@@ -197,6 +205,12 @@ document.addEventListener('keyup', function (event) {
 			break;
 		case 67: // C — release launches the charged rocket
 			if (typeof player1 !== 'undefined' && player1) player1.releaseRocket();
+			break;
+		case 82: // R — steer rocket up
+			controller.rocketUp = false;
+			break;
+		case 70: // F — steer rocket down
+			controller.rocketDown = false;
 			break;
 	}
 });

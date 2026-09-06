@@ -11,7 +11,7 @@
 
 // Logical (design) resolution — positions below are in these units
 const CTRL_W = 1000;
-const CTRL_H = 400;
+const CTRL_H = 560; // extra band below the D-pad/ABXY rings for the rocket-steer stick
 
 // Which pointer is holding which button (pointerId -> button)
 const activePresses = new Map();
@@ -43,6 +43,17 @@ const CTRL_BUTTONS = [
 	{ id: 'start', x: CTRL_W / 2, y: CLUSTER_CY, r: 62, label: '≡', colour: '#999', action: 'start', dark: true }
 ];
 
+// Rocket-steer thumbstick: vertical-only, centred below START. Dragging it
+// up/down sets the same controller.rocketUp/rocketDown flags as the R/F keys.
+const STICK_CX = CTRL_W / 2;
+const STICK_CY = CLUSTER_CY + CLUSTER_R + 70;
+const STICK_BASE_R = 55;
+const STICK_KNOB_R = 24;
+const STICK_DEADZONE = 12; // logical units of vertical travel before it registers
+
+let stickPointerId = null; // which pointer (if any) is dragging the stick
+let stickKnobY = STICK_CY;  // current knob position (Y only; X stays centred)
+
 let ctrlCanvas = null;
 let ctrlCtx = null;
 let ctrlScale = 1; // canvas pixels per logical unit
@@ -57,6 +68,7 @@ function initControllerCanvas() {
 
 	// Pointer events unify mouse + touch
 	ctrlCanvas.addEventListener('pointerdown', ctrlPointerDown);
+	ctrlCanvas.addEventListener('pointermove', ctrlPointerMove);
 	ctrlCanvas.addEventListener('pointerup', ctrlPointerUp);
 	ctrlCanvas.addEventListener('pointercancel', ctrlPointerUp);
 	ctrlCanvas.addEventListener('pointerleave', ctrlPointerUp);
@@ -114,6 +126,15 @@ function ctrlRelease(b) {
 function ctrlPointerDown(e) {
 	e.preventDefault();
 	const p = ctrlPointerPos(e);
+
+	// Rocket-steer stick takes priority if the touch lands on it
+	if (stickPointerId === null && Math.hypot(p.x - STICK_CX, p.y - STICK_CY) <= STICK_BASE_R) {
+		stickPointerId = e.pointerId;
+		stickSetFromPoint(p.y);
+		drawController();
+		return;
+	}
+
 	const b = ctrlHit(p.x, p.y);
 	if (!b) return;
 	activePresses.set(e.pointerId, b);
@@ -121,7 +142,31 @@ function ctrlPointerDown(e) {
 	drawController();
 }
 
+function ctrlPointerMove(e) {
+	if (e.pointerId !== stickPointerId) return;
+	e.preventDefault();
+	const p = ctrlPointerPos(e);
+	stickSetFromPoint(p.y);
+	drawController();
+}
+
+// Update the stick knob + rocketUp/rocketDown flags from a vertical drag position
+function stickSetFromPoint(y) {
+	const offset = Math.max(-STICK_BASE_R, Math.min(STICK_BASE_R, y - STICK_CY));
+	stickKnobY = STICK_CY + offset;
+	controller.rocketUp = offset < -STICK_DEADZONE;
+	controller.rocketDown = offset > STICK_DEADZONE;
+}
+
 function ctrlPointerUp(e) {
+	if (e.pointerId === stickPointerId) {
+		stickPointerId = null;
+		stickKnobY = STICK_CY;
+		controller.rocketUp = false;
+		controller.rocketDown = false;
+		drawController();
+	}
+
 	const b = activePresses.get(e.pointerId);
 	if (b) {
 		ctrlRelease(b);
@@ -161,6 +206,29 @@ function drawController() {
 		c.textBaseline = 'middle';
 		c.fillText(b.label, b.x, b.y + 4);
 	}
+
+	// Rocket-steer thumbstick
+	c.beginPath();
+	c.arc(STICK_CX, STICK_CY, STICK_BASE_R, 0, Math.PI * 2);
+	c.fillStyle = 'rgba(120,150,180,0.18)';
+	c.fill();
+	c.lineWidth = 3;
+	c.strokeStyle = 'rgba(120,150,180,0.35)';
+	c.stroke();
+
+	c.beginPath();
+	c.arc(STICK_CX, stickKnobY, STICK_KNOB_R, 0, Math.PI * 2);
+	c.fillStyle = stickPointerId !== null ? '#f80' : '#999';
+	c.fill();
+	c.lineWidth = 3;
+	c.strokeStyle = '#111';
+	c.stroke();
+
+	c.fillStyle = '#ccc';
+	c.font = `bold 20px Teko, Arial, sans-serif`;
+	c.textAlign = 'center';
+	c.textBaseline = 'middle';
+	c.fillText('ROCKET STEER', STICK_CX, STICK_CY + STICK_BASE_R + 22);
 }
 
 // Darken a hex colour slightly for the pressed state
