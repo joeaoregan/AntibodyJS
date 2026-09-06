@@ -36,6 +36,7 @@ class PowerUp extends GameObject {
 		} else if (this.effect === 'laser') {
 			if (player1.laserGrade < LASER_GRADE_MAX) {
 				player1.laserGrade++;
+				player1.laserKillCount = 0; // progress resets for the next upgrade tier
 				if (!game.mute) powerupFX.play();
 				game.scoreTexts.push(
 					new ScoreText(player1.x, player1.y - 20, "Laser Upgraded!", "#0FF")

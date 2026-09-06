@@ -9,7 +9,6 @@ var powerupNewLife;
 var powerupHealth;
 var powerupLaser;
 var saw;
-let laserSpawnTimer = 600; // frames until the next laser power-up appears
 
 // GAME STATE
 const state = {
@@ -101,14 +100,11 @@ class Game {
 				this.spawnHealth();
 			}
 
-			// Offer a laser power-up periodically, until the player is fully upgraded
+			// Offer a laser power-up once enough enemy ships are destroyed (grade 0: 5, grade 1: 10)
 			if (state.current == state.game && player1.laserGrade < LASER_GRADE_MAX) {
-				if (powerupLaser && !powerupLaser.active) {
-					laserSpawnTimer--;
-					if (laserSpawnTimer <= 0) {
-						this.spawnLaserPowerUp();
-						laserSpawnTimer = 600;
-					}
+				const killsNeeded = player1.laserGrade === 0 ? LASER_KILLS_GRADE0 : LASER_KILLS_GRADE1;
+				if (powerupLaser && !powerupLaser.active && player1.laserKillCount >= killsNeeded) {
+					this.spawnLaserPowerUp();
 				}
 			}
 
@@ -191,6 +187,7 @@ class Game {
 					if (!this.mute) explosionFX.play();
 
 					target.reset();
+					player1.laserKillCount++;
 					this.objects.splice(i, 1);
 					break;
 				}
@@ -244,6 +241,7 @@ class Game {
 					if (!this.mute) explosionFX.play();
 
 					target.reset();
+					player1.laserKillCount++;
 					this.objects.splice(i, 1);
 					break;
 				}
@@ -288,6 +286,7 @@ class Game {
 					if (!this.mute) explosionFX.play();
 
 					target.reset();
+					player1.laserKillCount++;
 					saw.energy = Math.max(0, saw.energy - 10); // cutting a ship costs more energy
 				}
 

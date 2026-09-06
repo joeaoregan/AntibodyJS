@@ -102,6 +102,7 @@ class Player extends GameObject {
             } else {
                 this.lives--;
                 this.laserGrade = 0; // laser upgrades are lost with a life
+                this.laserKillCount = 0;
                 console.log('Player Life Lost - Lives: ', this.lives);
                 if (this.lives > 0) {
                     this.flashThisMany(5);
@@ -177,5 +178,6 @@ class Player extends GameObject {
         this.health = MAX_HEALTH;
         this.particles = [];
         this.laserGrade = 0; // 0 = single, upgraded by laser power-up
+        this.laserKillCount = 0; // enemy ship kills toward the next laser upgrade
     }
 }

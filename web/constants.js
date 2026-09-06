@@ -24,6 +24,8 @@ const NINJA_FIRE_DELAY = 40; // ninja stars fire much slower than lasers (laser 
 
 // Laser grades: 0 = single, 1 = double (angled), 2 = triple (straight + 2 angled)
 const LASER_GRADE_MAX = 2;
+const LASER_KILLS_GRADE0 = 5;  // enemy ships to kill at grade 0 before the grade 1 power-up appears
+const LASER_KILLS_GRADE1 = 10; // enemy ships to kill at grade 1 before the grade 2 power-up appears
 
 // Saw energy: drains while active, recharges when off, health power-up refills it
 const SAW_MAX_ENERGY = 100;

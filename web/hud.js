@@ -16,6 +16,29 @@ const life = {
 	h: 25
 }
 
+// Laser grade indicator: icon changes as the player upgrades (PowerUpLaser -> LaserGunV2 -> LaserGunV3)
+const LASER_ICONS = ['PowerUpLaser', 'LaserGunV2', 'LaserGunV3'];
+const laserIconImgs = {};
+LASER_ICONS.forEach(name => {
+	const img = new Image();
+	img.src = 'art/' + name + '.png';
+	laserIconImgs[name] = img;
+});
+
+const LaserBox = {
+	h: 50,
+	y: 625,
+	x: P1Box.x + P1Box.w + 15
+}
+LaserBox.w = ((canvas.width / 2) - 200) - LaserBox.x - 15; // fills the gap up to the Bloodcell Count box
+
+const LaserProgress = {
+	x: LaserBox.x,
+	y: LaserBox.y + LaserBox.h + 6,
+	w: LaserBox.w,
+	h: 10
+}
+
 class hud {
 	constructor() {
 		this.sX = 0;
@@ -39,6 +62,7 @@ class hud {
 
 		this.p1Lives();
 		bcCounter.bar();
+		this.laserIndicator();
 
 		// 2. Remove the textAlign and textBaseline lines from here.
 		// This allows levelTxt, score, etc., to use their own internal alignment.
@@ -77,6 +101,40 @@ class hud {
 
 		ctx.fillText(P1Box.lifeTxt, P1Box.x + (P1Box.w / 2) - (P1Box.lifeTxtWidth / 2), P1Box.y + 18);
 		ctx.strokeText(P1Box.lifeTxt, P1Box.x + (P1Box.w / 2) - (P1Box.lifeTxtWidth / 2), P1Box.y + 18);
+	}
+
+	laserIndicator() {
+		ctx.fillStyle = "#223";
+		ctx.fillRect(LaserBox.x, LaserBox.y, LaserBox.w, LaserBox.h);
+
+		ctx.beginPath();
+		ctx.lineWidth = "1";
+		ctx.strokeStyle = "grey";
+		ctx.rect(LaserBox.x, LaserBox.y, LaserBox.w, LaserBox.h);
+		ctx.stroke();
+
+		const iconName = LASER_ICONS[Math.min(player1.laserGrade, LASER_ICONS.length - 1)];
+		const img = laserIconImgs[iconName];
+		if (img.complete) {
+			ctx.drawImage(img, LaserBox.x + (LaserBox.w - 60) / 2, LaserBox.y + 1, 60, 48);
+		}
+
+		// Progress toward the next laser upgrade (enemy ship kills)
+		const maxed = player1.laserGrade >= LASER_GRADE_MAX;
+		const killsNeeded = player1.laserGrade === 0 ? LASER_KILLS_GRADE0 : LASER_KILLS_GRADE1;
+		const percent = maxed ? 1 : Math.min(1, player1.laserKillCount / killsNeeded);
+
+		ctx.beginPath();
+		ctx.lineWidth = "1";
+		ctx.strokeStyle = "black";
+		ctx.rect(LaserProgress.x, LaserProgress.y, LaserProgress.w, LaserProgress.h);
+		ctx.stroke();
+
+		ctx.fillStyle = "#400";
+		ctx.fillRect(LaserProgress.x, LaserProgress.y, LaserProgress.w, LaserProgress.h);
+
+		ctx.fillStyle = "#0c0";
+		ctx.fillRect(LaserProgress.x, LaserProgress.y, LaserProgress.w * percent, LaserProgress.h);
 	}
 }
 
