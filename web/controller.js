@@ -14,7 +14,13 @@ if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navig
 	console.log('not mobile');
 }
 
+let lastStartTap = 0;
 function startGame() {
+	// Ignore the duplicate event mobile browsers fire (touchend then synthesized mouseup)
+	const now = Date.now();
+	if (now - lastStartTap < 300) return;
+	lastStartTap = now;
+
 	if (state.current === state.game) {
 		game.paused = !game.paused; // START toggles pause once the game is running
 	} else {

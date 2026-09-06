@@ -142,102 +142,16 @@ canvas {
 	font-size: 1rem;
 }
 
-.controller {
-	background-color: var(--controller-bg);
-	border: 1px solid var(--border);
-	width: min(1150px, 100%);
-	text-align: center;
-	border-radius: 200px;
-	padding: clamp(8px, 2vw, 25px);
+/* Canvas-rendered gamepad: scales uniformly via JS, never skews */
+#controllerCanvas {
+	display: block;
 	margin: 0 auto;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: clamp(4px, 1vw, 8px);
-}
-
-.button-box {
-	border: 1px solid var(--border);
-	text-align: center;
-	/* circle sized relative to the controller so two + start always fit */
-	width: 40%;
-	max-width: 340px;
-	aspect-ratio: 1;
-	border-radius: 50%;
-	padding: 0;
-	background-color: var(--button-box-bg);
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	/* container query units: buttons/gaps/labels scale with this circle */
-	container-type: size;
-	flex: 0 1 40%; /* shrink proportionally on narrow screens */
-}
-
-/* Row of buttons inside a controller cluster (D-pad / ABXY) */
-.btn-row {
-	display: flex;
-	justify-content: center;
-	gap: 6cqw; /* space between left/right buttons, scales with the circle */
 	width: 100%;
-	margin: 2cqw 0; /* vertical spacing between rows */
-}
-
-.button {
-	border: 2px solid #111;
-	border-radius: 50%;
-	aspect-ratio: 1;
-	width: 30cqw; /* button size scales with the circle */
 	height: auto;
-	font-size: 14cqw; /* label scales with the button */
-	padding: 0;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	line-height: 1;
-	touch-action: manipulation;
-}
-
-.button-start {
-	background-color: #999;
-	border-radius: 40px;
-	aspect-ratio: auto;
-	width: auto;
-	padding: 0.4em 0.9em;
-	font-size: clamp(14px, 3vw, 32px);
-	flex: 0 0 auto;
-}
-
-/* START label vs ≡ icon swap */
-.button-start .start-icon {
-	display: none;
-	font-weight: 700;
-}
-
-.button-round {
-	background-color: #f14;
-	color: white;
-	margin: 4px 2px;
+	background: transparent; /* blend with the panel behind it */
+	touch-action: none; /* we handle all pointer gestures */
 	user-select: none;
-}
-
-.buttonA {
-	background-color: #f14;
-}
-
-.buttonB {
-	background-color: #ff0;
-	color: #111;
-}
-
-.buttonX {
-	background-color: #00f;
-}
-
-.buttonY {
-	background-color: #0f0;
-	color: #111;
+	-webkit-user-select: none;
 }
 
 .body-border h2,
@@ -305,15 +219,5 @@ a:hover {
 	.theme-toggle {
 		align-self: center;
 		margin-bottom: .35rem;
-	}
-}
-
-/* Swap START text for ≡ icon once the layout gets cramped */
-@media (max-width: 1010px) {
-	.button-start .start-label {
-		display: none;
-	}
-	.button-start .start-icon {
-		display: inline;
 	}
 }
