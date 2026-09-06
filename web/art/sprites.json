@@ -8,5 +8,12 @@
     "LaserGreen":       { "frames": 1, "w": 50, "h": 5 },
     "Player1":          { "frames": 1, "w": 100, "h": 47 },
     "Player1ShipSmall": { "frames": 1, "w": 50, "h": 25 },
-    "PowerUpLife":      { "frames": 1, "w": 60, "h": 29 }
+    "PowerUpLife":      { "frames": 1, "w": 60, "h": 29 },
+    "ParticleDarkBlue":   { "frames": 1, "w": 5, "h": 5 },
+    "ParticleGrey":   { "frames": 1, "w": 5, "h": 5 },
+    "ParticleLightBlue":   { "frames": 1, "w": 5, "h": 5 },
+    "ParticleMediumBlue":   { "frames": 1, "w": 5, "h": 5 },
+    "ParticleOrange":   { "frames": 1, "w": 5, "h": 5 },
+    "ParticleRed":   { "frames": 1, "w": 5, "h": 5 },
+    "ParticleShimmer":   { "frames": 1, "w": 5, "h": 5 }
 }

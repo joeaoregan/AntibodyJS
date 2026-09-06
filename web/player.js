@@ -5,6 +5,7 @@ class Player extends GameObject {
     constructor(src, x, y, w, h) {
         super(src, x, y, w, h);
         this.reset();
+        this.particles = [];
     }
 
     update() {
@@ -19,6 +20,12 @@ class Player extends GameObject {
             else if (this.x >= canvas.width - this.w) this.x = canvas.width - this.w;
             else if (this.y < 40) this.y = 40;
             else if (this.y > 520) this.y = 520;
+
+            if (this.dx !== 0 || this.dy !== 0) {
+                this.particles.push(new Particle(this.x + 9, this.y + 30, particleOrangeImg));
+            }
+            this.particles.forEach(p => p.update());
+            this.particles = this.particles.filter(p => !p.dead);
         }
 
         if (state.current === state.over) {
@@ -36,6 +43,7 @@ class Player extends GameObject {
         ctx.globalAlpha = 0.5;
         this.healthbar();
         this.flash();
+        this.particles.forEach(p => p.draw()); // draw particles
         ctx.restore(); // Restore to clean state
     }
 
@@ -142,5 +150,6 @@ class Player extends GameObject {
         this.dy = 0;
         this.lives = MAX_LIVES;
         this.health = MAX_HEALTH;
+        this.particles = [];
     }
 }
