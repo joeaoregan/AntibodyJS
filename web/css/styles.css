@@ -220,4 +220,27 @@ a:hover {
 		align-self: center;
 		margin-bottom: .35rem;
 	}
+
+	/* Reclaim dead space around the canvases on small screens */
+	.container {
+		width: 100%;
+	}
+
+	.panel {
+		padding: 0.6rem;
+		border-radius: 8px;
+	}
+
+	.controller-border {
+		padding: 0.5rem;
+	}
+
+	.controller-border h2 {
+		font-size: 0.95rem;
+		margin: 0.4rem 0;
+	}
+
+	.page-content {
+		padding: 0.6rem 0 1.25rem;
+	}
 }

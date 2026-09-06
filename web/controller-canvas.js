@@ -17,10 +17,10 @@ const CTRL_H = 400;
 const activePresses = new Map();
 
 // Cluster centres (pushed toward the edges) and the surrounding ring radius
-const LEFT_CX = 210;
-const RIGHT_CX = 790;
+const LEFT_CX = 200;
+const RIGHT_CX = 800;
 const CLUSTER_CY = 200;
-const CLUSTER_R = 185;   // surrounding circle
+const CLUSTER_R = 192;   // surrounding circle
 const BTN_R = 60;        // button radius
 const BTN_OFF = 105;     // distance of each button from its cluster centre
 
