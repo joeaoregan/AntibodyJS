@@ -18,18 +18,19 @@ Features already working in the JavaScript version.
 
 - [x] Player 1 ship with 8-directional movement (WASD / arrows / numpad)
 - [x] Screen-boundary movement clamping
-- [x] Health (5 HP) with red/green health bar above ship
+- [x] Health (100 HP) with red/green health bar above ship
 - [x] 3 lives system
 - [x] Invincibility flash on hit and on respawn
 - [x] Engine particle trail (20 particles per ship)
-- [x] Full 100 HP health (JS currently uses 5 HP)
 
 ### Weapons
 
 - [x] Single green laser (SPACE / on-screen A / B buttons), with fire-rate limit
+- [x] Laser upgrade grades: single → double → triple beam, via power-up unlocked by enemy-ship kills, HUD icon + progress bar
 - [x] Ninja stars: rotating projectile, destroys enemy ships (+50) and splits blood cells (N / on-screen X / Y buttons)
 - [x] Enemy blue laser fire
-- [x] Saw: melee weapon hovering in front of ship, cuts blockages, splits viruses, invincibility while active (E key)
+- [x] Saw: melee weapon hovering in front of ship (E key / on-screen Y), cuts blood cells and enemy ships, invincibility while active; energy drains with use and requires a full recharge after burning out; HUD icon + energy bar
+- [x] Rockets: 5-rocket inventory (cap 10), hold-to-charge with power bar and score bonus, steerable up/down after launch (R/F keys or two on-screen thumbsticks), particle trail, HUD icon + count
 
 ### Enemies & Obstacles
 
@@ -40,7 +41,9 @@ Features already working in the JavaScript version.
 ### Power-Ups
 
 - [x] Life power-up: rotating collectible, grants +1 life (or full health if lives maxed)
-- [x] Health power-up (+50 HP)
+- [x] Health power-up (+50 HP), also fully recharges the saw
+- [x] Laser upgrade power-up (increments laser grade, capped at triple)
+- [x] Rocket power-up: real Rocket sprite floats in vertically with a wavy bob, grants +1 rocket (capped)
 
 ### HUD & UI
 
@@ -52,6 +55,7 @@ Features already working in the JavaScript version.
 - [x] FPS counter (toggle with F1)
 - [x] Credit text ("Antibody JS by Joe O'Regan")
 - [x] Controls / Info accordion panels on the page
+- [x] Weapon status boxes (Laser / Saw / Rocket) with icons and progress/ammo indicators
 
 ### Scoring
 
@@ -62,7 +66,8 @@ Features already working in the JavaScript version.
 
 ### Audio
 
-- [x] Sound FX: player laser, enemy laser, explosion, blood splash, power-up pickup
+- [x] Sound FX: player laser, enemy laser, explosion, blood splash, power-up pickup, ninja star swoosh, saw loop
+- [x] All audio (music + FX) pauses and resumes together with the game pause
 - [x] Mute / unmute toggle (M)
 - [x] Music: 4 tracks ("The First Step", "Virus", "Blood Stream", "Blood Level")
 
@@ -98,9 +103,7 @@ Features from the C++ original (AntibodyV3 Year 3 Project) not yet ported.
 
 ### Weapons
 
-- [ ] Laser upgrade grades: single → double → triple beam (via laser power-up)
 - [ ] Ninja star virus splitting (spawn 2 small viruses) + per-player kill-rate tracking — base projectile done; needs viruses
-- [ ] Rockets: 3-rocket inventory, hold-to-charge with power bar, steerable after launch, particle trail, 3-second cooldown (C key)
 
 ### Enemies & Obstacles
 
@@ -116,16 +119,12 @@ Features from the C++ original (AntibodyV3 Year 3 Project) not yet ported.
 
 ### Power-Ups
 
-- [ ] Laser upgrade power-up
-- [ ] Rocket power-up (+1 rocket)
 - [ ] Checkpoint power-up (saves progress, restores health)
 
 ### HUD & UI
 
 - [ ] Countdown game timer (30s, flashing red at ≤5s) — JS timer currently counts up and does nothing
 - [ ] Per-player scores, lives and weapon indicators in 2-player mode
-- [ ] Laser grade indicator (scrolling weapon image)
-- [ ] Rocket inventory display with icon
 - [ ] Speed Boost indicator text
 - [ ] Boss health bar
 - [ ] Ninja star kill-rate percentage
@@ -141,7 +140,7 @@ Features from the C++ original (AntibodyV3 Year 3 Project) not yet ported.
 
 - [ ] Music controls: play/pause, skip forward/back, current track name display
 - [ ] Separate SFX per player (laser, ninja star)
-- [ ] Saw, virus-rip and rocket SFX
+- [ ] Virus-rip and dedicated rocket-launch SFX (rocket currently reuses the laser sound)
 
 ### Levels & Progression
 
@@ -160,7 +159,7 @@ Features unique to this version, not present in the C++ original.
 
 - [x] Runs in the browser (HTML5 canvas, no install)
 - [x] High score persistence via localStorage (C++ used a highscore.txt file)
-- [x] On-screen touch controller (D-pad + A/B/X/Y + START), auto-shown on mobile devices only
+- [x] On-screen touch controller (D-pad + A/B/X/Y + START + two rocket-steer thumbsticks), auto-shown on mobile devices only
 - [x] Vibration API haptics on mobile (hit / power-up collected)
 - [x] Web page wrapper: top navigation (Home / Antibody / Docs)
 - [x] Dark / light page theme toggle, persisted in localStorage
