@@ -7,6 +7,7 @@ var player1;
 var enemyShip;
 var powerupNewLife;
 var powerupHealth;
+var saw;
 
 // GAME STATE
 const state = {
@@ -57,7 +58,8 @@ class Game {
 			hud1 = new hud();
 			powerupNewLife = new PowerUp('PowerUpLife', 'life');
 			powerupHealth = new PowerUp('PowerUpHealth', 'health');
-			await Promise.all([powerupNewLife.load(), powerupHealth.load()]);
+			saw = new Saw('SawBlue', player1);
+			await Promise.all([powerupNewLife.load(), powerupHealth.load(), saw.load()]);
 
 			console.log("All systems green. Starting game loop.");
 			loop(); // Start the animation loop here
@@ -82,6 +84,9 @@ class Game {
 			if (powerupHealth) {
 				powerupHealth.update();
 			}
+			if (saw) {
+				saw.update();
+			}
 
 			// Offer a health power-up when the player is hurt and none is on screen
 			if (state.current == state.game &&
@@ -104,6 +109,11 @@ class Game {
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 		this.objects.forEach(obj => obj.draw());
+
+		// Saw renders on top of the ship, positioned at its nose/bottom-right (C++ offset x+65, y+25)
+		if (saw) {
+			saw.draw();
+		}
 
 		this.scoreTexts.forEach(t => t.draw());
 
@@ -230,6 +240,48 @@ class Game {
 					target.reset();
 					this.objects.splice(i, 1);
 					break;
+				}
+
+				// Active saw destroys enemy ships (costs energy)
+				if (
+					saw && saw.active &&
+					target.type === "EnemyShip" &&
+					collision(saw, target)
+				) {
+					score.value += SCORE_NINJA_SHIP;
+					score.high = Math.max(score.value, score.high);
+					localStorage.setItem("highscore", score.high);
+					updateScore();
+
+					this.scoreTexts.push(
+						new ScoreText(target.x + target.w / 2, target.y, "+" + SCORE_NINJA_SHIP)
+					);
+
+					this.objects.push(
+						new Explosion("Explosion", target.x, target.y)
+					);
+
+					if (!this.mute) explosionFX.play();
+
+					target.reset();
+					saw.energy = Math.max(0, saw.energy - 10); // cutting a ship costs more energy
+				}
+
+				// Active saw cuts blood cells (and drains a little extra energy)
+				if (
+					saw && saw.active &&
+					target.type === "BloodCell" &&
+					collision(saw, target)
+				) {
+					this.objects.push(
+						new Explosion("ExplosionBlood", target.x, target.y)
+					);
+
+					if (!this.mute) splashFX.play();
+
+					bloodcellsDestroyed++;
+					target.reset();
+					saw.energy = Math.max(0, saw.energy - 5); // cutting costs energy
 				}
 			}
 		}

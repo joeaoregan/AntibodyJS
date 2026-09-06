@@ -1,4 +1,4 @@
-const fireFX = new Audio();
+const fireFX = registerFX(new Audio());
 fireFX.src = "audio/laser1.wav";
 
 class Player extends GameObject {
@@ -80,6 +80,9 @@ class Player extends GameObject {
     }
 
     updateHealth(damage = DAMAGE_ENEMY_LASER) {
+        // Saw deflects damage while it's active
+        if (typeof saw !== 'undefined' && saw && saw.active) return;
+
         if (!this.flashing) {
             if (this.health > damage) {
                 this.health -= damage;

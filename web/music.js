@@ -20,7 +20,7 @@ const MUSIC_NAMES = [
 ];
 
 let musicIndex = 0;
-const music = new Audio(MUSIC_TRACKS[musicIndex]);
+const music = registerMusic(new Audio(MUSIC_TRACKS[musicIndex]));
 music.loop = true;
 music.volume = 0.4; // keep under the sound FX
 

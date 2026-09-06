@@ -13,6 +13,7 @@ function toggleAudio() {
 	game.mute = !game.mute;
 	controller.mute = game.mute;
 	music.muted = game.mute;
+	if (typeof sawFX !== 'undefined') sawFX.muted = game.mute; // saw loop too
 	updateAudioButton();
 }
 
@@ -21,6 +22,16 @@ function updateAudioButton() {
 	const btn = document.getElementById('audioToggle');
 	if (!btn) return;
 	btn.innerHTML = game.mute ? '&#128263; Muted' : '&#128266; Sound';
+}
+
+// Toggle pause, and pause/resume all game audio to match
+function togglePause() {
+	game.paused = !game.paused;
+	if (game.paused) {
+		pauseAllAudio();
+	} else {
+		resumeAllAudio();
+	}
 }
 if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
 	var controllerCanvas = document.getElementById("controller");
@@ -36,7 +47,7 @@ function startGame() {
 	lastStartTap = now;
 
 	if (state.current === state.game) {
-		game.paused = !game.paused; // START toggles pause once the game is running
+		togglePause(); // START toggles pause once the game is running
 	} else {
 		state.current = state.game; // start from the Get Ready / over screens
 	}
@@ -127,12 +138,15 @@ window.addEventListener('keydown', function (e) {
 		case 78: // N — ninja star
 			controller.ninjaStar = true;
 			break;
+		case 69: // E — toggle saw
+			if (typeof saw !== 'undefined' && saw) saw.toggle();
+			break;
 		case 77: // m
 			toggleAudio(); // Mute / Unmute music + FX
 			break;
 		case 27: // ESC
 		case 80: // P
-			game.paused = !game.paused;
+			togglePause();
 			break;
 		case 112: // F1
 			e.preventDefault();

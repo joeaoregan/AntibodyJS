@@ -21,3 +21,8 @@ const HEALTHBAR_Y = -15;
 const SCORE_ENEMY_SHIP = 25;
 const SCORE_NINJA_SHIP = 50; // ninja star ship kill — 2x laser, reward for a slower weapon
 const NINJA_FIRE_DELAY = 40; // ninja stars fire much slower than lasers (laser = 10)
+
+// Saw energy: drains while active, recharges when off, health power-up refills it
+const SAW_MAX_ENERGY = 100;
+const SAW_DRAIN = 0.3;    // energy per frame while active (lasts ~2x longer)
+const SAW_RECHARGE = 0.25; // energy per frame while inactive

@@ -1,4 +1,4 @@
-const powerupFX = new Audio();
+const powerupFX = registerFX(new Audio());
 powerupFX.src = "audio/Bonus1.wav";
 
 class PowerUp extends GameObject {
@@ -27,11 +27,12 @@ class PowerUp extends GameObject {
 
 	applyEffect() {
 		if (this.effect === 'health') {
-			// Restore +50 HP, capped at max
+			// Restore +50 HP, capped at max — also fully recharges the saw
 			if (player1.health < MAX_HEALTH) {
 				player1.health = Math.min(player1.health + 50, MAX_HEALTH);
 				if (!game.mute) powerupFX.play();
 			}
+			if (typeof saw !== 'undefined' && saw) saw.recharge();
 		} else { // 'life'
 			if (player1.lives < 3) {
 				player1.lives++;

@@ -1,4 +1,4 @@
-const enemyFireFX = new Audio();
+const enemyFireFX = registerFX(new Audio());
 enemyFireFX.src = "audio/LaserEnemy.wav";
 
 class Enemy extends GameObject {

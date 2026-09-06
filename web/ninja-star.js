@@ -4,7 +4,7 @@
 	Slower than the laser but can split viruses (when viruses are added).
 	Unlimited supply, like the laser. Rotates clockwise as it flies.
 */
-const ninjaFX = new Audio();
+const ninjaFX = registerFX(new Audio());
 ninjaFX.src = "audio/Swoosh1.wav";
 
 class NinjaStar extends GameObject {

@@ -1,7 +1,7 @@
-const explosionFX = new Audio();
+const explosionFX = registerFX(new Audio());
 explosionFX.src = "audio/explosion.wav";
 
-const splashFX = new Audio();
+const splashFX = registerFX(new Audio());
 splashFX.src = "audio/splash.wav";
 
 class Explosion extends GameObject {
