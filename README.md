@@ -114,6 +114,7 @@ npm run start
 | **Move** | `W`, `A`, `S`, `D` or `Arrow Keys` |
 | **Shoot** | `Spacebar` or `Left Click` |
 | **Pause** | `P` or `Esc` |
+| **Toggle Frame Rate** | `F1` |
 
 #### Objective:
 Navigate through the level, eliminate enemy cells, and reach the end of the stage without losing your health.

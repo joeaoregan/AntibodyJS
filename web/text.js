@@ -32,6 +32,38 @@ setInterval(function(){
 	//console.log('time: '+time.timer);
 },1000);
 
+// FPS counter (toggle with F1)
+const fpsCounter = {
+	visible: false,
+	frames: 0,
+	lastTime: performance.now(),
+	value: 0,
+
+	tick: function () {
+		this.frames++;
+		const now = performance.now();
+		const elapsed = now - this.lastTime;
+		if (elapsed >= 500) { // update twice a second
+			this.value = Math.round((this.frames * 1000) / elapsed);
+			this.frames = 0;
+			this.lastTime = now;
+		}
+	},
+
+	draw: function () {
+		if (!this.visible) return;
+		ctx.save();
+		ctx.font = "20px Teko";
+		ctx.fillStyle = "#0F0";
+		ctx.strokeStyle = "#000";
+		ctx.lineWidth = 2;
+		const txt = 'FPS: ' + this.value;
+		ctx.fillText(txt, canvas.width - ctx.measureText(txt).width - 30, 55);
+		ctx.strokeText(txt, canvas.width - ctx.measureText(txt).width - 30, 55);
+		ctx.restore();
+	}
+};
+
 // Score text
 const score = {
     high : parseInt(localStorage.getItem("highscore")) || 0,

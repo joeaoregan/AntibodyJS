@@ -102,6 +102,10 @@ window.addEventListener('keydown', function (e) {
 		case 80: // P
 			game.paused = !game.paused;
 			break;
+		case 112: // F1
+			e.preventDefault();
+			fpsCounter.visible = !fpsCounter.visible;
+			break;
 	}
 }, false);
 

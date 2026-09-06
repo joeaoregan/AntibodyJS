@@ -94,6 +94,7 @@ class Game {
 		this.scoreTexts.forEach(t => t.draw());
 
 		hud1.draw();
+		fpsCounter.draw(); // FPS overlay (toggle F1)
 		if (powerupNewLife) {
 			powerupNewLife.draw();
 		}
@@ -212,6 +213,7 @@ function loop() {
 	// Should run at 60 FPS
 	game.update(); // Update objects
 	game.draw(); // Draw objects
+	fpsCounter.tick(); // Update FPS counter
 
 	// msPrev = msNow;
 }

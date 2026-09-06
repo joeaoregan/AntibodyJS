@@ -45,6 +45,7 @@ Features already working in the JavaScript version.
 - [x] Score display (top centre)
 - [x] Level text (static "Level: 1")
 - [x] Timer display (counts up)
+- [x] FPS counter (toggle with F1)
 - [x] Credit text ("Antibody JS by Joe O'Regan")
 - [x] Controls / Info accordion panels on the page
 
