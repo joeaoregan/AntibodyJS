@@ -21,6 +21,7 @@ Features already working in the JavaScript version.
 - [x] Health (5 HP) with red/green health bar above ship
 - [x] 3 lives system
 - [x] Invincibility flash on hit and on respawn
+- [x] Engine particle trail (20 particles per ship)
 
 ### Weapons
 
@@ -84,7 +85,6 @@ Features from the C++ original (AntibodyV3 Year 3 Project) not yet ported.
 
 - [ ] 2-Player mode: Player 2 ship with independent controls (arrow keys), health, lives and score
 - [ ] Speed Boost (P1: F / P2: R) with HUD indicator
-- [ ] Engine particle trail (20 particles per ship)
 - [ ] Full 100 HP health (JS currently uses 5 HP)
 - [ ] Gamepad support: D-pad + analog stick (dead zone 8000), per-player pads
 - [ ] Controller haptic / force feedback on hits
