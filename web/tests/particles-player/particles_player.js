@@ -53,6 +53,9 @@ class Game {
 			// 4. Initialize UI and start loop
 			hud1 = new hud();
 
+			// Relabel HUD text for the test level (text.js is shared with the main game)
+			levelTxt.label = 'Test: Player Particles';
+
 			console.log("All systems green. Starting game loop.");
 			loop(); // Start the animation loop here
 		} catch (err) {

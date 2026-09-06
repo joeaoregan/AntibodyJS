@@ -94,6 +94,7 @@ const score = {
 // Level text
 const levelTxt={
 	value: 1,
+	label: null, // Optional override; defaults to 'Level: N'
 
 	draw : function(){
         ctx.fillStyle = "#FFF";
@@ -102,8 +103,9 @@ const levelTxt={
         if(state.current == state.game){
             ctx.lineWidth = 2;
             ctx.font = "35px Teko";
-            ctx.fillText('Level: '+this.value, 30, 30);
-            ctx.strokeText('Level: '+this.value, 30, 30);
+			let txt = this.label ? this.label : 'Level: '+this.value;
+            ctx.fillText(txt, 30, 30);
+            ctx.strokeText(txt, 30, 30);
 		}				
 	}
 }
