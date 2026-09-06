@@ -62,8 +62,19 @@ class Player extends GameObject {
 
     fire() {
         if (this.fireRate > this.lastFire + this.fireDelay && state.game) {
-            var x = new Laser("LaserGreen", this.x + this.w - 20, this.y + this.h / 2, 10, 1);
-            game.objects.push(x);
+            const x = this.x + this.w - 20, y = this.y + this.h / 2;
+
+            if (this.laserGrade === 0) { // single straight beam
+                game.objects.push(new Laser("LaserGreen", x, y, 10, 1));
+            } else if (this.laserGrade === 1) { // double: two angled beams, no centre
+                game.objects.push(new Laser("LaserGreen", x, y - 4, 10, 1, -1));
+                game.objects.push(new Laser("LaserGreen", x, y + 4, 10, 1, 1));
+            } else { // triple: straight centre + 2 angled
+                game.objects.push(new Laser("LaserGreen", x, y, 10, 1));
+                game.objects.push(new Laser("LaserGreen", x, y - 8, 10, 1, -3));
+                game.objects.push(new Laser("LaserGreen", x, y + 8, 10, 1, 3));
+            }
+
             if (!game.mute) fireFX.play();
             this.lastFire = this.fireRate;
             //console.log('fireRate: '+this.fireRate+' lastFire: '+this.lastFire);
@@ -90,6 +101,7 @@ class Player extends GameObject {
                 navigator.vibrate?.([300, 100, 300, 100, 300]); // vibrate mobile device if hit
             } else {
                 this.lives--;
+                this.laserGrade = 0; // laser upgrades are lost with a life
                 console.log('Player Life Lost - Lives: ', this.lives);
                 if (this.lives > 0) {
                     this.flashThisMany(5);
@@ -164,5 +176,6 @@ class Player extends GameObject {
         this.lives = MAX_LIVES;
         this.health = MAX_HEALTH;
         this.particles = [];
+        this.laserGrade = 0; // 0 = single, upgraded by laser power-up
     }
 }

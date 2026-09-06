@@ -19,5 +19,6 @@
     "PowerUpHealth": {"frames": 1, "w": 60, "h": 60 },
     "NinjaStarBlue": {"frames": 1, "w": 30, "h": 30 },
     "NinjaStarYellow": {"frames": 1, "w": 30, "h": 30 },
-    "SawBlue": {"frames": 1, "w": 40, "h": 40 }
+    "SawBlue": {"frames": 1, "w": 40, "h": 40 },
+    "PowerUpLaser": {"frames": 1, "w": 60, "h": 48 }
 }

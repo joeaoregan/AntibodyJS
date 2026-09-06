@@ -22,6 +22,9 @@ const SCORE_ENEMY_SHIP = 25;
 const SCORE_NINJA_SHIP = 50; // ninja star ship kill — 2x laser, reward for a slower weapon
 const NINJA_FIRE_DELAY = 40; // ninja stars fire much slower than lasers (laser = 10)
 
+// Laser grades: 0 = single, 1 = double (angled), 2 = triple (straight + 2 angled)
+const LASER_GRADE_MAX = 2;
+
 // Saw energy: drains while active, recharges when off, health power-up refills it
 const SAW_MAX_ENERGY = 100;
 const SAW_DRAIN = 0.3;    // energy per frame while active (lasts ~2x longer)

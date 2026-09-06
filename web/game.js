@@ -7,7 +7,9 @@ var player1;
 var enemyShip;
 var powerupNewLife;
 var powerupHealth;
+var powerupLaser;
 var saw;
+let laserSpawnTimer = 600; // frames until the next laser power-up appears
 
 // GAME STATE
 const state = {
@@ -58,8 +60,9 @@ class Game {
 			hud1 = new hud();
 			powerupNewLife = new PowerUp('PowerUpLife', 'life');
 			powerupHealth = new PowerUp('PowerUpHealth', 'health');
+			powerupLaser = new PowerUp('PowerUpLaser', 'laser');
 			saw = new Saw('SawBlue', player1);
-			await Promise.all([powerupNewLife.load(), powerupHealth.load(), saw.load()]);
+			await Promise.all([powerupNewLife.load(), powerupHealth.load(), powerupLaser.load(), saw.load()]);
 
 			console.log("All systems green. Starting game loop.");
 			loop(); // Start the animation loop here
@@ -84,6 +87,9 @@ class Game {
 			if (powerupHealth) {
 				powerupHealth.update();
 			}
+			if (powerupLaser) {
+				powerupLaser.update();
+			}
 			if (saw) {
 				saw.update();
 			}
@@ -93,6 +99,17 @@ class Game {
 				player1.health <= MAX_HEALTH / 2 &&
 				powerupHealth && !powerupHealth.active) {
 				this.spawnHealth();
+			}
+
+			// Offer a laser power-up periodically, until the player is fully upgraded
+			if (state.current == state.game && player1.laserGrade < LASER_GRADE_MAX) {
+				if (powerupLaser && !powerupLaser.active) {
+					laserSpawnTimer--;
+					if (laserSpawnTimer <= 0) {
+						this.spawnLaserPowerUp();
+						laserSpawnTimer = 600;
+					}
+				}
 			}
 
 			if (bloodcellsDestroyed >= MAX_BLOODCELLS) {
@@ -126,6 +143,9 @@ class Game {
 		if (powerupHealth) {
 			powerupHealth.draw();
 		}
+		if (powerupLaser) {
+			powerupLaser.draw();
+		}
 	}
 
 	spawnLife() {
@@ -134,6 +154,10 @@ class Game {
 
 	spawnHealth() {
 		powerupHealth.active = true;
+	}
+
+	spawnLaserPowerUp() {
+		powerupLaser.active = true;
 	}
 
 	collisions() {

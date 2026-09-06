@@ -33,6 +33,14 @@ class PowerUp extends GameObject {
 				if (!game.mute) powerupFX.play();
 			}
 			if (typeof saw !== 'undefined' && saw) saw.recharge();
+		} else if (this.effect === 'laser') {
+			if (player1.laserGrade < LASER_GRADE_MAX) {
+				player1.laserGrade++;
+				if (!game.mute) powerupFX.play();
+				game.scoreTexts.push(
+					new ScoreText(player1.x, player1.y - 20, "Laser Upgraded!", "#0FF")
+				);
+			}
 		} else { // 'life'
 			if (player1.lives < 3) {
 				player1.lives++;
