@@ -15,3 +15,6 @@ const HEALTHBAR_W = 75;
 const HEALTHBAR_H = 10;
 const HEALTHBAR_X = 10;
 const HEALTHBAR_Y = -15;
+
+// Scoring: points per enemy type
+const SCORE_ENEMY_SHIP = 25;

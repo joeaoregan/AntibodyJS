@@ -18,6 +18,7 @@ const state = {
 class Game {
 	constructor() {
 		this.objects = [];
+		this.scoreTexts = []; // floating score popups (no collision)
 		this.paused;
 		this.mute = false;
 	}
@@ -68,6 +69,9 @@ class Game {
 			this.objects.forEach(obj => obj.update());
 			this.collisions();
 
+			this.scoreTexts.forEach(t => t.update());
+			this.scoreTexts = this.scoreTexts.filter(t => !t.dead);
+
 			if (powerupNewLife) {
 				powerupNewLife.update();
 			}
@@ -86,6 +90,8 @@ class Game {
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 		this.objects.forEach(obj => obj.draw());
+
+		this.scoreTexts.forEach(t => t.draw());
 
 		hud1.draw();
 		if (powerupNewLife) {
@@ -112,10 +118,14 @@ class Game {
 					target.type === "EnemyShip" &&
 					collision(projectile, target)
 				) {
-					score.value++;
+					score.value += SCORE_ENEMY_SHIP;
 					score.high = Math.max(score.value, score.high);
 					localStorage.setItem("highscore", score.high);
 					updateScore();
+
+					this.scoreTexts.push(
+						new ScoreText(target.x + target.w / 2, target.y, "+" + SCORE_ENEMY_SHIP)
+					);
 
 					this.objects.push(
 						new Explosion("Explosion", target.x, target.y)

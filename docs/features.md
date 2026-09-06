@@ -52,6 +52,8 @@ Features already working in the JavaScript version.
 
 - [x] Score increments on enemy ship destroyed
 - [x] High score persisted in browser localStorage
+- [x] Score popup text at kill location, floats toward scoring player with fade-out
+- [x] Per-enemy point values (ship 25, blockage 15, boss 50, virus tiers)
 
 ### Audio
 
@@ -129,8 +131,6 @@ Features from the C++ original (AntibodyV3 Year 3 Project) not yet ported.
 
 ### Scoring
 
-- [ ] Score popup text at kill location, floats toward scoring player with fade-out
-- [ ] Per-enemy point values (ship 25, blockage 15, boss 50, virus tiers)
 - [ ] High score table (top 10 names + scores)
 - [ ] Name entry for qualifying scores
 
