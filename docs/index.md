@@ -32,7 +32,10 @@ The JavaScript version includes:
 | Move | `W`, `A`, `S`, `D`; arrow keys; or on-screen directional buttons |
 | Fire | `Space`, mouse button, or an on-screen action button |
 | Pause or resume | `P` |
-| Mute or unmute sound effects | `M` |
+| Mute or unmute sound effects and music | `M` |
+| Skip music track backwards | `,` |
+| Skip music track forwards | `.` |
+| Random music track | `/` |
 | Display Frame Rate | `F1` |
 | Reset | `F5` |
 | Fullscreen | `F11` |

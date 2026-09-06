@@ -16,6 +16,7 @@ if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navig
 
 function startGame() {
 	state.current = state.game;
+	startMusic(); // start background music on first user gesture
 }
 function reset() {
 	powerupNewLife.reset();
@@ -52,8 +53,7 @@ window.addEventListener('keydown', function (e) {
 		e.preventDefault();
 		switch (state.current) {
 			case state.getReady:
-				state.current = state.game;
-				break;
+				state.current = state.game;				startMusic(); // start background music on first user gesture				break;
 			case state.game:
 				// ship.fire();
 				break;
@@ -97,6 +97,7 @@ window.addEventListener('keydown', function (e) {
 		case 77: // m
 			game.mute = !game.mute; // Pause / Unpause Game FX
 			controller.mute = !controller.mute; // toggle mute
+			music.muted = game.mute; // mute / unmute background music too
 			break;
 		case 27: // ESC
 		case 80: // P
@@ -105,6 +106,15 @@ window.addEventListener('keydown', function (e) {
 		case 112: // F1
 			e.preventDefault();
 			fpsCounter.visible = !fpsCounter.visible;
+			break;
+		case 190: // .  (period) — next music track
+			nextTrack();
+			break;
+		case 188: // ,  (comma) — previous music track
+			prevTrack();
+			break;
+		case 191: // /  (slash) — random music track
+			randomTrack();
 			break;
 	}
 }, false);

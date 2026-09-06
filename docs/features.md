@@ -61,6 +61,7 @@ Features already working in the JavaScript version.
 
 - [x] Sound FX: player laser, enemy laser, explosion, blood splash, power-up pickup
 - [x] Mute / unmute toggle (M)
+- [x] Music: 2 tracks ("The First Step", "Virus")
 
 ### Graphics & Effects
 
@@ -137,7 +138,7 @@ Features from the C++ original (AntibodyV3 Year 3 Project) not yet ported.
 
 ### Audio
 
-- [ ] Music: 4 tracks ("Blood Stream", "The First Step", "Blood Level", +1)
+- [ ] Music: 2 tracks ("Blood Stream", "Blood Level")
 - [ ] Music controls: play/pause, skip forward/back, current track name display
 - [ ] Separate SFX per player (laser, ninja star)
 - [ ] Saw, virus-rip and rocket SFX
