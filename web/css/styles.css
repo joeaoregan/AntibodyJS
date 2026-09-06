@@ -148,44 +148,49 @@ canvas {
 	width: min(1150px, 100%);
 	text-align: center;
 	border-radius: 200px;
-	padding: 25px;
+	padding: clamp(8px, 2vw, 25px);
 	margin: 0 auto;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: 8px;
+	gap: clamp(4px, 1vw, 8px);
 }
 
 .button-box {
 	border: 1px solid var(--border);
 	text-align: center;
-	width: min(38vw, 340px);
-	border-radius: 50%;
+	/* circle sized relative to the controller so two + start always fit */
+	width: 40%;
+	max-width: 340px;
 	aspect-ratio: 1;
-	padding: 10px;
+	border-radius: 50%;
+	padding: 0;
 	background-color: var(--button-box-bg);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	gap: 6px;
-	flex: 0 1 auto;
+	/* container query units: buttons/gaps/labels scale with this circle */
+	container-type: size;
+	flex: 0 1 40%; /* shrink proportionally on narrow screens */
 }
 
 /* Row of buttons inside a controller cluster (D-pad / ABXY) */
 .btn-row {
 	display: flex;
 	justify-content: center;
-	gap: clamp(8px, 3vw, 56px); /* gap between left/right buttons */
+	gap: 6cqw; /* space between left/right buttons, scales with the circle */
 	width: 100%;
+	margin: 2cqw 0; /* vertical spacing between rows */
 }
 
 .button {
 	border: 2px solid #111;
 	border-radius: 50%;
 	aspect-ratio: 1;
-	width: clamp(44px, 9vw, 84px);
-	font-size: clamp(18px, 4vw, 40px);
+	width: 30cqw; /* button size scales with the circle */
+	height: auto;
+	font-size: 14cqw; /* label scales with the button */
 	padding: 0;
 	display: inline-flex;
 	align-items: center;
@@ -200,8 +205,14 @@ canvas {
 	aspect-ratio: auto;
 	width: auto;
 	padding: 0.4em 0.9em;
-	font-size: clamp(16px, 3.5vw, 32px);
+	font-size: clamp(14px, 3vw, 32px);
 	flex: 0 0 auto;
+}
+
+/* START label vs ≡ icon swap */
+.button-start .start-icon {
+	display: none;
+	font-weight: 700;
 }
 
 .button-round {
@@ -294,5 +305,15 @@ a:hover {
 	.theme-toggle {
 		align-self: center;
 		margin-bottom: .35rem;
+	}
+}
+
+/* Swap START text for ≡ icon once the layout gets cramped */
+@media (max-width: 1010px) {
+	.button-start .start-label {
+		display: none;
+	}
+	.button-start .start-icon {
+		display: inline;
 	}
 }

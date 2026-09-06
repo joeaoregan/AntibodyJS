@@ -15,7 +15,11 @@ if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navig
 }
 
 function startGame() {
-	state.current = state.game;
+	if (state.current === state.game) {
+		game.paused = !game.paused; // START toggles pause once the game is running
+	} else {
+		state.current = state.game; // start from the Get Ready / over screens
+	}
 	startMusic(); // start background music on first user gesture
 }
 function reset() {
@@ -43,7 +47,13 @@ function moveXClear() {
 function moveYClear() {
 	controller.up = controller.down = false;
 }
-function fire() {
+function fireStart() {
+	controller.fire = true;
+}
+function fireStop() {
+	controller.fire = false;
+}
+function fire() { // keyboard / legacy toggle
 	controller.fire = !controller.fire;
 }
 
