@@ -33,6 +33,7 @@ The JavaScript version includes:
 | Fire | `Space`, mouse button, or an on-screen action button |
 | Pause or resume | `P` |
 | Mute or unmute sound effects | `M` |
+| Display Frame Rate | `F1` |
 | Reset | `F5` |
 | Fullscreen | `F11` |
 
