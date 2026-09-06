@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Antibody JS: Tests</title>
+	<link href="../css/styles.css" rel="stylesheet" />
+	<link rel="icon" type="image/x-icon" href="../images/favicon.ico" />
+	<style>
+		.test-list {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+		}
+		.test-list li {
+			margin-bottom: 12px;
+		}
+		.test-link {
+			display: block;
+			padding: 14px 18px;
+			background: var(--menu);
+			border: 1px solid var(--border);
+			border-radius: 6px;
+			color: var(--link);
+			text-decoration: none;
+			transition: background 0.15s ease, color 0.15s ease;
+		}
+		.test-link:hover {
+			background: var(--hover);
+			color: var(--link-hover);
+		}
+		.test-link .test-title {
+			display: block;
+			font-size: 1.15em;
+			font-weight: 600;
+			margin-bottom: 4px;
+		}
+		.test-link .test-desc {
+			display: block;
+			font-size: 0.9em;
+			color: var(--muted);
+		}
+	</style>
+</head>
+
+<body>
+	<header class="topbar">
+		<div class="container topbar-row">
+			<nav class="topnav" aria-label="Main navigation">
+				<a class="nav-link" href="https://joeoregan.github.io/">Home</a>
+				<a class="nav-link" href="../">Antibody</a>
+				<a class="nav-link active" href="./">Tests</a>
+				<a class="nav-link" href="https://joeoregan.github.io/JS-Antibody/">Docs</a>
+			</nav>
+
+			<button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark/light theme">
+				Toggle Theme
+			</button>
+		</div>
+	</header>
+
+	<main class="container page-content">
+		<section class="panel">
+			<h1>Antibody JavaScript: Tests</h1>
+			<p style="color: var(--muted);">Isolated test pages for individual game features.</p>
+			<ul class="test-list" id="testList"></ul>
+		</section>
+	</main>
+
+	<script src="tests.js"></script>
+	<script>
+		// Render the test list from tests.js
+		(function () {
+			const list = document.getElementById("testList");
+			TESTS.forEach(function (t) {
+				const li = document.createElement("li");
+				const a = document.createElement("a");
+				a.className = "test-link";
+				a.href = t.href;
+				a.innerHTML =
+					'<span class="test-title"></span><span class="test-desc"></span>';
+				a.querySelector(".test-title").textContent = t.title;
+				a.querySelector(".test-desc").textContent = t.description;
+				li.appendChild(a);
+				list.appendChild(li);
+			});
+		})();
+
+		// Theme toggle (same as other pages)
+		(function () {
+			const saved = localStorage.getItem("antibody-theme");
+			if (saved === "light" || saved === "dark") {
+				document.documentElement.setAttribute("data-theme", saved);
+			} else {
+				document.documentElement.setAttribute("data-theme", "dark");
+			}
+
+			const btn = document.getElementById("themeToggle");
+			if (!btn) return;
+
+			btn.addEventListener("click", function () {
+				const current = document.documentElement.getAttribute("data-theme") || "dark";
+				const next = current === "dark" ? "light" : "dark";
+				document.documentElement.setAttribute("data-theme", next);
+				localStorage.setItem("antibody-theme", next);
+			});
+		})();
+	</script>
+</body>
+
+</html>
