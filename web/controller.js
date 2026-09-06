@@ -98,6 +98,7 @@ window.addEventListener('keydown', function (e) {
 			game.mute = !game.mute; // Pause / Unpause Game FX
 			controller.mute = !controller.mute; // toggle mute
 			break;
+		case 27: // ESC
 		case 80: // P
 			game.paused = !game.paused;
 			break;

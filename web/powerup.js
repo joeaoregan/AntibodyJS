@@ -13,7 +13,7 @@ class PowerUp extends GameObject {
 			this.clearOnLeft();	// When enemy objects moves off screen (left)
 
 			if (collision(player1, this)) {
-				navigator.vibrate([100, 50, 100, 50, 100, 50, 400]); // vibrate mobile device if power up collected
+				navigator.vibrate?.([100, 50, 100, 50, 100, 50, 400]); // vibrate mobile device if power up collected
 				this.reset();
 				if (player1.lives < 3) {
 					player1.lives++;

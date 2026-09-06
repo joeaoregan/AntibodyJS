@@ -3,21 +3,17 @@ class Laser extends GameObject {
 		super(src, x, y);
 		this.speed = speed;
 		this.direction = direction;
+		this.load();
 	}
 
 	update() {
 		this.x += (this.speed * this.direction);
 
 		if (this.x > canvas.width + this.w || this.x < -this.w) { // Laser moves off screen
-			for (var i = 0; i < game.objects.length; i++) {
-				if (game.objects[i] === this) {
-					game.objects.splice(i, 1);
-					// console.log("Laser destroyed");
-					break;
-				}
+			const index = game.objects.indexOf(this);
+			if (index > -1) {
+				game.objects.splice(index, 1);
 			}
 		}
-
-		updateScore();
 	}
 }

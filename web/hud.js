@@ -28,6 +28,8 @@ class hud {
 	}
 
 	draw() {
+		ctx.save(); // 1. Save state (protects against player transparency/rotations)
+
 		//HUD outline
 		ctx.beginPath();
 		ctx.lineWidth = "1";
@@ -36,13 +38,16 @@ class hud {
 		ctx.stroke();
 
 		this.p1Lives();
-
 		bcCounter.bar();
 
+		// 2. Remove the textAlign and textBaseline lines from here.
+		// This allows levelTxt, score, etc., to use their own internal alignment.
 		levelTxt.draw();
 		score.draw();
 		time.draw();
 		antibodyTxt.draw();
+
+		ctx.restore(); // 3. Restore state
 	}
 
 	p1Lives() {

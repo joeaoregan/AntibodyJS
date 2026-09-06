@@ -27,16 +27,16 @@ class Player extends GameObject {
     }
 
     draw() {
+        ctx.save(); // Save the clean state
         // console.log("Player draw")
         ctx.globalAlpha = this.alpha;
-        ctx.drawImage(this.img, this.x, this.y, this.w, this.h);
-        ctx.globalAlpha = 1.0;
+
+        super.draw();
 
         ctx.globalAlpha = 0.5;
         this.healthbar();
-        ctx.globalAlpha = 1.0;
-
         this.flash();
+        ctx.restore(); // Restore to clean state
     }
 
     move() {
@@ -66,7 +66,7 @@ class Player extends GameObject {
             if (this.health > 1) {
                 this.health--;
                 this.flashThisMany(2);
-                navigator.vibrate([300, 100, 300, 100, 300]); // vibrate mobile device if hit
+                navigator.vibrate?.([300, 100, 300, 100, 300]); // vibrate mobile device if hit
             } else {
                 this.lives--;
                 console.log('Player Life Lost - Lives: ', this.lives);

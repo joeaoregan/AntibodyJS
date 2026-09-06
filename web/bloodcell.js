@@ -10,7 +10,9 @@ class Bloodcell extends GameObject {
 	}
 
 	draw() {
+		ctx.save();
 		this.drawRotate();
+		ctx.restore();
 	}
 
 	reset() {

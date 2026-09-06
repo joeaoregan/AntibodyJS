@@ -79,14 +79,15 @@ const score = {
 			
             // High Score
 			this.scoreTxt='High Score: '+this.high;
-			this.textWidt=ctx.measureText(this.scoreTxt).width;
-            ctx.fillText(this.scoreTxt, (canvas.width/2)-(this.textWidt/2), 228);
-            ctx.strokeText(this.scoreTxt, (canvas.width/2)-(this.textWidt/2), 228);
+			this.textWidth=ctx.measureText(this.scoreTxt).width;
+            ctx.fillText(this.scoreTxt, (canvas.width/2)-(this.textWidth/2), 228);
+            ctx.strokeText(this.scoreTxt, (canvas.width/2)-(this.textWidth/2), 228);
         }
     },
     
     reset : function(){
-        this.value = 0;
+        frames = 0;
+        this.value = 0; // This resets the score
     }
 }
 

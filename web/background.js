@@ -2,7 +2,7 @@
 
 class Background extends GameObject {
     constructor() {
-        super("background720", 0, 0, 1200, 600);
+        super("background720", 0, 0, 1280, 600);
         this.dx = 2; // Speed to move object
     }
 
