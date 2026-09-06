@@ -26,6 +26,12 @@ class Player extends GameObject {
             }
             this.particles.forEach(p => p.update());
             this.particles = this.particles.filter(p => !p.dead);
+
+            // Charging a rocket: build power, auto-launch if held to the cap
+            if (this.rocketCharging) {
+                this.rocketCharge++;
+                if (this.rocketCharge >= ROCKET_CHARGE_MAX) this.releaseRocket();
+            }
         }
 
         if (state.current === state.over) {
@@ -58,6 +64,12 @@ class Player extends GameObject {
 
         if (controller.fire) this.fire();
         if (controller.ninjaStar) this.fireNinjaStar();
+
+        // Steer the in-flight rocket with the same movement keys/D-pad
+        if (this.rocketActive && this.activeRocketRef) {
+            const dir = controller.up ? -1 : controller.down ? 1 : 0;
+            this.activeRocketRef.steer(dir);
+        }
     }
 
     fire() {
@@ -90,15 +102,35 @@ class Player extends GameObject {
         }
     }
 
-    fireRocket() {
+    // Hold to charge: begins building power for the next rocket
+    startRocketCharge() {
         if (state.current !== state.game) return;
-        if (this.rockets > 0 && !this.rocketActive) {
-            const r = new Rocket("Rocket", this.x + this.w, this.y + this.h / 2 - 10, ROCKET_SPEED, 1);
-            game.objects.push(r);
-            this.rockets--;
-            this.rocketActive = true;
-            if (!game.mute) fireFX.play();
+        if (this.rockets > 0 && !this.rocketActive && !this.rocketCharging) {
+            this.rocketCharging = true;
+            this.rocketCharge = 0;
         }
+    }
+
+    // Release: launches the rocket, with bonus score scaled by how long it was charged
+    releaseRocket() {
+        if (!this.rocketCharging) return;
+        this.rocketCharging = false;
+
+        if (this.rockets <= 0 || this.rocketActive) {
+            this.rocketCharge = 0;
+            return;
+        }
+
+        const chargeFraction = Math.min(1, this.rocketCharge / ROCKET_CHARGE_MAX);
+        const r = new Rocket("Rocket", this.x + this.w, this.y + this.h / 2 - 10, ROCKET_SPEED, 1);
+        r.bonus = Math.round(chargeFraction * ROCKET_MAX_BONUS);
+        game.objects.push(r);
+
+        this.rockets--;
+        this.rocketActive = true;
+        this.activeRocketRef = r;
+        this.rocketCharge = 0;
+        if (!game.mute) fireFX.play();
     }
 
     updateHealth(damage = DAMAGE_ENEMY_LASER) {
@@ -192,5 +224,8 @@ class Player extends GameObject {
         this.laserKillCount = 0; // enemy ship kills toward the next laser upgrade
         this.rockets = MAX_ROCKETS;
         this.rocketActive = false; // only one rocket in flight at a time
+        this.rocketCharging = false;
+        this.rocketCharge = 0; // frames held so far
+        this.activeRocketRef = null;
     }
 }

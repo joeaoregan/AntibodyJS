@@ -141,8 +141,8 @@ window.addEventListener('keydown', function (e) {
 		case 69: // E — toggle saw
 			if (typeof saw !== 'undefined' && saw) saw.toggle();
 			break;
-		case 67: // C — fire rocket
-			if (typeof player1 !== 'undefined' && player1) player1.fireRocket();
+		case 67: // C — hold to charge, release to launch rocket
+			if (typeof player1 !== 'undefined' && player1) player1.startRocketCharge();
 			break;
 		case 77: // m
 			toggleAudio(); // Mute / Unmute music + FX
@@ -194,6 +194,9 @@ document.addEventListener('keyup', function (event) {
 			break;
 		case 78: // N — ninja star
 			controller.ninjaStar = false;
+			break;
+		case 67: // C — release launches the charged rocket
+			if (typeof player1 !== 'undefined' && player1) player1.releaseRocket();
 			break;
 	}
 });

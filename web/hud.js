@@ -76,6 +76,13 @@ const SawProgress = {
 	h: 10
 }
 
+const RocketProgress = {
+	x: RocketBox.x,
+	y: RocketBox.y + RocketBox.h + 6,
+	w: RocketBox.w,
+	h: 10
+}
+
 class hud {
 	constructor() {
 		this.sX = 0;
@@ -234,6 +241,21 @@ class hud {
 		const label = "x" + player1.rockets;
 		ctx.fillText(label, RocketBox.x + 6 + iconW + 6, RocketBox.y + RocketBox.h / 2 + 8);
 		ctx.strokeText(label, RocketBox.x + 6 + iconW + 6, RocketBox.y + RocketBox.h / 2 + 8);
+
+		// Charge bar: fills while C / the mobile X button is held
+		const chargePercent = player1.rocketCharging ? player1.rocketCharge / ROCKET_CHARGE_MAX : 0;
+
+		ctx.beginPath();
+		ctx.lineWidth = "1";
+		ctx.strokeStyle = "black";
+		ctx.rect(RocketProgress.x, RocketProgress.y, RocketProgress.w, RocketProgress.h);
+		ctx.stroke();
+
+		ctx.fillStyle = "#400";
+		ctx.fillRect(RocketProgress.x, RocketProgress.y, RocketProgress.w, RocketProgress.h);
+
+		ctx.fillStyle = chargePercent > 0.85 ? "#f80" : "#0c0"; // flashes toward red near auto-launch
+		ctx.fillRect(RocketProgress.x, RocketProgress.y, RocketProgress.w * chargePercent, RocketProgress.h);
 	}
 }
 

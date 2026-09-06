@@ -100,7 +100,7 @@ function ctrlPress(b) {
 	if (b.action === 'fire') fireStart();
 	if (b.action === 'ninja') { controller.ninjaStar = true; }
 	if (b.action === 'saw') { if (typeof saw !== 'undefined' && saw) saw.toggle(); }
-	if (b.action === 'rocket') { if (typeof player1 !== 'undefined' && player1) player1.fireRocket(); }
+	if (b.action === 'rocket') { if (typeof player1 !== 'undefined' && player1) player1.startRocketCharge(); }
 	if (b.action === 'start') startGame();
 }
 
@@ -108,6 +108,7 @@ function ctrlRelease(b) {
 	if (b.flag) controller[b.flag] = false;
 	if (b.action === 'fire') fireStop();
 	if (b.action === 'ninja') { controller.ninjaStar = false; }
+	if (b.action === 'rocket') { if (typeof player1 !== 'undefined' && player1) player1.releaseRocket(); }
 }
 
 function ctrlPointerDown(e) {

@@ -252,13 +252,14 @@ class Game {
 					target.type === "EnemyShip" &&
 					collision(projectile, target)
 				) {
-					score.value += SCORE_ROCKET_SHIP;
+					const awarded = SCORE_ROCKET_SHIP + (projectile.bonus || 0); // reward for a charged shot
+					score.value += awarded;
 					score.high = Math.max(score.value, score.high);
 					localStorage.setItem("highscore", score.high);
 					updateScore();
 
 					this.scoreTexts.push(
-						new ScoreText(target.x + target.w / 2, target.y, "+" + SCORE_ROCKET_SHIP)
+						new ScoreText(target.x + target.w / 2, target.y, "+" + awarded)
 					);
 
 					this.objects.push(
