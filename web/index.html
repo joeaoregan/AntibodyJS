@@ -41,29 +41,37 @@
 			<h2>Double-Tapping Outside This Zone Will Lose Focus</h2>
 			<div class="controller">
 				<div class="button-box">
-					<button class="button button-round" ontouchstart="moveUp()" onmousedown="moveUp()"
-						onmouseup="moveYClear()" ontouchend="moveYClear()">&nbsp;&nbsp;&#8593;&nbsp;&nbsp;</button><br>
-					<button class="button button-round" ontouchstart="moveLeft()" onmousedown="moveLeft()"
-						onmouseup="moveXClear()" ontouchend="moveXClear()">&nbsp;&#8592;&nbsp;</button>
-					<span class="button-divider"></span>
-					<button class="button button-round" ontouchstart="moveRight()" onmousedown="moveRight()"
-						onmouseup="moveXClear()" ontouchend="moveXClear()">&nbsp;&#8594;&nbsp;</button><br>
-					<button class="button button-round" ontouchstart="moveDown()" onmousedown="moveDown()"
-						onmouseup="moveYClear()" ontouchend="moveYClear()">&nbsp;&nbsp;&#8595;&nbsp;&nbsp;</button>
+					<div class="btn-row">
+						<button class="button button-round" ontouchstart="moveUp()" onmousedown="moveUp()"
+							onmouseup="moveYClear()" ontouchend="moveYClear()">&#8593;</button>
+					</div>
+					<div class="btn-row">
+						<button class="button button-round" ontouchstart="moveLeft()" onmousedown="moveLeft()"
+							onmouseup="moveXClear()" ontouchend="moveXClear()">&#8592;</button>
+						<button class="button button-round" ontouchstart="moveRight()" onmousedown="moveRight()"
+							onmouseup="moveXClear()" ontouchend="moveXClear()">&#8594;</button>
+					</div>
+					<div class="btn-row">
+						<button class="button button-round" ontouchstart="moveDown()" onmousedown="moveDown()"
+							onmouseup="moveYClear()" ontouchend="moveYClear()">&#8595;</button>
+					</div>
 				</div>
-				<span class="button-divider"></span>
 				<button class="button button-start" onmouseup="startGame()">START</button>
-				<span class="button-divider"></span>
 				<div class="button-box">
-					<button class="button button-round buttonX" onmousedown="fire()"
-						onmouseup="fire()">&nbsp;X&nbsp;</button><br>
-					<button class="button button-round buttonY" onmousedown="fire()"
-						onmouseup="fire()">&nbsp;Y&nbsp;</button>
-					<span class="button-divider"></span>
-					<button class="button button-round buttonA" onmousedown="fire()"
-						onmouseup="fire()">&nbsp;A&nbsp;</button><br>
-					<button class="button button-round buttonB" onmousedown="fire()"
-						onmouseup="fire()">&nbsp;B&nbsp;</button>
+					<div class="btn-row">
+						<button class="button button-round buttonX" onmousedown="fire()"
+							onmouseup="fire()">X</button>
+					</div>
+					<div class="btn-row">
+						<button class="button button-round buttonY" onmousedown="fire()"
+							onmouseup="fire()">Y</button>
+						<button class="button button-round buttonA" onmousedown="fire()"
+							onmouseup="fire()">A</button>
+					</div>
+					<div class="btn-row">
+						<button class="button button-round buttonB" onmousedown="fire()"
+							onmouseup="fire()">B</button>
+					</div>
 				</div>
 			</div>
 			<h2>The A, B, X, and Y Buttons Do The Same Thing</h2>

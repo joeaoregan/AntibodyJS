@@ -150,34 +150,63 @@ canvas {
 	border-radius: 200px;
 	padding: 25px;
 	margin: 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
 }
 
 .button-box {
-	display: inline-block;
 	border: 1px solid var(--border);
 	text-align: center;
-	width: 360px;
-	max-width: 100%;
-	border-radius: 200px;
+	width: min(38vw, 340px);
+	border-radius: 50%;
+	aspect-ratio: 1;
 	padding: 10px;
 	background-color: var(--button-box-bg);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	flex: 0 1 auto;
+}
+
+/* Row of buttons inside a controller cluster (D-pad / ABXY) */
+.btn-row {
+	display: flex;
+	justify-content: center;
+	gap: clamp(8px, 3vw, 56px); /* gap between left/right buttons */
+	width: 100%;
 }
 
 .button {
 	border: 2px solid #111;
-	border-radius: 60px;
-	font-size: 40px;
-	padding: 25px;
+	border-radius: 50%;
+	aspect-ratio: 1;
+	width: clamp(44px, 9vw, 84px);
+	font-size: clamp(18px, 4vw, 40px);
+	padding: 0;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	line-height: 1;
+	touch-action: manipulation;
 }
 
 .button-start {
 	background-color: #999;
+	border-radius: 40px;
+	aspect-ratio: auto;
+	width: auto;
+	padding: 0.4em 0.9em;
+	font-size: clamp(16px, 3.5vw, 32px);
+	flex: 0 0 auto;
 }
 
 .button-round {
 	background-color: #f14;
 	color: white;
-	display: inline-block;
 	margin: 4px 2px;
 	user-select: none;
 }
@@ -198,11 +227,6 @@ canvas {
 .buttonY {
 	background-color: #0f0;
 	color: #111;
-}
-
-.button-divider {
-	width: 75px;
-	display: inline-block;
 }
 
 .body-border h2,
@@ -270,10 +294,5 @@ a:hover {
 	.theme-toggle {
 		align-self: center;
 		margin-bottom: .35rem;
-	}
-
-	.button {
-		font-size: 28px;
-		padding: 16px;
 	}
 }
