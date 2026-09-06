@@ -102,6 +102,13 @@ body {
 	background: var(--hover);
 }
 
+/* Top-right action buttons (Sound + Theme) stay side by side */
+.topbar-actions {
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+}
+
 .page-content {
 	padding: 1.25rem 0 2rem;
 }
@@ -216,8 +223,9 @@ a:hover {
 		justify-content: center;
 	}
 
-	.theme-toggle {
-		align-self: center;
+	/* Keep Sound + Theme side by side and centred on mobile */
+	.topbar-actions {
+		justify-content: center;
 		margin-bottom: .35rem;
 	}
 

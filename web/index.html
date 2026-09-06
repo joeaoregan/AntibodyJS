@@ -23,9 +23,14 @@
 				<a class="nav-link" href="https://joeoregan.github.io/JS-Antibody/">Docs</a>
 			</nav>
 
-			<button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark/light theme">
-				Toggle Theme
-			</button>
+			<div class="topbar-actions">
+				<button id="audioToggle" class="theme-toggle" type="button" aria-label="Toggle sound on/off">
+					&#128266; Sound
+				</button>
+				<button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark/light theme">
+					Toggle Theme
+				</button>
+			</div>
 		</div>
 	</header>
 
@@ -112,6 +117,17 @@
 				document.documentElement.setAttribute("data-theme", next);
 				localStorage.setItem("antibody-theme", next);
 			});
+		})();
+
+		// Audio toggle button (kept in sync with the M key via toggleAudio)
+		(function () {
+			const audioBtn = document.getElementById("audioToggle");
+			if (audioBtn) {
+				audioBtn.addEventListener("click", function () {
+					if (typeof toggleAudio === "function") toggleAudio();
+				});
+			}
+			if (typeof updateAudioButton === "function") updateAudioButton();
 		})();
 	</script>
 

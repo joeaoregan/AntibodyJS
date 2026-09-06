@@ -7,7 +7,20 @@ var controller = {
 	menu: false
 };
 
-//Only show the controller for mobile device
+// Shared audio on/off — used by the M key and the topbar Sound button
+function toggleAudio() {
+	game.mute = !game.mute;
+	controller.mute = game.mute;
+	music.muted = game.mute;
+	updateAudioButton();
+}
+
+// Reflect the current mute state on the topbar button (icon + label)
+function updateAudioButton() {
+	const btn = document.getElementById('audioToggle');
+	if (!btn) return;
+	btn.innerHTML = game.mute ? '&#128263; Muted' : '&#128266; Sound';
+}
 if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
 	var controllerCanvas = document.getElementById("controller");
 	controllerCanvas.style.display = "none";
@@ -111,9 +124,7 @@ window.addEventListener('keydown', function (e) {
 			controller.fire = true;
 			break;
 		case 77: // m
-			game.mute = !game.mute; // Pause / Unpause Game FX
-			controller.mute = !controller.mute; // toggle mute
-			music.muted = game.mute; // mute / unmute background music too
+			toggleAudio(); // Mute / Unmute music + FX
 			break;
 		case 27: // ESC
 		case 80: // P
