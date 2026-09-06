@@ -6,6 +6,7 @@ var bloodcellsDestroyed = 0;
 var player1;
 var enemyShip;
 var powerupNewLife;
+var powerupHealth;
 
 // GAME STATE
 const state = {
@@ -54,8 +55,9 @@ class Game {
 
 			// 4. Initialize UI and start loop
 			hud1 = new hud();
-			powerupNewLife = new PowerUp('PowerUpLife');
-			await powerupNewLife.load();
+			powerupNewLife = new PowerUp('PowerUpLife', 'life');
+			powerupHealth = new PowerUp('PowerUpHealth', 'health');
+			await Promise.all([powerupNewLife.load(), powerupHealth.load()]);
 
 			console.log("All systems green. Starting game loop.");
 			loop(); // Start the animation loop here
@@ -74,6 +76,16 @@ class Game {
 
 			if (powerupNewLife) {
 				powerupNewLife.update();
+			}
+			if (powerupHealth) {
+				powerupHealth.update();
+			}
+
+			// Offer a health power-up when the player is hurt and none is on screen
+			if (state.current == state.game &&
+				player1.health <= MAX_HEALTH / 2 &&
+				powerupHealth && !powerupHealth.active) {
+				this.spawnHealth();
 			}
 
 			if (bloodcellsDestroyed >= MAX_BLOODCELLS) {
@@ -98,10 +110,17 @@ class Game {
 		if (powerupNewLife) {
 			powerupNewLife.draw();
 		}
+		if (powerupHealth) {
+			powerupHealth.draw();
+		}
 	}
 
 	spawnLife() {
 		powerupNewLife.active = true;
+	}
+
+	spawnHealth() {
+		powerupHealth.active = true;
 	}
 
 	collisions() {

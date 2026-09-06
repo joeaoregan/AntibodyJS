@@ -37,6 +37,7 @@ Features already working in the JavaScript version.
 ### Power-Ups
 
 - [x] Life power-up: rotating collectible, grants +1 life (or full health if lives maxed)
+- [x] Health power-up (+50 HP)
 
 ### HUD & UI
 
@@ -113,7 +114,6 @@ Features from the C++ original (AntibodyV3 Year 3 Project) not yet ported.
 
 ### Power-Ups
 
-- [ ] Health power-up (+50 HP)
 - [ ] Laser upgrade power-up
 - [ ] Rocket power-up (+1 rocket)
 - [ ] Checkpoint power-up (saves progress, restores health)

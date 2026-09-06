@@ -2,8 +2,9 @@ const powerupFX = new Audio();
 powerupFX.src = "audio/Bonus1.wav";
 
 class PowerUp extends GameObject {
-	constructor(src) {
+	constructor(src, effect = 'life') {
 		super(src);
+		this.effect = effect; // 'life' | 'health'
 		this.reset();
 	}
 
@@ -15,18 +16,30 @@ class PowerUp extends GameObject {
 			if (collision(player1, this)) {
 				navigator.vibrate?.([100, 50, 100, 50, 100, 50, 400]); // vibrate mobile device if power up collected
 				this.reset();
-				if (player1.lives < 3) {
-					player1.lives++;
-					if (!game.mute) powerupFX.play();
-				} else if (player1.health < MAX_HEALTH) {
-					player1.health = MAX_HEALTH;
-					if (!game.mute) powerupFX.play();
-				}
+				this.applyEffect();
 			}
 		}
 
 		if (state.current === state.over) {
 			this.active = false; // If the game is over, remove from screen
+		}
+	}
+
+	applyEffect() {
+		if (this.effect === 'health') {
+			// Restore +50 HP, capped at max
+			if (player1.health < MAX_HEALTH) {
+				player1.health = Math.min(player1.health + 50, MAX_HEALTH);
+				if (!game.mute) powerupFX.play();
+			}
+		} else { // 'life'
+			if (player1.lives < 3) {
+				player1.lives++;
+				if (!game.mute) powerupFX.play();
+			} else if (player1.health < MAX_HEALTH) {
+				player1.health = MAX_HEALTH;
+				if (!game.mute) powerupFX.play();
+			}
 		}
 	}
 
