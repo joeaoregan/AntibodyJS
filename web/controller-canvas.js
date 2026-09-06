@@ -33,9 +33,9 @@ const CTRL_BUTTONS = [
 	{ id: 'right',  x: LEFT_CX + BTN_OFF,    y: CLUSTER_CY,           r: BTN_R, label: '→', colour: '#f14', flag: 'right' },
 	{ id: 'down',   x: LEFT_CX,              y: CLUSTER_CY + BTN_OFF, r: BTN_R, label: '↓', colour: '#f14', flag: 'down' },
 
-	// ABXY (right cluster)
-	{ id: 'X', x: RIGHT_CX,             y: CLUSTER_CY - BTN_OFF, r: BTN_R, label: 'X', colour: '#00f', action: 'fire' },
-	{ id: 'Y', x: RIGHT_CX - BTN_OFF,   y: CLUSTER_CY,           r: BTN_R, label: 'Y', colour: '#0f0', action: 'fire' },
+	// ABXY (right cluster): A/B = laser, X/Y = ninja star
+	{ id: 'X', x: RIGHT_CX,             y: CLUSTER_CY - BTN_OFF, r: BTN_R, label: 'X', colour: '#00f', action: 'ninja' },
+	{ id: 'Y', x: RIGHT_CX - BTN_OFF,   y: CLUSTER_CY,           r: BTN_R, label: 'Y', colour: '#0f0', action: 'ninja' },
 	{ id: 'A', x: RIGHT_CX + BTN_OFF,   y: CLUSTER_CY,           r: BTN_R, label: 'A', colour: '#f14', action: 'fire' },
 	{ id: 'B', x: RIGHT_CX,             y: CLUSTER_CY + BTN_OFF, r: BTN_R, label: 'B', colour: '#ff0', action: 'fire', dark: true },
 
@@ -98,12 +98,14 @@ function ctrlHit(x, y) {
 function ctrlPress(b) {
 	if (b.flag) controller[b.flag] = true;
 	if (b.action === 'fire') fireStart();
+	if (b.action === 'ninja') { controller.ninjaStar = true; }
 	if (b.action === 'start') startGame();
 }
 
 function ctrlRelease(b) {
 	if (b.flag) controller[b.flag] = false;
 	if (b.action === 'fire') fireStop();
+	if (b.action === 'ninja') { controller.ninjaStar = false; }
 }
 
 function ctrlPointerDown(e) {

@@ -187,6 +187,50 @@ class Game {
 					this.objects.splice(i, 1);
 					break;
 				}
+
+				// Ninja star destroys enemy ships (higher score than the laser)
+				if (
+					projectile.type === "NinjaStarBlue" &&
+					target.type === "EnemyShip" &&
+					collision(projectile, target)
+				) {
+					score.value += SCORE_NINJA_SHIP;
+					score.high = Math.max(score.value, score.high);
+					localStorage.setItem("highscore", score.high);
+					updateScore();
+
+					this.scoreTexts.push(
+						new ScoreText(target.x + target.w / 2, target.y, "+" + SCORE_NINJA_SHIP)
+					);
+
+					this.objects.push(
+						new Explosion("Explosion", target.x, target.y)
+					);
+
+					if (!this.mute) explosionFX.play();
+
+					target.reset();
+					this.objects.splice(i, 1);
+					break;
+				}
+
+				// Ninja star splits blood cells (destroys them, blood splatter)
+				if (
+					projectile.type === "NinjaStarBlue" &&
+					target.type === "BloodCell" &&
+					collision(projectile, target)
+				) {
+					this.objects.push(
+						new Explosion("ExplosionBlood", target.x, target.y)
+					);
+
+					if (!this.mute) splashFX.play();
+
+					bloodcellsDestroyed++;
+					target.reset();
+					this.objects.splice(i, 1);
+					break;
+				}
 			}
 		}
 	}

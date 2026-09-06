@@ -4,6 +4,7 @@ var controller = {
 	up: false,
 	down: false,
 	fire: false,
+	ninjaStar: false,
 	menu: false
 };
 
@@ -123,6 +124,9 @@ window.addEventListener('keydown', function (e) {
 		case 32:
 			controller.fire = true;
 			break;
+		case 78: // N — ninja star
+			controller.ninjaStar = true;
+			break;
 		case 77: // m
 			toggleAudio(); // Mute / Unmute music + FX
 			break;
@@ -170,6 +174,9 @@ document.addEventListener('keyup', function (event) {
 			break;
 		case 32:
 			controller.fire = false;
+			break;
+		case 78: // N — ninja star
+			controller.ninjaStar = false;
 			break;
 	}
 });

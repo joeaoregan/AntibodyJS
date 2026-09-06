@@ -30,7 +30,8 @@ The JavaScript version includes:
 | Action | Controls |
 | --- | --- |
 | Move | `W`, `A`, `S`, `D`; arrow keys; or on-screen directional buttons |
-| Fire | `Space`, mouse button, or an on-screen action button |
+| Fire laser | `Space`, mouse button, or on-screen `A` / `B` buttons |
+| Throw ninja star | `N`, or on-screen `X` / `Y` buttons |
 | Pause or resume | `P` |
 | Mute or unmute sound effects and music | `M` |
 | Skip music track backwards, forwards, random | `,` previous, `.` next, `/` random |

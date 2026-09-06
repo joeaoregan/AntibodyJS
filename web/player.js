@@ -57,6 +57,7 @@ class Player extends GameObject {
         else this.dy = 0;
 
         if (controller.fire) this.fire();
+        if (controller.ninjaStar) this.fireNinjaStar();
     }
 
     fire() {
@@ -66,6 +67,15 @@ class Player extends GameObject {
             if (!game.mute) fireFX.play();
             this.lastFire = this.fireRate;
             //console.log('fireRate: '+this.fireRate+' lastFire: '+this.lastFire);
+        }
+    }
+
+    fireNinjaStar() {
+        if (this.fireRate > this.lastFire + NINJA_FIRE_DELAY && state.game) {
+            var n = new NinjaStar("NinjaStarBlue", this.x + this.w, this.y + this.h / 2, 10, 1);
+            game.objects.push(n);
+            if (!game.mute) ninjaFX.play();
+            this.lastFire = this.fireRate;
         }
     }
 

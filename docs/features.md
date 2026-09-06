@@ -25,7 +25,8 @@ Features already working in the JavaScript version.
 
 ### Weapons
 
-- [x] Single green laser (SPACE / on-screen button), with fire-rate limit
+- [x] Single green laser (SPACE / on-screen A / B buttons), with fire-rate limit
+- [x] Ninja stars: rotating projectile, destroys enemy ships (+50) and splits blood cells (N / on-screen X / Y buttons)
 - [x] Enemy blue laser fire
 
 ### Enemies & Obstacles
@@ -97,7 +98,7 @@ Features from the C++ original (AntibodyV3 Year 3 Project) not yet ported.
 ### Weapons
 
 - [ ] Laser upgrade grades: single → double → triple beam (via laser power-up)
-- [ ] Ninja stars: rotating projectile, splits viruses, per-player kill-rate tracking (N key)
+- [ ] Ninja star virus splitting (spawn 2 small viruses) + per-player kill-rate tracking — base projectile done; needs viruses
 - [ ] Saw: melee weapon hovering in front of ship, cuts blockages, splits viruses, invincibility while active (E key)
 - [ ] Rockets: 3-rocket inventory, hold-to-charge with power bar, steerable after launch, particle trail, 3-second cooldown (C key)
 

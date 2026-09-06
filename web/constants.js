@@ -19,3 +19,5 @@ const HEALTHBAR_Y = -15;
 
 // Scoring: points per enemy type
 const SCORE_ENEMY_SHIP = 25;
+const SCORE_NINJA_SHIP = 50; // ninja star ship kill — 2x laser, reward for a slower weapon
+const NINJA_FIRE_DELAY = 40; // ninja stars fire much slower than lasers (laser = 10)
