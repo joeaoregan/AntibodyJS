@@ -21,8 +21,8 @@ const LEFT_CX = 200;
 const RIGHT_CX = 800;
 const CLUSTER_CY = 200;
 const CLUSTER_R = 192;   // surrounding circle
-const BTN_R = 60;        // button radius
-const BTN_OFF = 105;     // distance of each button from its cluster centre
+const BTN_R = 70;        // button radius (larger touch target for smaller fingers)
+const BTN_OFF = 108;     // distance of each button from its cluster centre
 
 // Button definitions. Positions are centers in logical units; r is radius.
 // Each maps to either a controller flag or an action.
